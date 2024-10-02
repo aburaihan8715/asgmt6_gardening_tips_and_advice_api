@@ -22,6 +22,9 @@ const UserSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    passwordChangedAt: {
+      type: Date,
+    },
     profilePicture: {
       type: String,
       default: '',
@@ -71,7 +74,6 @@ UserSchema.pre('save', async function (next) {
 });
 
 // STATICS METHODS
-
 UserSchema.statics.getUserByEmail = async function (email: string) {
   return await User.findOne({ email: email });
 };
@@ -81,6 +83,15 @@ UserSchema.statics.isPasswordCorrect = async function (
   hashedPassword,
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+
+UserSchema.statics.isPasswordChangedAfterJwtIssued = function (
+  passwordChangedTimestamp: Date,
+  jwtIssuedTimestamp: number,
+) {
+  const passwordChangedTime =
+    new Date(passwordChangedTimestamp).getTime() / 1000;
+  return passwordChangedTime > jwtIssuedTimestamp;
 };
 
 export const User = model<IUser, UserModel>('User', UserSchema);

@@ -1,9 +1,11 @@
 import { Document, Model, Types } from 'mongoose';
+import { USER_ROLE } from './user.constant';
 
 export interface IUser extends Document {
   username: string;
   email: string;
   password?: string;
+  passwordChangedAt?: Date;
   profilePicture?: string;
   followers: Types.ObjectId[];
   following: Types.ObjectId[];
@@ -19,4 +21,11 @@ export interface UserModel extends Model<IUser> {
     plainTextPassword: string,
     hashedPassword: string,
   ): Promise<boolean>;
+
+  isPasswordChangedAfterJwtIssued(
+    passwordChangedTimestamp: Date,
+    jwtIssuedTimestamp: number,
+  ): boolean;
 }
+
+export type TUserRole = keyof typeof USER_ROLE;
