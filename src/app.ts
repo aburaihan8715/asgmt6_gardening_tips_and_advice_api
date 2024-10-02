@@ -1,4 +1,5 @@
 import express, { Request, Response, Application } from 'express';
+import router from './routes';
 
 export const app: Application = express();
 
@@ -7,10 +8,16 @@ app.use(express.json());
 
 // TEST ROUTE
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello From Express & TypeScript Server');
+  res
+    .status(200)
+    .json({
+      success: true,
+      message: 'Hello From Express & TypeScript Server',
+    });
 });
 
 // ROUTES
+app.use('/api/v1', router);
 
 // NOT FOUND ROUTE HANDLER
 
