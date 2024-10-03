@@ -31,9 +31,5 @@
     "statusBar.background": "#b40326",
     "statusBar.foreground": "#edeaf0",
   },
-  "cSpell.words": [
-    "asgmt",
-    "favourites",
-    "respawn"
-  ]
+  "cSpell.words": []
 }

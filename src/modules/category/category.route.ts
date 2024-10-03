@@ -1,6 +1,6 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { CategoryValidations } from './user.validation';
+import { CategoryValidations } from './category.validation';
 import { CategoryControllers } from './category.controller';
 
 const router = express.Router();

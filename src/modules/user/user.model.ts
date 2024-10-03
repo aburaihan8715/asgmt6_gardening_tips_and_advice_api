@@ -33,12 +33,14 @@ const UserSchema: Schema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        default: [],
       },
     ],
     following: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        default: [],
       },
     ],
     verified: {
@@ -54,6 +56,7 @@ const UserSchema: Schema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: 'Post',
+        default: [],
       },
     ],
   },
