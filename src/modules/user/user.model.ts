@@ -43,13 +43,17 @@ const UserSchema: Schema = new Schema(
         default: [],
       },
     ],
-    verified: {
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
       type: Boolean,
       default: false,
     },
     role: {
       type: String,
-      enum: ['USER', 'ADMIN', 'VERIFIED_USER'],
+      enum: ['USER', 'ADMIN'],
       default: 'USER',
     },
     favourites: [
@@ -79,6 +83,10 @@ UserSchema.pre('save', async function (next) {
 // STATICS METHODS
 UserSchema.statics.getUserByEmail = async function (email: string) {
   return await User.findOne({ email: email });
+};
+
+UserSchema.statics.getUserById = async function (id: string) {
+  return await User.findById(id);
 };
 
 UserSchema.statics.isPasswordCorrect = async function (

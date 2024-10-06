@@ -9,14 +9,16 @@ export interface IUser extends Document {
   profilePicture?: string;
   followers: Types.ObjectId[];
   following: Types.ObjectId[];
-  verified: boolean;
-  role: 'USER' | 'ADMIN' | 'VERIFIED_USER';
+  isVerified: boolean;
+  isDeleted: boolean;
+  role: 'USER' | 'ADMIN';
   favourites: Types.ObjectId[];
   __v?: number;
 }
 
 export interface UserModel extends Model<IUser> {
   getUserByEmail(email: string): Promise<IUser>;
+  getUserById(id: string): Promise<IUser>;
   isPasswordCorrect(
     plainTextPassword: string,
     hashedPassword: string,
