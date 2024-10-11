@@ -4,6 +4,7 @@ import AppError from '../../errors/AppError';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { IPost } from './post.interface';
 import { Post } from './post.model';
+import { User } from '../user/user.model';
 
 // CREATE
 const createPostIntoDB = async (payload: IPost) => {
@@ -128,6 +129,174 @@ const getMyPostsFromDB = async (
   };
 };
 
+// ADD FAVORITE
+const addFavouriteIntoDB = async (
+  currentUserId: string,
+  postId: string,
+) => {
+  if (!currentUserId || !postId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const currentUser = await User.getUserById(currentUserId);
+  const post = await Post.getPostById(postId);
+
+  if (!currentUser || !post) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
+  }
+
+  if (currentUser.favourites.includes(post._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'This post is already in your favorites!',
+    );
+  }
+
+  // Add favorite logic
+  await currentUser.updateOne({ $push: { favourites: post._id } });
+
+  return null;
+};
+
+// REMOVE FAVORITE
+const removeFavouriteIntoDB = async (
+  currentUserId: string,
+  postId: string,
+) => {
+  if (!currentUserId || !postId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const currentUser = await User.getUserById(currentUserId);
+  const post = await Post.getPostById(postId);
+
+  if (!currentUser || !post) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
+  }
+
+  if (!currentUser.favourites.includes(post._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'This post is not your favorites!',
+    );
+  }
+
+  // Remove favorite logic
+  await currentUser.updateOne({ $pull: { favourites: post._id } });
+
+  return null;
+};
+
+// UPVOTE POST
+const upvotePostInDB = async (postId: string, userId: string) => {
+  if (!postId || !userId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const post = await Post.getPostById(postId);
+  const user = await User.getUserById(userId);
+
+  if (!post || !user)
+    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
+
+  // Check if user has already upvoted the post
+  if (post.upvotes.includes(user._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You have already upvoted this post!',
+    );
+  }
+
+  // Remove from downvotes if the user has downvoted
+  if (post.downvotes.includes(user._id)) {
+    await post.updateOne({ $pull: { downvotes: user._id } });
+  }
+
+  // Add to upvotes
+  await post.updateOne({ $push: { upvotes: user._id } });
+
+  return null;
+};
+
+// DOWNVOTE POST
+const downvotePostInDB = async (postId: string, userId: string) => {
+  if (!postId || !userId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const post = await Post.getPostById(postId);
+  const user = await User.getUserById(userId);
+
+  if (!post || !user)
+    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
+
+  // Check if user has already downvoted the post
+  if (post.downvotes.includes(user._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You have already downvoted this post!',
+    );
+  }
+
+  // Remove from upvotes if the user has upvoted
+  if (post.upvotes.includes(user._id)) {
+    await post.updateOne({ $pull: { upvotes: user._id } });
+  }
+
+  // Add to downvotes
+  await post.updateOne({ $push: { downvotes: user._id } });
+
+  return null;
+};
+
+// REMOVE UPVOTE
+const removeUpvoteFromDB = async (postId: string, userId: string) => {
+  if (!postId || !userId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const post = await Post.getPostById(postId);
+  const user = await User.getUserById(userId);
+
+  if (!post || !user)
+    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
+
+  if (!post.upvotes.includes(user._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You have not upvoted this post!',
+    );
+  }
+
+  await post.updateOne({ $pull: { upvotes: user._id } });
+
+  return null;
+};
+
+// REMOVE DOWNVOTE
+const removeDownvoteFromDB = async (postId: string, userId: string) => {
+  if (!postId || !userId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const post = await Post.getPostById(postId);
+  const user = await User.getUserById(userId);
+
+  if (!post || !user)
+    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
+
+  if (!post.downvotes.includes(user._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You have not downvoted this post!',
+    );
+  }
+
+  await post.updateOne({ $pull: { downvotes: user._id } });
+
+  return null;
+};
+
 export const PostServices = {
   createPostIntoDB,
   getAllPostsFromDB,
@@ -136,4 +305,10 @@ export const PostServices = {
   deletePostFromDB,
   makePremiumPostIntoDB,
   getMyPostsFromDB,
+  addFavouriteIntoDB,
+  removeFavouriteIntoDB,
+  upvotePostInDB,
+  downvotePostInDB,
+  removeUpvoteFromDB,
+  removeDownvoteFromDB,
 };

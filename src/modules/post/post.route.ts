@@ -1,6 +1,4 @@
 import express, { NextFunction, Request, Response } from 'express';
-// import validateRequest from '../../middlewares/validateRequest';
-// import { PostValidations } from './post.validation';
 import { PostControllers } from './post.controller';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';
@@ -57,5 +55,47 @@ router.delete('/:id', PostControllers.deletePost);
 
 // MAKE PREMIUM
 router.patch('/:id/make-premium', PostControllers.deletePost);
+
+// Add favorite
+router.patch(
+  '/:id/add-favourites',
+  auth(USER_ROLE.USER),
+  PostControllers.addFavourite,
+);
+
+// Remove favorite
+router.patch(
+  '/:id/remove-favourites',
+  auth(USER_ROLE.USER),
+  PostControllers.removeFavourite,
+);
+
+// Upvote a post
+router.patch(
+  '/:id/upvote',
+  auth(USER_ROLE.USER),
+  PostControllers.upvotePost,
+);
+
+// Downvote a post
+router.patch(
+  '/:id/downvote',
+  auth(USER_ROLE.USER),
+  PostControllers.downvotePost,
+);
+
+// Remove upvote
+router.patch(
+  '/:id/upvote/remove',
+  auth(USER_ROLE.USER),
+  PostControllers.removeUpvote,
+);
+
+// Remove downvote
+router.patch(
+  '/:id/downvote/remove',
+  auth(USER_ROLE.USER),
+  PostControllers.removeDownvote,
+);
 
 export const PostRoutes = router;

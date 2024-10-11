@@ -121,6 +121,102 @@ const getMyPosts = catchAsync(async (req, res) => {
   });
 });
 
+// ADD FAVORITE
+const addFavourite = catchAsync(async (req, res) => {
+  const currentUserId = req.user._id;
+  const postId = req.params.id;
+
+  const result = await PostServices.addFavouriteIntoDB(
+    currentUserId,
+    postId,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Favorite added successfully!',
+    data: result,
+  });
+});
+
+// REMOVE FAVORITE
+const removeFavourite = catchAsync(async (req, res) => {
+  const currentUserId = req.user._id;
+  const postId = req.params.id;
+
+  const result = await PostServices.removeFavouriteIntoDB(
+    currentUserId,
+    postId,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Favorite removed successfully!',
+    data: result,
+  });
+});
+
+// UPVOTE POST
+const upvotePost = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.params.id;
+
+  await PostServices.upvotePostInDB(postId, userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Post upvoted successfully!',
+    data: null,
+  });
+});
+
+// DOWNVOTE POST
+const downvotePost = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.params.id;
+
+  await PostServices.downvotePostInDB(postId, userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Post downvoted successfully!',
+    data: null,
+  });
+});
+
+// REMOVE UPVOTE
+const removeUpvote = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.params.id;
+
+  await PostServices.removeUpvoteFromDB(postId, userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Upvote removed successfully!',
+    data: null,
+  });
+});
+
+// REMOVE DOWNVOTE
+const removeDownvote = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.params.id;
+
+  await PostServices.removeDownvoteFromDB(postId, userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Downvote removed successfully!',
+    data: null,
+  });
+});
+
 export const PostControllers = {
   createPost,
   getAliasPosts,
@@ -130,4 +226,10 @@ export const PostControllers = {
   deletePost,
   makePremiumPost,
   getMyPosts,
+  addFavourite,
+  removeFavourite,
+  upvotePost,
+  downvotePost,
+  removeUpvote,
+  removeDownvote,
 };

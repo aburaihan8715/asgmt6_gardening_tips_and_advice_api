@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { IPost } from './post.interface';
+import { IPost, PostModel } from './post.interface';
 
 const PostSchema: Schema<IPost> = new Schema(
   {
@@ -44,6 +44,7 @@ const PostSchema: Schema<IPost> = new Schema(
       type: Number,
       default: 0,
     },
+
     upvotes: {
       type: [Schema.Types.ObjectId],
       ref: 'User',
@@ -61,4 +62,10 @@ const PostSchema: Schema<IPost> = new Schema(
   },
 );
 
-export const Post = model<IPost>('Post', PostSchema);
+PostSchema.statics.getPostById = async function (
+  id: string,
+): Promise<IPost | null> {
+  return await this.findById(id);
+};
+
+export const Post = model<IPost, PostModel>('Post', PostSchema);

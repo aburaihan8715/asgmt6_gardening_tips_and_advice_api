@@ -16,11 +16,12 @@ const UserSchema: Schema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      index: true, // Index for faster queries
     },
     password: {
       type: String,
       required: true,
-      select: false,
+      select: false, // Exclude password by default
     },
     passwordChangedAt: {
       type: Date,
@@ -33,14 +34,12 @@ const UserSchema: Schema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        default: [],
       },
     ],
     followings: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        default: [],
       },
     ],
     isVerified: {
@@ -73,33 +72,38 @@ const UserSchema: Schema = new Schema(
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
+  // Hash password with bcrypt
   this.password = await bcrypt.hash(
     this.password as string,
-    Number(config.bcrypt_salt_rounds),
+    Number(config.bcrypt_salt_rounds) || 10, // Fallback if salt_rounds is not provided
   );
   next();
 });
 
-// STATICS METHODS
-UserSchema.statics.getUserByEmail = async function (email: string) {
-  return await User.findOne({ email: email }).select('+password');
+// STATIC METHODS
+UserSchema.statics.getUserByEmail = async function (
+  email: string,
+): Promise<IUser | null> {
+  return await this.findOne({ email }).select('+password');
 };
 
-UserSchema.statics.getUserById = async function (id: string) {
-  return await User.findById(id);
+UserSchema.statics.getUserById = async function (
+  id: string,
+): Promise<IUser | null> {
+  return await this.findById(id);
 };
 
 UserSchema.statics.isPasswordCorrect = async function (
-  plainTextPassword,
-  hashedPassword,
-) {
+  plainTextPassword: string,
+  hashedPassword: string,
+): Promise<boolean> {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 
 UserSchema.statics.isPasswordChangedAfterJwtIssued = function (
   passwordChangedTimestamp: Date,
   jwtIssuedTimestamp: number,
-) {
+): boolean {
   const passwordChangedTime =
     new Date(passwordChangedTimestamp).getTime() / 1000;
   return passwordChangedTime > jwtIssuedTimestamp;

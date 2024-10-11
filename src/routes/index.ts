@@ -4,6 +4,7 @@ import { CategoryRoutes } from '../modules/category/category.route';
 import { PostRoutes } from '../modules/post/post.route';
 import { CommentRoutes } from '../modules/comment/comment.route';
 import { PaymentRoutes } from '../modules/payment/payment.route';
+import { UserRoutes } from '../modules/user/user.route';
 
 const router = Router();
 
@@ -11,6 +12,10 @@ const moduleRoutes = [
   {
     path: '/auth',
     route: AuthRoutes,
+  },
+  {
+    path: '/users',
+    route: UserRoutes,
   },
   {
     path: '/categories',
