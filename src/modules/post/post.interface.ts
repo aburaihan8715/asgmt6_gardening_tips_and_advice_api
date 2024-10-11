@@ -14,6 +14,14 @@ export interface IPost extends Document {
   numberOfComments: number;
   upvotes: Types.ObjectId[];
   downvotes: Types.ObjectId[];
+  comments: Types.ObjectId[];
+}
+
+export interface IComment {
+  post: Types.ObjectId | string; // Change to postId
+  user: Types.ObjectId | string; // Change to userId
+  content: string;
+  isDeleted?: boolean;
 }
 
 export interface PostModel extends Model<IPost> {

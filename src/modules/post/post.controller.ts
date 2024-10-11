@@ -217,6 +217,39 @@ const removeDownvote = catchAsync(async (req, res) => {
   });
 });
 
+// Add a comment
+const addComment = catchAsync(async (req, res) => {
+  const postId = req.params.id;
+  const userId = req.user._id;
+  const { content } = req.body;
+
+  const comment = await PostServices.addCommentToPost(
+    postId,
+    userId,
+    content,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Comment added successfully!',
+    data: comment,
+  });
+});
+
+// Get comments for a post
+const getComments = catchAsync(async (req, res) => {
+  const postId = req.params.id;
+  const comments = await PostServices.getCommentsForPost(postId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Comments retrieved successfully!',
+    data: comments,
+  });
+});
+
 export const PostControllers = {
   createPost,
   getAliasPosts,
@@ -232,4 +265,6 @@ export const PostControllers = {
   downvotePost,
   removeUpvote,
   removeDownvote,
+  addComment,
+  getComments,
 };

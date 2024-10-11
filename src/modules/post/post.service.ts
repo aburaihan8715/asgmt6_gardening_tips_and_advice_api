@@ -3,7 +3,7 @@ import AppError from '../../errors/AppError';
 
 import QueryBuilder from '../../builder/QueryBuilder';
 import { IPost } from './post.interface';
-import { Post } from './post.model';
+import { Comment, Post } from './post.model';
 import { User } from '../user/user.model';
 
 // CREATE
@@ -297,6 +297,33 @@ const removeDownvoteFromDB = async (postId: string, userId: string) => {
   return null;
 };
 
+// Add a comment to a post
+const addCommentToPost = async (
+  postId: string,
+  userId: string,
+  content: string,
+) => {
+  const newComment = await Comment.create({
+    post: postId,
+    user: userId,
+    content,
+  });
+
+  await Post.findByIdAndUpdate(postId, {
+    $push: { comments: newComment._id },
+    $inc: { numberOfComments: 1 },
+  });
+
+  return newComment;
+};
+
+// Get comments for a post
+const getCommentsForPost = async (postId: string) => {
+  return await Comment.find({ post: postId })
+    .populate('post')
+    .populate('user');
+};
+
 export const PostServices = {
   createPostIntoDB,
   getAllPostsFromDB,
@@ -311,4 +338,6 @@ export const PostServices = {
   downvotePostInDB,
   removeUpvoteFromDB,
   removeDownvoteFromDB,
+  addCommentToPost,
+  getCommentsForPost,
 };

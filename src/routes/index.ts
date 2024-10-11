@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { AuthRoutes } from '../modules/auth/auth.route';
 import { CategoryRoutes } from '../modules/category/category.route';
 import { PostRoutes } from '../modules/post/post.route';
-import { CommentRoutes } from '../modules/comment/comment.route';
 import { PaymentRoutes } from '../modules/payment/payment.route';
 import { UserRoutes } from '../modules/user/user.route';
 
@@ -25,10 +24,7 @@ const moduleRoutes = [
     path: '/posts',
     route: PostRoutes,
   },
-  {
-    path: '/comments',
-    route: CommentRoutes,
-  },
+
   {
     path: '/payments',
     route: PaymentRoutes,

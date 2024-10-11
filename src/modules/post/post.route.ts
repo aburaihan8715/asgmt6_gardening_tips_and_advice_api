@@ -98,4 +98,16 @@ router.patch(
   PostControllers.removeDownvote,
 );
 
+// NOTE: :id means post id
+router.post(
+  '/:id/comments',
+  auth(USER_ROLE.USER),
+  PostControllers.addComment,
+);
+router.get(
+  '/:id/comments',
+  auth(USER_ROLE.USER),
+  PostControllers.getComments,
+);
+
 export const PostRoutes = router;
