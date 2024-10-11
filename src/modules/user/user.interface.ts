@@ -8,7 +8,7 @@ export interface IUser extends Document {
   passwordChangedAt?: Date;
   profilePicture?: string;
   followers: Types.ObjectId[];
-  following: Types.ObjectId[];
+  followings: Types.ObjectId[];
   isVerified: boolean;
   isDeleted: boolean;
   role: 'USER' | 'ADMIN';

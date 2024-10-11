@@ -5,7 +5,6 @@ import AppError from '../../errors/AppError';
 import { ILogin } from './auth.interface';
 import { createToken, decodeToken } from './auth.utils';
 import config from '../../config';
-import { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { sendEmail } from '../../utils/sendEmail';
 
@@ -55,7 +54,7 @@ const loginFromDB = async (payload: ILogin) => {
     email: user.email,
     profilePicture: user.profilePicture,
     followers: user.followers,
-    following: user.following,
+    followings: user.followings,
     role: user.role,
     favourites: user.favourites,
     isVerified: user.isVerified,
@@ -88,11 +87,11 @@ const loginFromDB = async (payload: ILogin) => {
 
 // CHANGE PASSWORD
 const changePasswordIntoDB = async (
-  userData: JwtPayload,
+  id: string,
   payload: { currentPassword: string; newPassword: string },
 ) => {
   // 01 check user exists
-  const user = await User.getUserByEmail(userData.email);
+  const user = await User.getUserById(id);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
@@ -122,7 +121,7 @@ const changePasswordIntoDB = async (
   );
 
   // 05 update the new password
-  await User.findByIdAndUpdate(userData._id, {
+  await User.findByIdAndUpdate(id, {
     password: newHashedPassword,
     passwordChangedAt: new Date(),
   });
@@ -180,7 +179,7 @@ const accessTokenByRefreshTokenFromServer = async (
     email: user.email,
     profilePicture: user.profilePicture,
     followers: user.followers,
-    following: user.following,
+    followings: user.followings,
     role: user.role,
     favourites: user.favourites,
     isVerified: user.isVerified,
@@ -220,7 +219,7 @@ const forgetPasswordByEmail = async (email: string) => {
     email: user.email,
     profilePicture: user.profilePicture,
     followers: user.followers,
-    following: user.following,
+    followings: user.followings,
     role: user.role,
     favourites: user.favourites,
     isVerified: user.isVerified,
@@ -235,6 +234,7 @@ const forgetPasswordByEmail = async (email: string) => {
   // 04 send the reset token to the user email
   const passwordResetUILink = `${config.reset_pass_ui_link}?id=${user._id}&passwordResetToken=${passwordResetToken} `;
   sendEmail(user.email, passwordResetUILink);
+  return null;
 };
 
 // RESET PASSWORD
@@ -277,6 +277,63 @@ const resetPasswordIntoDB = async (
     password: newHashedPassword,
     passwordChangedAt: new Date(),
   });
+
+  return null;
+};
+
+// SETTINGS PROFILE
+const settingsProfileIntoDB = async (
+  id: string,
+  payload: Partial<IUser>,
+) => {
+  // 01 check user exists
+  let user = await User.getUserById(id);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+  }
+
+  //  02 update the password field
+  user = (await User.findByIdAndUpdate(id, payload, {
+    new: true,
+  })) as IUser;
+
+  // 03 create accessToken and refreshToken
+  const jwtPayload = {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+    profilePicture: user.profilePicture,
+    followers: user.followers,
+    followings: user.followings,
+    role: user.role,
+    favourites: user.favourites,
+    isVerified: user.isVerified,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expires_in as string,
+  );
+
+  const refreshToken = createToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expires_in as string,
+  );
+
+  // 04 delete password form the user
+  user = user.toObject();
+  delete user.password;
+  delete user.__v;
+
+  // 05 return tokens and user to the controller
+  return {
+    accessToken,
+    refreshToken,
+    user,
+  };
 };
 
 export const AuthServices = {
@@ -286,6 +343,5 @@ export const AuthServices = {
   accessTokenByRefreshTokenFromServer,
   forgetPasswordByEmail,
   resetPasswordIntoDB,
+  settingsProfileIntoDB,
 };
-
-// http://localhost:3000/reset-password?id=6702307cc0ceb8346af92d61&passwordResetToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAyMzA3Y2MwY2ViODM0NmFmOTJkNjEiLCJ1c2VybmFtZSI6IkFidSBSYWloYW4iLCJlbWFpbCI6ImFidXJhaWhhbjg3MjFAZ21haWwuY29tIiwicHJvZmlsZVBpY3R1cmUiOiIiLCJmb2xsb3dlcnMiOltdLCJmb2xsb3dpbmciOltdLCJyb2xlIjoiVVNFUiIsImZhdm91cml0ZXMiOltdLCJpc1ZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzI4MjA5NTg0LCJleHAiOjE3MjgyMTAxODR9.Kh1OplfNKvKRPaTypeHN8SS2hiy98Cvm9KziFum1dco

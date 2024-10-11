@@ -1,12 +1,19 @@
 import { model, Schema } from 'mongoose';
 import { IPost } from './post.interface';
 
-// Define the Mongoose schema for a Post
 const PostSchema: Schema<IPost> = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
       required: true,
     },
     content: {
@@ -23,13 +30,19 @@ const PostSchema: Schema<IPost> = new Schema(
       type: String,
       default: '',
     },
-    premium: {
+
+    isPremium: {
       type: Boolean,
       default: false,
     },
     isDeleted: {
       type: Boolean,
       default: false,
+    },
+
+    numberOfComments: {
+      type: Number,
+      default: 0,
     },
     upvotes: {
       type: [Schema.Types.ObjectId],

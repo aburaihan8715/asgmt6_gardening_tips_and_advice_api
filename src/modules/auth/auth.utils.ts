@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import AppError from '../../errors/AppError';
 
 export const createToken = (
-  jwtPayload: { email: string; role: string },
+  jwtPayload: object,
   secret: string,
   expiresIn: string,
 ) => {

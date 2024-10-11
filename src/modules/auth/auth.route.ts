@@ -4,6 +4,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import { AuthValidations } from './auth.validation';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';
+import { multerUpload } from '../../config/multer.config';
 
 const router = express.Router();
 
@@ -41,6 +42,14 @@ router.patch(
   '/reset-password',
   validateRequest(AuthValidations.resetPasswordValidationSchema),
   AuthControllers.resetPassword,
+);
+
+router.patch(
+  '/settings-profile',
+  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  multerUpload.single('file'),
+  validateRequest(AuthValidations.settingsProfileValidationSchema),
+  AuthControllers.settingsProfile,
 );
 
 export const AuthRoutes = router;

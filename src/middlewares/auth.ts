@@ -44,7 +44,14 @@ const auth = (...requiredRoles: TUserRole[]) => {
         );
       }
 
-      // 04 check password changed after jwt issued
+      // 04 check user already deleted
+      const isDeleted = user?.isDeleted;
+
+      if (isDeleted) {
+        throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+      }
+
+      // 05 check password changed after jwt issued
       if (
         user.passwordChangedAt &&
         User.isPasswordChangedAfterJwtIssued(
@@ -58,7 +65,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
         );
       }
 
-      // 05 check authorization if needed
+      // 06 check authorization if needed
       if (requiredRoles.length > 0 && !requiredRoles.includes(role)) {
         throw new AppError(
           httpStatus.UNAUTHORIZED,
@@ -66,10 +73,10 @@ const auth = (...requiredRoles: TUserRole[]) => {
         );
       }
 
-      // 06 set user in the request
+      // 07 set user in the request
       req.user = decoded as JwtPayload;
 
-      // 07 grand access the user!!
+      // 08 grand access the user!!
       next();
     },
   );

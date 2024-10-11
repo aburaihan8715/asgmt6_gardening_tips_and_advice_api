@@ -24,10 +24,10 @@ const createPostIntoDB = async (payload: IPost) => {
 // GET ALL
 const getAllPostsFromDB = async (query: Record<string, unknown>) => {
   const PostQuery = new QueryBuilder(
-    Post.find({ isDeleted: { $ne: true } }),
+    Post.find({ isDeleted: { $ne: true } }).populate({ path: 'user' }),
     query,
   )
-    .search([])
+    .search(['title', 'description', 'category', 'content'])
     .filter()
     .sort()
     .paginate()
@@ -44,7 +44,7 @@ const getAllPostsFromDB = async (query: Record<string, unknown>) => {
 
 // GET ONE
 const getPostFromDB = async (id: string) => {
-  const result = await Post.findById(id);
+  const result = await Post.findById(id).populate({ path: 'user' });
 
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, 'Post not found !');
@@ -89,10 +89,51 @@ const deletePostFromDB = async (id: string) => {
   return result;
 };
 
+// MAKE POST PREMIUM
+const makePremiumPostIntoDB = async (id: string) => {
+  const result = await Post.findByIdAndUpdate(
+    id,
+    { idPremium: true },
+    { new: true },
+  );
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Post not found !');
+  }
+
+  return result;
+};
+
+// GET MY POSTS
+const getMyPostsFromDB = async (
+  userId: string,
+  query: Record<string, unknown>,
+) => {
+  const PostQuery = new QueryBuilder(
+    Post.find({ isDeleted: { $ne: true }, user: userId }),
+    query,
+  )
+    .search(['title', 'description', 'category', 'content'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await PostQuery.modelQuery;
+  const meta = await PostQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
+};
+
 export const PostServices = {
   createPostIntoDB,
   getAllPostsFromDB,
   getPostFromDB,
   updatePostIntoDB,
   deletePostFromDB,
+  makePremiumPostIntoDB,
+  getMyPostsFromDB,
 };

@@ -8,7 +8,6 @@ const UserSchema: Schema = new Schema(
     username: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     email: {
@@ -21,6 +20,7 @@ const UserSchema: Schema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     passwordChangedAt: {
       type: Date,
@@ -36,7 +36,7 @@ const UserSchema: Schema = new Schema(
         default: [],
       },
     ],
-    following: [
+    followings: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -82,7 +82,7 @@ UserSchema.pre('save', async function (next) {
 
 // STATICS METHODS
 UserSchema.statics.getUserByEmail = async function (email: string) {
-  return await User.findOne({ email: email });
+  return await User.findOne({ email: email }).select('+password');
 };
 
 UserSchema.statics.getUserById = async function (id: string) {

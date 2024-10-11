@@ -28,7 +28,7 @@ const registerValidationSchema = z.object({
       .array(z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid user ID'))
       .optional(),
 
-    following: z
+    followings: z
       .array(z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid user ID'))
       .optional(),
 
@@ -87,6 +87,28 @@ const resetPasswordValidationSchema = z.object({
   }),
 });
 
+const settingsProfileValidationSchema = z.object({
+  body: z.object({
+    username: z
+      .string({
+        required_error: 'Username is required',
+      })
+      .min(1, { message: 'Username cannot be empty' })
+      .trim()
+      .optional(),
+
+    email: z
+      .string({
+        required_error: 'Email is required',
+      })
+      .email({ message: 'Invalid email address' })
+      .trim()
+      .optional(),
+
+    profilePicture: z.string().optional(),
+  }),
+});
+
 export const AuthValidations = {
   registerValidationSchema,
   loginValidationSchema,
@@ -94,4 +116,5 @@ export const AuthValidations = {
   refreshTokenValidationSchema,
   forgetPasswordValidationSchema,
   resetPasswordValidationSchema,
+  settingsProfileValidationSchema,
 };

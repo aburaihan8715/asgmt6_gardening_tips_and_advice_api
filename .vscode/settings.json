@@ -31,5 +31,10 @@
     "statusBar.background": "#b40326",
     "statusBar.foreground": "#edeaf0",
   },
-  "cSpell.words": []
+  "cSpell.words": [
+    "Cloudinary",
+    "downvotes",
+    "favourites",
+    "upvotes"
+  ]
 }

@@ -4,10 +4,16 @@ import sendResponse from '../../utils/sendResponse';
 
 import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { PostServices } from './post.service';
+import { NextFunction, Request, Response } from 'express';
 
 // CREATE
 const createPost = catchAsync(async (req, res) => {
-  const newPost = await PostServices.createPostIntoDB(req.body);
+  const userId = req.user._id;
+  const newPost = await PostServices.createPostIntoDB({
+    ...req.body,
+    user: userId,
+    image: req.file?.path,
+  });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -16,6 +22,18 @@ const createPost = catchAsync(async (req, res) => {
     data: newPost,
   });
 });
+
+// GET NEW 5 POSTS
+const getAliasPosts = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  req.query.limit = '5';
+  req.query.sort = '-createdAt';
+  req.query.fields = '-content';
+  next();
+};
 
 // GET ALL
 const getAllPosts = catchAsync(async (req, res) => {
@@ -72,10 +90,44 @@ const deletePost = catchAsync(async (req, res) => {
   });
 });
 
+// MAKE PREMIUM
+const makePremiumPost = catchAsync(async (req, res) => {
+  const premiumPost = await PostServices.makePremiumPostIntoDB(
+    req.params.id,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Post make premium successfully!',
+    data: premiumPost,
+  });
+});
+
+// GET ALL
+const getMyPosts = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+  const result = await PostServices.getMyPostsFromDB(userId, req.query);
+
+  if (!result || result?.result.length < 1)
+    return sendNotFoundDataResponse(res);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My posts retrieved successfully!',
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
 export const PostControllers = {
   createPost,
+  getAliasPosts,
   getAllPosts,
   getPost,
   updatePost,
   deletePost,
+  makePremiumPost,
+  getMyPosts,
 };
