@@ -1,16 +1,13 @@
-# asgmt6_gardening_tips_and_advice_api
-
-<!--
-"dependencies": {
+<!-- "dependencies": {
     "bcrypt": "^5.1.1",
-    "cloudinary": "^2.5.0",
+    "cloudinary": "^2.5.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "http-status": "^1.7.4",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.7.1",
+    "mongoose": "^8.7.0",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.15",

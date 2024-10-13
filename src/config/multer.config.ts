@@ -1,9 +1,10 @@
+// multer.config.ts
 import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import { cloudinaryUpload } from './cloudinary.config';
+import { cloudinary } from './cloudinary.config';
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinaryUpload,
+  cloudinary: cloudinary,
 });
 
 export const multerUpload = multer({ storage });
