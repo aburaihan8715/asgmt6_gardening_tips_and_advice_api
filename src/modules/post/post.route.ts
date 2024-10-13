@@ -56,20 +56,6 @@ router.delete('/:id', PostControllers.deletePost);
 // MAKE PREMIUM
 router.patch('/:id/make-premium', PostControllers.deletePost);
 
-// Add favorite
-router.patch(
-  '/:id/add-favourites',
-  auth(USER_ROLE.USER),
-  PostControllers.addFavourite,
-);
-
-// Remove favorite
-router.patch(
-  '/:id/remove-favourites',
-  auth(USER_ROLE.USER),
-  PostControllers.removeFavourite,
-);
-
 // Upvote a post
 router.patch(
   '/:id/upvote',

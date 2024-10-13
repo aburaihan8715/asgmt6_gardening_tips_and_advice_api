@@ -25,7 +25,7 @@ const createPostIntoDB = async (payload: IPost) => {
 // GET ALL
 const getAllPostsFromDB = async (query: Record<string, unknown>) => {
   const PostQuery = new QueryBuilder(
-    Post.find({ isDeleted: { $ne: true } }).populate({ path: 'user' }),
+    Post.find().populate({ path: 'user' }),
     query,
   )
     .search(['title', 'description', 'category', 'content'])
@@ -106,14 +106,8 @@ const makePremiumPostIntoDB = async (id: string) => {
 };
 
 // GET MY POSTS
-const getMyPostsFromDB = async (
-  userId: string,
-  query: Record<string, unknown>,
-) => {
-  const PostQuery = new QueryBuilder(
-    Post.find({ isDeleted: { $ne: true }, user: userId }),
-    query,
-  )
+const getMyPostsFromDB = async (query: Record<string, unknown>) => {
+  const PostQuery = new QueryBuilder(Post.find(), query)
     .search(['title', 'description', 'category', 'content'])
     .filter()
     .sort()
@@ -127,64 +121,6 @@ const getMyPostsFromDB = async (
     meta,
     result,
   };
-};
-
-// ADD FAVORITE
-const addFavouriteIntoDB = async (
-  currentUserId: string,
-  postId: string,
-) => {
-  if (!currentUserId || !postId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
-  }
-
-  const currentUser = await User.getUserById(currentUserId);
-  const post = await Post.getPostById(postId);
-
-  if (!currentUser || !post) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
-  }
-
-  if (currentUser.favourites.includes(post._id)) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'This post is already in your favorites!',
-    );
-  }
-
-  // Add favorite logic
-  await currentUser.updateOne({ $push: { favourites: post._id } });
-
-  return null;
-};
-
-// REMOVE FAVORITE
-const removeFavouriteIntoDB = async (
-  currentUserId: string,
-  postId: string,
-) => {
-  if (!currentUserId || !postId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
-  }
-
-  const currentUser = await User.getUserById(currentUserId);
-  const post = await Post.getPostById(postId);
-
-  if (!currentUser || !post) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
-  }
-
-  if (!currentUser.favourites.includes(post._id)) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'This post is not your favorites!',
-    );
-  }
-
-  // Remove favorite logic
-  await currentUser.updateOne({ $pull: { favourites: post._id } });
-
-  return null;
 };
 
 // UPVOTE POST
@@ -209,11 +145,17 @@ const upvotePostInDB = async (postId: string, userId: string) => {
 
   // Remove from downvotes if the user has downvoted
   if (post.downvotes.includes(user._id)) {
-    await post.updateOne({ $pull: { downvotes: user._id } });
+    await post.updateOne({
+      $pull: { downvotes: user._id },
+      $inc: { downvotesCount: -1 }, // Decrement downvotes count
+    });
   }
 
   // Add to upvotes
-  await post.updateOne({ $push: { upvotes: user._id } });
+  await post.updateOne({
+    $push: { upvotes: user._id },
+    $inc: { upvotesCount: 1 }, // Increment upvotes count
+  });
 
   return null;
 };
@@ -240,11 +182,17 @@ const downvotePostInDB = async (postId: string, userId: string) => {
 
   // Remove from upvotes if the user has upvoted
   if (post.upvotes.includes(user._id)) {
-    await post.updateOne({ $pull: { upvotes: user._id } });
+    await post.updateOne({
+      $pull: { upvotes: user._id },
+      $inc: { upvotesCount: -1 }, // Decrement upvotes count
+    });
   }
 
   // Add to downvotes
-  await post.updateOne({ $push: { downvotes: user._id } });
+  await post.updateOne({
+    $push: { downvotes: user._id },
+    $inc: { downvotesCount: 1 }, // Increment downvotes count
+  });
 
   return null;
 };
@@ -268,7 +216,10 @@ const removeUpvoteFromDB = async (postId: string, userId: string) => {
     );
   }
 
-  await post.updateOne({ $pull: { upvotes: user._id } });
+  await post.updateOne({
+    $pull: { upvotes: user._id },
+    $inc: { upvotesCount: -1 }, // Decrement upvotes count
+  });
 
   return null;
 };
@@ -292,7 +243,10 @@ const removeDownvoteFromDB = async (postId: string, userId: string) => {
     );
   }
 
-  await post.updateOne({ $pull: { downvotes: user._id } });
+  await post.updateOne({
+    $pull: { downvotes: user._id },
+    $inc: { downvotesCount: -1 }, // Decrement downvotes count
+  });
 
   return null;
 };
@@ -332,8 +286,6 @@ export const PostServices = {
   deletePostFromDB,
   makePremiumPostIntoDB,
   getMyPostsFromDB,
-  addFavouriteIntoDB,
-  removeFavouriteIntoDB,
   upvotePostInDB,
   downvotePostInDB,
   removeUpvoteFromDB,

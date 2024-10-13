@@ -11,10 +11,12 @@ export interface IPost extends Document {
   image: string;
   isPremium: boolean;
   isDeleted: boolean;
-  numberOfComments: number;
   upvotes: Types.ObjectId[];
+  upvotesCount: number;
   downvotes: Types.ObjectId[];
+  downvotesCount: number;
   comments: Types.ObjectId[];
+  numberOfComments: number;
 }
 
 export interface IComment {

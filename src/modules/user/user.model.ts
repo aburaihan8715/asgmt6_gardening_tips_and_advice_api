@@ -36,12 +36,20 @@ const UserSchema: Schema = new Schema(
         ref: 'User',
       },
     ],
+    followersCount: {
+      type: Number,
+      default: 0,
+    },
     followings: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
       },
     ],
+    followingsCount: {
+      type: Number,
+      default: 0,
+    },
     isVerified: {
       type: Boolean,
       default: false,

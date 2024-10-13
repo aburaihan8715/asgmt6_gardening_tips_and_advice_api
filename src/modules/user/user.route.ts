@@ -23,4 +23,18 @@ router.patch(
   UserControllers.unfollowUser,
 );
 
+// Add favorite
+router.patch(
+  '/:id/add-favourites',
+  auth(USER_ROLE.USER),
+  UserControllers.addFavourite,
+);
+
+// Remove favorite
+router.patch(
+  '/:id/remove-favourites',
+  auth(USER_ROLE.USER),
+  UserControllers.removeFavourite,
+);
+
 export const UserRoutes = router;

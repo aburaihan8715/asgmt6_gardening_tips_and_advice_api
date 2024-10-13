@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { User } from './user.model';
+import { Post } from '../post/post.model';
 
 // GET ALL
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
@@ -58,6 +59,9 @@ const followUserIntoDB = async (
   const currentUser = await User.getUserById(currentUserId);
   const postUser = await User.getUserById(postUserId);
 
+  // console.log('current user🔥', currentUser);
+  // console.log('postUser user🔥', postUser);
+
   if (!currentUser || !postUser) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
   }
@@ -69,8 +73,14 @@ const followUserIntoDB = async (
     );
   }
 
-  await currentUser.updateOne({ $push: { followings: postUserId } });
-  await postUser.updateOne({ $push: { followers: currentUserId } });
+  await currentUser.updateOne({
+    $push: { followings: postUserId },
+    $inc: { followingsCount: 1 },
+  });
+  await postUser.updateOne({
+    $push: { followers: currentUserId },
+    $inc: { followersCount: 1 },
+  });
 
   return null;
 };
@@ -106,8 +116,73 @@ const unfollowUserIntoDB = async (
   }
 
   // Unfollow logic
-  await currentUser.updateOne({ $pull: { followings: postUserId } });
-  await postUser.updateOne({ $pull: { followers: currentUserId } });
+  await currentUser.updateOne({
+    $pull: { followings: postUserId },
+    $inc: { followingsCount: -1 },
+  });
+  await postUser.updateOne({
+    $pull: { followers: currentUserId },
+    $inc: { followersCount: -1 },
+  });
+
+  return null;
+};
+
+// ADD FAVORITE
+const addFavouriteIntoDB = async (
+  currentUserId: string,
+  postId: string,
+) => {
+  if (!currentUserId || !postId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const currentUser = await User.getUserById(currentUserId);
+  const post = await Post.getPostById(postId);
+
+  if (!currentUser || !post) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
+  }
+
+  if (currentUser.favourites.includes(post._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'This post is already in your favorites!',
+    );
+  }
+
+  // Add favorite logic
+  await currentUser.updateOne({ $push: { favourites: post._id } });
+
+  return null;
+};
+
+// REMOVE FAVORITE
+const removeFavouriteIntoDB = async (
+  currentUserId: string,
+  postId: string,
+) => {
+  if (!currentUserId || !postId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+  }
+
+  const currentUser = await User.getUserById(currentUserId);
+  const post = await Post.getPostById(postId);
+
+  if (!currentUser || !post) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
+  }
+
+  if (!currentUser.favourites.includes(post._id)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'This post is not your favorites!',
+    );
+  }
+
+  // Remove favorite logic
+  await currentUser.updateOne({ $pull: { favourites: post._id } });
+
   return null;
 };
 
@@ -116,4 +191,6 @@ export const UserServices = {
   getAllAdminsFromDB,
   followUserIntoDB,
   unfollowUserIntoDB,
+  addFavouriteIntoDB,
+  removeFavouriteIntoDB,
 };

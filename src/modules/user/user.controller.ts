@@ -44,6 +44,11 @@ const followUser = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
   const postUserId = req.params.id;
 
+  // console.log('current userId from postman:🔥', currentUserId);
+  // console.log('post userId from postman🔥', postUserId);
+  // console.log('current userId from browser🔥', currentUserId);
+  // console.log('post userId from browser🔥', postUserId);
+
   const result = await UserServices.followUserIntoDB(
     currentUserId,
     postUserId,
@@ -74,9 +79,47 @@ const unfollowUser = catchAsync(async (req, res) => {
   });
 });
 
+// ADD FAVORITE
+const addFavourite = catchAsync(async (req, res) => {
+  const currentUserId = req.user._id;
+  const postId = req.params.id;
+
+  const result = await UserServices.addFavouriteIntoDB(
+    currentUserId,
+    postId,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Favorite added successfully!',
+    data: result,
+  });
+});
+
+// REMOVE FAVORITE
+const removeFavourite = catchAsync(async (req, res) => {
+  const currentUserId = req.user._id;
+  const postId = req.params.id;
+
+  const result = await UserServices.removeFavouriteIntoDB(
+    currentUserId,
+    postId,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Favorite removed successfully!',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   getAllUsers,
   getAllAdmins,
   followUser,
   unfollowUser,
+  addFavourite,
+  removeFavourite,
 };

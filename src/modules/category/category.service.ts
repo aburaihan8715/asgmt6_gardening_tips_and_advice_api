@@ -22,10 +22,7 @@ const createCategoryIntoDB = async (payload: ICategory) => {
 
 // GET ALL
 const getAllCategoriesFromDB = async (query: Record<string, unknown>) => {
-  const categoryQuery = new QueryBuilder(
-    Category.find({ isDeleted: { $ne: true } }),
-    query,
-  )
+  const categoryQuery = new QueryBuilder(Category.find(), query)
     .search([])
     .filter()
     .sort()

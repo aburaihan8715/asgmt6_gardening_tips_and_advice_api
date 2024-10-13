@@ -37,7 +37,8 @@ const getAliasPosts = (
 
 // GET ALL
 const getAllPosts = catchAsync(async (req, res) => {
-  const result = await PostServices.getAllPostsFromDB(req.query);
+  const query = { ...req.query, isDelete: { $ne: true } };
+  const result = await PostServices.getAllPostsFromDB(query);
 
   if (!result || result?.result.length < 1)
     return sendNotFoundDataResponse(res);
@@ -107,7 +108,8 @@ const makePremiumPost = catchAsync(async (req, res) => {
 // GET ALL
 const getMyPosts = catchAsync(async (req, res) => {
   const userId = req.user._id;
-  const result = await PostServices.getMyPostsFromDB(userId, req.query);
+  const query = { ...req.query, isDeleted: { $ne: true }, user: userId };
+  const result = await PostServices.getMyPostsFromDB(query);
 
   if (!result || result?.result.length < 1)
     return sendNotFoundDataResponse(res);
@@ -118,42 +120,6 @@ const getMyPosts = catchAsync(async (req, res) => {
     message: 'My posts retrieved successfully!',
     meta: result.meta,
     data: result.result,
-  });
-});
-
-// ADD FAVORITE
-const addFavourite = catchAsync(async (req, res) => {
-  const currentUserId = req.user._id;
-  const postId = req.params.id;
-
-  const result = await PostServices.addFavouriteIntoDB(
-    currentUserId,
-    postId,
-  );
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Favorite added successfully!',
-    data: result,
-  });
-});
-
-// REMOVE FAVORITE
-const removeFavourite = catchAsync(async (req, res) => {
-  const currentUserId = req.user._id;
-  const postId = req.params.id;
-
-  const result = await PostServices.removeFavouriteIntoDB(
-    currentUserId,
-    postId,
-  );
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Favorite removed successfully!',
-    data: result,
   });
 });
 
@@ -259,8 +225,6 @@ export const PostControllers = {
   deletePost,
   makePremiumPost,
   getMyPosts,
-  addFavourite,
-  removeFavourite,
   upvotePost,
   downvotePost,
   removeUpvote,

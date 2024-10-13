@@ -20,7 +20,8 @@ const createCategory = catchAsync(async (req, res) => {
 
 // GET ALL
 const getAllCategories = catchAsync(async (req, res) => {
-  const result = await CategoryServices.getAllCategoriesFromDB(req.query);
+  const query = { ...req.query, isDeleted: { $ne: true } };
+  const result = await CategoryServices.getAllCategoriesFromDB(query);
 
   if (!result || result?.result.length < 1)
     return sendNotFoundDataResponse(res);
