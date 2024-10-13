@@ -1,38 +1,67 @@
-<!-- "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cloudinary": "^2.5.1",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "http-status": "^1.7.4",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.7.0",
-    "multer": "^1.4.5-lts.1",
-    "multer-storage-cloudinary": "^4.0.0",
-    "nodemailer": "^6.9.15",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.11.1",
-    "@types/bcrypt": "^5.0.2",
-    "@types/bcryptjs": "^2.4.6",
-    "@types/cookie-parser": "^1.4.7",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0",
-    "@types/jsonwebtoken": "^9.0.7",
-    "@types/multer": "^1.4.12",
-    "@types/node": "^22.7.4",
-    "@types/nodemailer": "^6.4.16",
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
-    "@typescript-eslint/parser": "^8.7.0",
-    "eslint": "^9.11.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "globals": "^15.9.0",
-    "prettier": "^3.3.3",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.6.2",
-    "typescript-eslint": "^8.7.0"
-  } -->
+# Project : asgmt6_gardening_tips_and_advice_api
+
+## Live link server
+
+https://asgmt6-gardening-tips-and-advice-api.vercel.app
+
+## Github link server
+
+https://github.com/aburaihan8715/asgmt6_gardening_tips_and_advice_api
+
+## Admin
+
+- email: admin@gmail.com
+- password: test1234
+
+## User
+
+- email: user@gmail.com
+- password: test1234
+
+## Technologies used:
+
+1. Typescript
+2. Node js
+3. Express js
+4. Mongodb
+
+## Packages used:
+
+1. cors
+2. mongoose
+3. zod
+4. jwt
+5. eslint
+6. stripe
+
+## API Endpoints
+
+## Auth:
+
+- /api/v1/auth/login(POST) -public
+
+## User:
+
+- /api/v1/users/register(POST) -public
+
+## Room:
+
+- /api/v1/posts(POST) -user
+- /api/v1/posts(GET) -public
+- /api/v1/posts/:id(GET) -user
+- /api/v1/posts/:id(PUT) -user
+- /api/v1/posts/:id(DELETE) -admin/user
+
+## Scripts
+
+```js
+  "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+  "start": "node ./dist/server.js",
+  "build": "tsc",
+  "lint": "npx eslint src --ignore-pattern .ts",
+  "lint:fix": "npx eslint src --fix",
+  "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
+  "prettier:fix": "npx prettier --write \"src/**/*.+(js|ts|json)\""
+```
+
+<p>======end=======</p>
