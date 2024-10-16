@@ -39,15 +39,23 @@ const getAllAdmins = catchAsync(async (req, res) => {
   });
 });
 
+// GET ONE USER
+const getMe = catchAsync(async (req, res) => {
+  const id = req.user._id;
+  const user = await UserServices.getMeFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully!',
+    data: user,
+  });
+});
+
 // FOLLOW USER
 const followUser = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
   const postUserId = req.params.id;
-
-  // console.log('current userId from postman:🔥', currentUserId);
-  // console.log('post userId from postman🔥', postUserId);
-  // console.log('current userId from browser🔥', currentUserId);
-  // console.log('post userId from browser🔥', postUserId);
 
   const result = await UserServices.followUserIntoDB(
     currentUserId,
@@ -82,7 +90,7 @@ const unfollowUser = catchAsync(async (req, res) => {
 // ADD FAVORITE
 const addFavourite = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
-  const postId = req.params.id;
+  const postId = req.params.postId;
 
   const result = await UserServices.addFavouriteIntoDB(
     currentUserId,
@@ -92,7 +100,7 @@ const addFavourite = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Favorite added successfully!',
+    message: 'Add to Favourite successfully!',
     data: result,
   });
 });
@@ -100,7 +108,7 @@ const addFavourite = catchAsync(async (req, res) => {
 // REMOVE FAVORITE
 const removeFavourite = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
-  const postId = req.params.id;
+  const postId = req.params.postId;
 
   const result = await UserServices.removeFavouriteIntoDB(
     currentUserId,
@@ -110,7 +118,7 @@ const removeFavourite = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Favorite removed successfully!',
+    message: 'Removed from favourite successfully!',
     data: result,
   });
 });
@@ -122,4 +130,5 @@ export const UserControllers = {
   unfollowUser,
   addFavourite,
   removeFavourite,
+  getMe,
 };

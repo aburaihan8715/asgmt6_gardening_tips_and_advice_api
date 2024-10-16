@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError';
 import { User } from './user.model';
 import { Post } from '../post/post.model';
 
-// GET ALL
+// GET ALL USERS
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const UserQuery = new QueryBuilder(User.find(), query)
     .search(['username', 'email'])
@@ -22,7 +22,7 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-// GET ALL ADMIN
+// GET ALL ADMINS
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
   const AdminQuery = new QueryBuilder(User.find(), query)
     .search(['username', 'email'])
@@ -38,6 +38,20 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
     meta,
     result,
   };
+};
+
+// GET ONE USER
+const getMeFromDB = async (id: string) => {
+  const result = await User.findById(id);
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+  }
+
+  if (result && result.isDeleted) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'User has been deleted!');
+  }
+  return result;
 };
 
 // FOLLOW
@@ -134,7 +148,10 @@ const addFavouriteIntoDB = async (
   postId: string,
 ) => {
   if (!currentUserId || !postId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'User Id OR Post ID not found!',
+    );
   }
 
   const currentUser = await User.getUserById(currentUserId);
@@ -144,15 +161,9 @@ const addFavouriteIntoDB = async (
     throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
   }
 
-  if (currentUser.favourites.includes(post._id)) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'This post is already in your favorites!',
-    );
+  if (!currentUser.favourites.includes(post._id)) {
+    await currentUser.updateOne({ $push: { favourites: post._id } });
   }
-
-  // Add favorite logic
-  await currentUser.updateOne({ $push: { favourites: post._id } });
 
   return null;
 };
@@ -173,15 +184,9 @@ const removeFavouriteIntoDB = async (
     throw new AppError(httpStatus.NOT_FOUND, 'User OR Post not found!');
   }
 
-  if (!currentUser.favourites.includes(post._id)) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'This post is not your favorites!',
-    );
+  if (currentUser.favourites.includes(post._id)) {
+    await currentUser.updateOne({ $pull: { favourites: post._id } });
   }
-
-  // Remove favorite logic
-  await currentUser.updateOne({ $pull: { favourites: post._id } });
 
   return null;
 };
@@ -193,4 +198,5 @@ export const UserServices = {
   unfollowUserIntoDB,
   addFavouriteIntoDB,
   removeFavouriteIntoDB,
+  getMeFromDB,
 };

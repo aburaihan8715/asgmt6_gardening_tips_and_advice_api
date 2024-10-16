@@ -37,7 +37,7 @@ const getAliasPosts = (
 
 // GET ALL
 const getAllPosts = catchAsync(async (req, res) => {
-  const query = { ...req.query, isDelete: { $ne: true } };
+  const query = { ...req.query, isDeleted: { $ne: true } };
   const result = await PostServices.getAllPostsFromDB(query);
 
   if (!result || result?.result.length < 1)

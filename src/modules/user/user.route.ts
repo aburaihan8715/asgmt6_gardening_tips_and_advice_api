@@ -11,6 +11,13 @@ router.get('/', auth(USER_ROLE.ADMIN), UserControllers.getAllUsers);
 // GET ALL ADMINS
 router.get('/admins', auth(USER_ROLE.ADMIN), UserControllers.getAllAdmins);
 
+// GET ONE USER
+router.get(
+  '/me',
+  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  UserControllers.getMe,
+);
+
 router.patch(
   '/:id/follow',
   auth(USER_ROLE.ADMIN, USER_ROLE.USER),
@@ -25,14 +32,14 @@ router.patch(
 
 // Add favorite
 router.patch(
-  '/:id/add-favourites',
+  '/:postId/add-favourites',
   auth(USER_ROLE.USER),
   UserControllers.addFavourite,
 );
 
 // Remove favorite
 router.patch(
-  '/:id/remove-favourites',
+  '/:postId/remove-favourites',
   auth(USER_ROLE.USER),
   UserControllers.removeFavourite,
 );
