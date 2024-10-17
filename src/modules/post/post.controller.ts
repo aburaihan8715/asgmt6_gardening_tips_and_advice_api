@@ -206,13 +206,17 @@ const addComment = catchAsync(async (req, res) => {
 // Get comments for a post
 const getComments = catchAsync(async (req, res) => {
   const postId = req.params.id;
-  const comments = await PostServices.getCommentsForPost(postId);
+  const query = { ...req.query, isDeleted: { $ne: true }, post: postId };
+  const result = await PostServices.getCommentsForPost(query);
+
+  if (!result || result?.result.length < 1)
+    return sendNotFoundDataResponse(res);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Comments retrieved successfully!',
-    data: comments,
+    data: result,
   });
 });
 

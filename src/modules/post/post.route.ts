@@ -62,6 +62,11 @@ router.patch(
   auth(USER_ROLE.USER),
   PostControllers.upvotePost,
 );
+router.patch(
+  '/:id/upvote-remove',
+  auth(USER_ROLE.USER),
+  PostControllers.upvotePost,
+);
 
 // Downvote a post
 router.patch(
@@ -72,14 +77,14 @@ router.patch(
 
 // Remove upvote
 router.patch(
-  '/:id/upvote/remove',
+  '/:id/downvote',
   auth(USER_ROLE.USER),
-  PostControllers.removeUpvote,
+  PostControllers.downvotePost,
 );
 
 // Remove downvote
 router.patch(
-  '/:id/downvote/remove',
+  '/:id/downvote-remove',
   auth(USER_ROLE.USER),
   PostControllers.removeDownvote,
 );

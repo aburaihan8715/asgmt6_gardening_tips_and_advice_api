@@ -126,7 +126,7 @@ const getMyPostsFromDB = async (query: Record<string, unknown>) => {
 // UPVOTE POST
 const upvotePostInDB = async (postId: string, userId: string) => {
   if (!postId || !userId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User ID missing!');
   }
 
   const post = await Post.getPostById(postId);
@@ -272,10 +272,24 @@ const addCommentToPost = async (
 };
 
 // Get comments for a post
-const getCommentsForPost = async (postId: string) => {
-  return await Comment.find({ post: postId })
-    .populate('post')
-    .populate('user');
+const getCommentsForPost = async (query: Record<string, unknown>) => {
+  const CommentQuery = new QueryBuilder(
+    Comment.find().populate('post').populate('user'),
+    query,
+  )
+    .search([])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await CommentQuery.modelQuery;
+  const meta = await CommentQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
 };
 
 export const PostServices = {

@@ -20,8 +20,8 @@ export interface IPost extends Document {
 }
 
 export interface IComment {
-  post: Types.ObjectId | string; // Change to postId
-  user: Types.ObjectId | string; // Change to userId
+  post: Types.ObjectId | string;
+  user: Types.ObjectId | string;
   content: string;
   isDeleted?: boolean;
 }
