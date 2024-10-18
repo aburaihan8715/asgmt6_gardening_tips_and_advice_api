@@ -3,8 +3,9 @@ import AppError from '../../errors/AppError';
 
 import QueryBuilder from '../../builder/QueryBuilder';
 import { IPost } from './post.interface';
-import { Comment, Post } from './post.model';
+import { Post } from './post.model';
 import { User } from '../user/user.model';
+import { Comment } from '../comment/comment.model';
 
 // CREATE
 const createPostIntoDB = async (payload: IPost) => {

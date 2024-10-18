@@ -19,13 +19,6 @@ export interface IPost extends Document {
   numberOfComments: number;
 }
 
-export interface IComment {
-  post: Types.ObjectId | string;
-  user: Types.ObjectId | string;
-  content: string;
-  isDeleted?: boolean;
-}
-
 export interface PostModel extends Model<IPost> {
   getPostById(id: string): Promise<IPost>;
 }
