@@ -13,9 +13,13 @@ router.patch(
 );
 
 // GET ONE
-router.get('/:id', CommentControllers.getComment);
+router.get('/:id', auth(USER_ROLE.USER), CommentControllers.getComment);
 
 // DELETE ONE
-router.delete('/:id', CommentControllers.deleteComment);
+router.delete(
+  '/:id',
+  auth(USER_ROLE.USER),
+  CommentControllers.deleteComment,
+);
 
 export const CommentRoutes = router;

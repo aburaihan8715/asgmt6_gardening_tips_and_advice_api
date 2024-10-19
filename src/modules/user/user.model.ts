@@ -60,8 +60,8 @@ const UserSchema: Schema = new Schema(
     },
     role: {
       type: String,
-      enum: ['USER', 'ADMIN'],
-      default: 'USER',
+      enum: ['user', 'admin', 'superAdmin'],
+      default: 'user',
     },
     favourites: [
       {
