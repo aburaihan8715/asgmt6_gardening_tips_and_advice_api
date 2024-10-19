@@ -21,7 +21,7 @@ router.post(
 
 router.patch(
   '/change-password',
-  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   validateRequest(AuthValidations.changePasswordValidationSchema),
   AuthControllers.changePassword,
 );
@@ -46,7 +46,7 @@ router.patch(
 
 router.patch(
   '/settings-profile',
-  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   multerUpload.single('file'),
   validateRequest(AuthValidations.settingsProfileValidationSchema),
   AuthControllers.settingsProfile,

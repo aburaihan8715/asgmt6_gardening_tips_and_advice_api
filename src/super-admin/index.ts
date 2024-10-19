@@ -3,7 +3,8 @@ import { USER_ROLE } from '../modules/user/user.constant';
 import { User } from '../modules/user/user.model';
 
 const superAdmin = {
-  email: 'aburaihan8715@gmail.com',
+  username: 'super admin',
+  email: 'superadmin@gmail.com',
   password: config.super_admin_pass,
   role: USER_ROLE.super_admin,
   isDeleted: false,

@@ -8,17 +8,17 @@ const router = express.Router();
 // UPDATE
 router.patch(
   '/:id',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   CommentControllers.updateComment,
 );
 
 // GET ONE
-router.get('/:id', auth(USER_ROLE.USER), CommentControllers.getComment);
+router.get('/:id', auth(USER_ROLE.user), CommentControllers.getComment);
 
 // DELETE ONE
 router.delete(
   '/:id',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   CommentControllers.deleteComment,
 );
 

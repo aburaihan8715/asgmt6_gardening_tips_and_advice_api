@@ -34,6 +34,7 @@ const UserSchema: Schema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        default: [],
       },
     ],
     followersCount: {
@@ -44,6 +45,7 @@ const UserSchema: Schema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        default: [],
       },
     ],
     followingsCount: {

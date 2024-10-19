@@ -8,6 +8,11 @@ https://asgmt6-gardening-tips-and-advice-api.vercel.app
 
 https://github.com/aburaihan8715/asgmt6_gardening_tips_and_advice_api
 
+## Super Admin
+
+- email: superadmin@gmail.com
+- password: test1234
+
 ## Admin
 
 - email: admin@gmail.com

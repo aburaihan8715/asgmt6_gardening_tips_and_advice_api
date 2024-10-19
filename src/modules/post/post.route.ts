@@ -11,7 +11,7 @@ const router = express.Router();
 // CREATE
 router.post(
   '/',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   multerUpload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
@@ -24,7 +24,7 @@ router.post(
 // UPDATE
 router.patch(
   '/:id',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   multerUpload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
@@ -45,7 +45,7 @@ router.get(
 router.get('/', PostControllers.getAllPosts);
 
 // GET MY POSTS
-router.get('/my-posts', auth(USER_ROLE.USER), PostControllers.getMyPosts);
+router.get('/my-posts', auth(USER_ROLE.user), PostControllers.getMyPosts);
 
 // GET ONE
 router.get('/:id', PostControllers.getPost);
@@ -59,45 +59,45 @@ router.patch('/:id/make-premium', PostControllers.deletePost);
 // Upvote a post
 router.patch(
   '/:id/upvote',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   PostControllers.upvotePost,
 );
 router.patch(
   '/:id/upvote-remove',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   PostControllers.upvotePost,
 );
 
 // Downvote a post
 router.patch(
   '/:id/downvote',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   PostControllers.downvotePost,
 );
 
 // Remove upvote
 router.patch(
   '/:id/downvote',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   PostControllers.downvotePost,
 );
 
 // Remove downvote
 router.patch(
   '/:id/downvote-remove',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   PostControllers.removeDownvote,
 );
 
 // NOTE: :id means post id
 router.post(
   '/:id/comments',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   PostControllers.addComment,
 );
 router.get(
   '/:id/comments',
-  auth(USER_ROLE.USER),
+  auth(USER_ROLE.user),
   PostControllers.getComments,
 );
 
