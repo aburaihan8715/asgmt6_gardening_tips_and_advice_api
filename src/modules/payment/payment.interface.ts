@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-import { Document } from 'mongoose';
-
-export interface IPayment extends Document {}
+export type TPayment = {
+  email: string;
+  transactionId: string;
+  price: number;
+};

@@ -36,7 +36,7 @@ router.patch(
 
 // GET NEW 5
 router.get(
-  '/new-5-posts',
+  '/top-5-posts',
   PostControllers.getAliasPosts,
   PostControllers.getAllPosts,
 );

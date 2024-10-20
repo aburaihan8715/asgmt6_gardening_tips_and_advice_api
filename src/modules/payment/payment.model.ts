@@ -1,6 +1,26 @@
 import { Schema, model } from 'mongoose';
-import { IPayment } from './payment.interface';
+import { TPayment } from './payment.interface';
 
-const PaymentSchema = new Schema<IPayment>({}, {});
+const paymentSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: [true, 'User email is required'],
+    },
+    transactionId: {
+      type: String,
+      required: [true, 'Transaction id is required'],
+      unique: true,
+    },
 
-export const Payment = model<IPayment>('Payment', PaymentSchema);
+    price: {
+      type: Number,
+      required: [true, 'Price is required'],
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+export const Payment = model<TPayment>('Payment', paymentSchema);

@@ -1,17 +1,23 @@
-import express from 'express';
-import validateRequest from '../../middlewares/validateRequest';
-import { PaymentValidations } from './payment.validation';
+import { Router } from 'express';
 import { PaymentControllers } from './payment.controller';
+import { PaymentValidations } from './payment.validation';
+import validateRequest from '../../middlewares/validateRequest';
+import auth from '../../middlewares/auth';
+import { USER_ROLE } from '../user/user.constant';
 
-const router = express.Router();
+const router = Router();
 
 router.post(
-  '/',
-  validateRequest(PaymentValidations.createPaymentValidationSchema),
+  '/create-payment-intent',
+  auth(USER_ROLE.user),
+  validateRequest(PaymentValidations.createPaymentIntentValidation),
+  PaymentControllers.createPaymentIntent,
+);
+router.post(
+  '/create-payment',
+  auth(USER_ROLE.user),
+  validateRequest(PaymentValidations.createPaymentValidation),
   PaymentControllers.createPayment,
 );
-router.get('/', PaymentControllers.getAllPayments);
-router.get('/:id', PaymentControllers.getPayment);
-router.delete('/:id', PaymentControllers.deletePayment);
 
 export const PaymentRoutes = router;

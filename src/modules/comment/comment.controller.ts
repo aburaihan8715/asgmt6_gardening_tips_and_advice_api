@@ -19,7 +19,12 @@ const getComment = catchAsync(async (req, res) => {
 const updateComment = catchAsync(async (req, res) => {
   const userId = req.user._id;
   const commentId = req.params.id;
-  const payload = req.body;
+  const payload = { ...req.body };
+
+  console.log('useId: ', userId);
+  console.log('commentId: ', commentId);
+  console.log('commentId: ', payload);
+
   const updatedComment = await CommentServices.updateCommentIntoDB(
     userId,
     commentId,
