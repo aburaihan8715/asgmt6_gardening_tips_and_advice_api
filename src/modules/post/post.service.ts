@@ -92,10 +92,10 @@ const deletePostFromDB = async (id: string) => {
 };
 
 // MAKE POST PREMIUM
-const makePremiumPostIntoDB = async (id: string) => {
+const makePremiumPostIntoDB = async (postId: string) => {
   const result = await Post.findByIdAndUpdate(
-    id,
-    { idPremium: true },
+    postId,
+    { isPremium: true },
     { new: true },
   );
 

@@ -54,7 +54,7 @@ router.get('/:id', PostControllers.getPost);
 router.delete('/:id', PostControllers.deletePost);
 
 // MAKE PREMIUM
-router.patch('/:id/make-premium', PostControllers.deletePost);
+router.patch('/:id/make-premium', PostControllers.makePremiumPost);
 
 // Upvote a post
 router.patch(

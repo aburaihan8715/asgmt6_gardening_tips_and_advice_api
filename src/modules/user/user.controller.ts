@@ -4,6 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 
 import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { UserServices } from './user.service';
+import AppError from '../../errors/AppError';
 
 // GET ALL USERS
 const getAllUsers = catchAsync(async (req, res) => {
@@ -123,6 +124,47 @@ const removeFavourite = catchAsync(async (req, res) => {
   });
 });
 
+// REMOVE FAVORITE
+const checkPremiumStatus = catchAsync(async (req, res) => {
+  const userId = req?.user?._id;
+
+  if (!userId) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'User not authenticated');
+  }
+
+  const result = await UserServices.checkPremiumStatusIntoDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Premium status returned successfully!',
+    data: result,
+  });
+});
+
+// GET FAVOURITE POSTS
+const getFavouritePosts = catchAsync(async (req, res) => {
+  // Step 1: Retrieve the authenticated user's ID
+  const userId = req?.user?._id;
+
+  // Step 2: Check if the user is authenticated
+  if (!userId) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'User not authenticated');
+  }
+
+  // Step 3: Call the service function to fetch favourite posts
+  const favouritePosts =
+    await UserServices.getFavouritePostsFromDB(userId);
+
+  // Step 4: Send the response with the fetched posts
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Favourite posts fetched successfully!',
+    data: favouritePosts,
+  });
+});
+
 export const UserControllers = {
   getAllUsers,
   getAllAdmins,
@@ -131,4 +173,6 @@ export const UserControllers = {
   addFavourite,
   removeFavourite,
   getMe,
+  checkPremiumStatus,
+  getFavouritePosts,
 };

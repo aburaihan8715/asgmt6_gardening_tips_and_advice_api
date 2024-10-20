@@ -93,9 +93,8 @@ const deletePost = catchAsync(async (req, res) => {
 
 // MAKE PREMIUM
 const makePremiumPost = catchAsync(async (req, res) => {
-  const premiumPost = await PostServices.makePremiumPostIntoDB(
-    req.params.id,
-  );
+  const postId = req.params.id;
+  const premiumPost = await PostServices.makePremiumPostIntoDB(postId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

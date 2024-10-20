@@ -44,4 +44,18 @@ router.patch(
   UserControllers.removeFavourite,
 );
 
+// Check premium status
+router.get(
+  '/check-premium-status',
+  auth(USER_ROLE.user),
+  UserControllers.checkPremiumStatus,
+);
+
+// Get favourite posts
+router.get(
+  '/favourite-posts',
+  auth(USER_ROLE.user),
+  UserControllers.getFavouritePosts,
+);
+
 export const UserRoutes = router;

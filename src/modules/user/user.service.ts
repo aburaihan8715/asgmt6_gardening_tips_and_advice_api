@@ -191,6 +191,42 @@ const removeFavouriteIntoDB = async (
   return null;
 };
 
+// CHECK PREMIUM
+const checkPremiumStatusIntoDB = async (userId: string) => {
+  const user = await User.getUserById(userId);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+
+  // Check if any posts exist with at least 1 upvote
+  const hasUpvotedPosts = await Post.exists({
+    user: user._id,
+    upvotesCount: { $gte: 1 },
+    isVerified: false,
+  });
+
+  return !!hasUpvotedPosts;
+};
+
+// GET FAVOURITE POSTS
+const getFavouritePostsFromDB = async (userId: string) => {
+  // Step 1: Fetch the user by ID
+  const user = await User.getUserById(userId);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+
+  // Step 2: Check if the user has any favourite posts
+  const favouritePosts = await Post.find({
+    _id: { $in: user.favourites }, // Filter posts by IDs in the user's favourites array
+    isDeleted: false, // Ensure the post is not deleted
+  });
+
+  // Step 3: Return the list of favourite posts or empty array if none exist
+  return favouritePosts;
+};
+
 export const UserServices = {
   getAllUsersFromDB,
   getAllAdminsFromDB,
@@ -199,4 +235,6 @@ export const UserServices = {
   addFavouriteIntoDB,
   removeFavouriteIntoDB,
   getMeFromDB,
+  checkPremiumStatusIntoDB,
+  getFavouritePostsFromDB,
 };
