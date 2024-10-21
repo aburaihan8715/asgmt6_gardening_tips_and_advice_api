@@ -5,8 +5,19 @@ import { USER_ROLE } from './user.constant';
 
 const router = express.Router();
 
+// GET TOP 5 USERS
+router.get(
+  '/top-5-users',
+  UserControllers.getAliasUsers,
+  UserControllers.getAllUsers,
+);
+
 // GET ALL USERS
-router.get('/', auth(USER_ROLE.admin), UserControllers.getAllUsers);
+router.get(
+  '/',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  UserControllers.getAllUsers,
+);
 
 // GET ALL ADMINS
 router.get('/admins', auth(USER_ROLE.admin), UserControllers.getAllAdmins);
@@ -33,28 +44,28 @@ router.patch(
 // Add favorite
 router.patch(
   '/:postId/add-favourites',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   UserControllers.addFavourite,
 );
 
 // Remove favorite
 router.patch(
   '/:postId/remove-favourites',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   UserControllers.removeFavourite,
 );
 
 // Check premium status
 router.get(
   '/check-premium-status',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   UserControllers.checkPremiumStatus,
 );
 
 // Get favourite posts
 router.get(
   '/favourite-posts',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   UserControllers.getFavouritePosts,
 );
 

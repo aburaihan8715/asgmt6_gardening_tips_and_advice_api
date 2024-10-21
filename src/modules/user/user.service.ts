@@ -202,8 +202,10 @@ const checkPremiumStatusIntoDB = async (userId: string) => {
   const hasUpvotedPosts = await Post.exists({
     user: user._id,
     upvotesCount: { $gte: 1 },
-    isVerified: false,
+    // isVerified: false,
   });
+
+  console.log('hasUpvotedPosts', hasUpvotedPosts);
 
   return !!hasUpvotedPosts;
 };

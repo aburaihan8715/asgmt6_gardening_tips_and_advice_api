@@ -61,10 +61,18 @@ router.get('/', PostControllers.getAllPosts);
 router.get('/my-posts', auth(USER_ROLE.user), PostControllers.getMyPosts);
 
 // GET ONE
-router.get('/:id', auth(USER_ROLE.user), PostControllers.getPost);
+router.get(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  PostControllers.getPost,
+);
 
 // DELETE ONE
-router.delete('/:id', auth(USER_ROLE.user), PostControllers.deletePost);
+router.delete(
+  '/:id',
+  auth(USER_ROLE.user, USER_ROLE.admin),
+  PostControllers.deletePost,
+);
 
 // MAKE PREMIUM
 router.patch(
@@ -74,23 +82,31 @@ router.patch(
 );
 
 // Upvote a post
-router.patch('/:id/upvote', auth(USER_ROLE.user), PostControllers.upvote);
+router.patch(
+  '/:id/upvote',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  PostControllers.upvote,
+);
 
 // Downvote a post
 router.patch(
   '/:id/downvote',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   PostControllers.downvote,
 );
 
 // Create comment
 router.post(
   '/:id/comments',
-  auth(USER_ROLE.user),
+  auth(USER_ROLE.admin, USER_ROLE.user),
   PostControllers.addComment,
 );
 
 // Get comments of a post
-router.get('/:id/comments', PostControllers.getComments);
+router.get(
+  '/:id/comments',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  PostControllers.getComments,
+);
 
 export const PostRoutes = router;
