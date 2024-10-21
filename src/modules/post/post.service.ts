@@ -6,6 +6,7 @@ import { IPost } from './post.interface';
 import { Post } from './post.model';
 import { User } from '../user/user.model';
 import { Comment } from '../comment/comment.model';
+import mongoose from 'mongoose';
 
 // CREATE
 const createPostIntoDB = async (payload: IPost) => {
@@ -124,19 +125,28 @@ const getMyPostsFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-// UPVOTE POST
-const upvotePostInDB = async (postId: string, userId: string) => {
+// UPVOTE
+const upvoteIntoDB = async (postId: string, userId: string) => {
   if (!postId || !userId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User ID missing!');
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'Post ID or User ID missing!',
+    );
   }
 
+  // Get the post and user
   const post = await Post.getPostById(postId);
   const user = await User.getUserById(userId);
 
-  if (!post || !user)
-    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
+  if (!post) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Post not found!');
+  }
 
-  // Check if user has already upvoted the post
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+
+  // Check if the user has already upvoted the post
   if (post.upvotes.includes(user._id)) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -144,36 +154,67 @@ const upvotePostInDB = async (postId: string, userId: string) => {
     );
   }
 
-  // Remove from downvotes if the user has downvoted
-  if (post.downvotes.includes(user._id)) {
-    await post.updateOne({
-      $pull: { downvotes: user._id },
-      $inc: { downvotesCount: -1 }, // Decrement downvotes count
-    });
+  // Begin a session to ensure consistency (if needed)
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // Add user to upvotes array and increment upvotes count
+    await post.updateOne(
+      {
+        $push: { upvotes: user._id },
+        $inc: { upvotesCount: 1 },
+      },
+      { session },
+    );
+
+    // If user had downvoted, remove the downvote and decrement downvotes count
+    if (post.downvotes.includes(user._id)) {
+      await post.updateOne(
+        {
+          $pull: { downvotes: user._id },
+          $inc: { downvotesCount: -1 },
+        },
+        { session },
+      );
+    }
+
+    // Commit the transaction if all updates succeed
+    await session.commitTransaction();
+
+    return { message: 'Upvote successful!' };
+  } catch (error) {
+    // Abort transaction in case of failure
+    await session.abortTransaction();
+
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Upvote failed!');
+  } finally {
+    session.endSession();
   }
-
-  // Add to upvotes
-  await post.updateOne({
-    $push: { upvotes: user._id },
-    $inc: { upvotesCount: 1 }, // Increment upvotes count
-  });
-
-  return null;
 };
 
 // DOWNVOTE POST
-const downvotePostInDB = async (postId: string, userId: string) => {
+const downvoteIntoDB = async (postId: string, userId: string) => {
   if (!postId || !userId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'Post ID or User ID missing!',
+    );
   }
 
+  // Get the post and user
   const post = await Post.getPostById(postId);
   const user = await User.getUserById(userId);
 
-  if (!post || !user)
-    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
+  if (!post) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Post not found!');
+  }
 
-  // Check if user has already downvoted the post
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+
+  // Check if the user has already downvoted the post
   if (post.downvotes.includes(user._id)) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -181,78 +222,49 @@ const downvotePostInDB = async (postId: string, userId: string) => {
     );
   }
 
-  // Remove from upvotes if the user has upvoted
-  if (post.upvotes.includes(user._id)) {
-    await post.updateOne({
-      $pull: { upvotes: user._id },
-      $inc: { upvotesCount: -1 }, // Decrement upvotes count
-    });
-  }
+  // Begin a session to ensure consistency (if needed)
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  // Add to downvotes
-  await post.updateOne({
-    $push: { downvotes: user._id },
-    $inc: { downvotesCount: 1 }, // Increment downvotes count
-  });
+  try {
+    // If user had upvoted, remove the upvote and decrement upvotes count
+    if (post.upvotes.includes(user._id)) {
+      await post.updateOne(
+        {
+          $pull: { upvotes: user._id },
+          $inc: { upvotesCount: -1 },
+        },
+        { session },
+      );
+    }
 
-  return null;
-};
-
-// REMOVE UPVOTE
-const removeUpvoteFromDB = async (postId: string, userId: string) => {
-  if (!postId || !userId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
-  }
-
-  const post = await Post.getPostById(postId);
-  const user = await User.getUserById(userId);
-
-  if (!post || !user)
-    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
-
-  if (!post.upvotes.includes(user._id)) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'You have not upvoted this post!',
+    // Add user to downvotes array and increment downvotes count
+    await post.updateOne(
+      {
+        $push: { downvotes: user._id },
+        $inc: { downvotesCount: 1 },
+      },
+      { session },
     );
-  }
 
-  await post.updateOne({
-    $pull: { upvotes: user._id },
-    $inc: { upvotesCount: -1 }, // Decrement upvotes count
-  });
+    // Commit the transaction if all updates succeed
+    await session.commitTransaction();
 
-  return null;
-};
+    return { message: 'Downvote successful!' };
+  } catch (error) {
+    // Abort transaction in case of failure
+    await session.abortTransaction();
 
-// REMOVE DOWNVOTE
-const removeDownvoteFromDB = async (postId: string, userId: string) => {
-  if (!postId || !userId) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Id not found!');
-  }
-
-  const post = await Post.getPostById(postId);
-  const user = await User.getUserById(userId);
-
-  if (!post || !user)
-    throw new AppError(httpStatus.NOT_FOUND, 'Post OR User not found!');
-
-  if (!post.downvotes.includes(user._id)) {
     throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'You have not downvoted this post!',
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Downvote failed!',
     );
+  } finally {
+    session.endSession();
   }
-
-  await post.updateOne({
-    $pull: { downvotes: user._id },
-    $inc: { downvotesCount: -1 }, // Decrement downvotes count
-  });
-
-  return null;
 };
 
-// Add a comment to a post
+// ADD COMMENT OF A POST
 const addCommentToPost = async (
   postId: string,
   userId: string,
@@ -272,7 +284,7 @@ const addCommentToPost = async (
   return newComment;
 };
 
-// Get comments for a post
+// GET COMMENT OF A POST
 const getCommentsForPost = async (query: Record<string, unknown>) => {
   const CommentQuery = new QueryBuilder(
     Comment.find().populate('post').populate('user'),
@@ -301,10 +313,8 @@ export const PostServices = {
   deletePostFromDB,
   makePremiumPostIntoDB,
   getMyPostsFromDB,
-  upvotePostInDB,
-  downvotePostInDB,
-  removeUpvoteFromDB,
-  removeDownvoteFromDB,
+  downvoteIntoDB,
+  upvoteIntoDB,
   addCommentToPost,
   getCommentsForPost,
 };

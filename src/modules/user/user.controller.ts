@@ -1,7 +1,6 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-
 import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { UserServices } from './user.service';
 import AppError from '../../errors/AppError';
@@ -124,7 +123,7 @@ const removeFavourite = catchAsync(async (req, res) => {
   });
 });
 
-// REMOVE FAVORITE
+// CHECK PREMIUM STATUS
 const checkPremiumStatus = catchAsync(async (req, res) => {
   const userId = req?.user?._id;
 

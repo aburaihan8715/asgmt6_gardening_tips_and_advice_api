@@ -20,6 +20,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     },
   ];
 
+  console.log('=====🔥err', err);
+
   if (err.name === 'JsonWebTokenError') {
     const simplifiedError = handleJWTError();
     statusCode = simplifiedError?.statusCode;

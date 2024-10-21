@@ -122,12 +122,12 @@ const getMyPosts = catchAsync(async (req, res) => {
   });
 });
 
-// UPVOTE POST
-const upvotePost = catchAsync(async (req, res) => {
+// UPVOTE
+const upvote = catchAsync(async (req, res) => {
   const userId = req.user._id;
   const postId = req.params.id;
 
-  await PostServices.upvotePostInDB(postId, userId);
+  await PostServices.upvoteIntoDB(postId, userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -137,12 +137,12 @@ const upvotePost = catchAsync(async (req, res) => {
   });
 });
 
-// DOWNVOTE POST
-const downvotePost = catchAsync(async (req, res) => {
+// DOWNVOTE
+const downvote = catchAsync(async (req, res) => {
   const userId = req.user._id;
   const postId = req.params.id;
 
-  await PostServices.downvotePostInDB(postId, userId);
+  await PostServices.downvoteIntoDB(postId, userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -152,37 +152,7 @@ const downvotePost = catchAsync(async (req, res) => {
   });
 });
 
-// REMOVE UPVOTE
-const removeUpvote = catchAsync(async (req, res) => {
-  const userId = req.user._id;
-  const postId = req.params.id;
-
-  await PostServices.removeUpvoteFromDB(postId, userId);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Upvote removed successfully!',
-    data: null,
-  });
-});
-
-// REMOVE DOWNVOTE
-const removeDownvote = catchAsync(async (req, res) => {
-  const userId = req.user._id;
-  const postId = req.params.id;
-
-  await PostServices.removeDownvoteFromDB(postId, userId);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Downvote removed successfully!',
-    data: null,
-  });
-});
-
-// Add a comment
+// ADD COMMENT
 const addComment = catchAsync(async (req, res) => {
   const postId = req.params.id;
   const userId = req.user._id;
@@ -202,7 +172,7 @@ const addComment = catchAsync(async (req, res) => {
   });
 });
 
-// Get comments for a post
+// GET COMMENTS
 const getComments = catchAsync(async (req, res) => {
   const postId = req.params.id;
   const query = { ...req.query, isDeleted: { $ne: true }, post: postId };
@@ -228,10 +198,8 @@ export const PostControllers = {
   deletePost,
   makePremiumPost,
   getMyPosts,
-  upvotePost,
-  downvotePost,
-  removeUpvote,
-  removeDownvote,
   addComment,
   getComments,
+  upvote,
+  downvote,
 };

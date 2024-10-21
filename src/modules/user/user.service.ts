@@ -219,8 +219,8 @@ const getFavouritePostsFromDB = async (userId: string) => {
 
   // Step 2: Check if the user has any favourite posts
   const favouritePosts = await Post.find({
-    _id: { $in: user.favourites }, // Filter posts by IDs in the user's favourites array
-    isDeleted: false, // Ensure the post is not deleted
+    _id: { $in: user.favourites },
+    isDeleted: false,
   });
 
   // Step 3: Return the list of favourite posts or empty array if none exist

@@ -17,6 +17,7 @@ export interface IPost extends Document {
   downvotesCount: number;
   comments: Types.ObjectId[];
   numberOfComments: number;
+  createdAt: Date;
 }
 
 export interface PostModel extends Model<IPost> {

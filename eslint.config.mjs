@@ -9,7 +9,7 @@ export default [
     ignores: ['**/node_modules/', '.dist/'],
 
     rules: {
-      'no-unused-vars': 'error',
+      'no-unused-vars': 'error', // Default rule for regular JS
       'no-unused-expressions': 'error',
       'prefer-const': 'error',
       'no-console': 'warn',
@@ -18,4 +18,16 @@ export default [
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ['**/*.{ts,tsx}'], // Specific to TypeScript files
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          varsIgnorePattern: 'err|error', // Only warn for unused err/error variables
+          argsIgnorePattern: '^_', // (Optional) ignore args starting with _
+        },
+      ],
+    },
+  },
 ];
