@@ -178,6 +178,18 @@ const getFavouritePosts = catchAsync(async (req, res) => {
   });
 });
 
+// GET USER STATS
+const getUserStats = catchAsync(async (req, res) => {
+  const userStats = await UserServices.getUserStatsFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User stats fetched successfully!',
+    data: userStats,
+  });
+});
+
 export const UserControllers = {
   getAllUsers,
   getAllAdmins,
@@ -189,4 +201,5 @@ export const UserControllers = {
   checkPremiumStatus,
   getFavouritePosts,
   getAliasUsers,
+  getUserStats,
 };

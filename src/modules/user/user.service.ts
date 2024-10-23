@@ -212,21 +212,52 @@ const checkPremiumStatusIntoDB = async (userId: string) => {
 
 // GET FAVOURITE POSTS
 const getFavouritePostsFromDB = async (userId: string) => {
-  // Step 1: Fetch the user by ID
   const user = await User.getUserById(userId);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
   }
 
-  // Step 2: Check if the user has any favourite posts
   const favouritePosts = await Post.find({
     _id: { $in: user.favourites },
     isDeleted: false,
   });
 
-  // Step 3: Return the list of favourite posts or empty array if none exist
   return favouritePosts;
+};
+
+// GET USER STATS
+const getUserStatsFromDB = async () => {
+  const date = new Date();
+  const currentYear = date.getFullYear();
+  const previousYear = currentYear - 1;
+
+  const data = await User.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(`${previousYear}-01-01`),
+          $lte: new Date(`${previousYear}-12-31`),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: { $month: '$createdAt' },
+        numUsers: { $sum: 1 },
+      },
+    },
+    {
+      $addFields: { month: '$_id' },
+    },
+    {
+      $project: { _id: 0 },
+    },
+    {
+      $sort: { month: 1 },
+    },
+  ]);
+  return data;
 };
 
 export const UserServices = {
@@ -239,4 +270,5 @@ export const UserServices = {
   getMeFromDB,
   checkPremiumStatusIntoDB,
   getFavouritePostsFromDB,
+  getUserStatsFromDB,
 };

@@ -60,12 +60,15 @@ router.get('/', PostControllers.getAllPosts);
 // GET MY POSTS
 router.get('/my-posts', auth(USER_ROLE.user), PostControllers.getMyPosts);
 
-// GET ONE
+// Get post stats
 router.get(
-  '/:id',
-  auth(USER_ROLE.admin, USER_ROLE.user),
-  PostControllers.getPost,
+  '/post-stats',
+  auth(USER_ROLE.admin),
+  PostControllers.getPostStats,
 );
+
+// GET ONE
+router.get('/:id', PostControllers.getPost);
 
 // DELETE ONE
 router.delete(
@@ -107,6 +110,13 @@ router.get(
   '/:id/comments',
   auth(USER_ROLE.admin, USER_ROLE.user),
   PostControllers.getComments,
+);
+
+// Get post stats
+router.get(
+  '/post-stats',
+  auth(USER_ROLE.admin),
+  PostControllers.getPostStats,
 );
 
 export const PostRoutes = router;

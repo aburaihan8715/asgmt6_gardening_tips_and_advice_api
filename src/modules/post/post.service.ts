@@ -305,6 +305,40 @@ const getCommentsForPost = async (query: Record<string, unknown>) => {
   };
 };
 
+// GET USER STATS
+const getPostStatsFromDB = async () => {
+  const date = new Date();
+  const currentYear = date.getFullYear();
+  const previousYear = currentYear - 1;
+
+  const data = await Post.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(`${previousYear}-01-01`),
+          $lte: new Date(`${previousYear}-12-31`),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: { $month: '$createdAt' },
+        posts: { $sum: 1 },
+      },
+    },
+    {
+      $addFields: { month: '$_id' },
+    },
+    {
+      $project: { _id: 0 },
+    },
+    {
+      $sort: { month: 1 },
+    },
+  ]);
+  return data;
+};
+
 export const PostServices = {
   createPostIntoDB,
   getAllPostsFromDB,
@@ -317,4 +351,5 @@ export const PostServices = {
   upvoteIntoDB,
   addCommentToPost,
   getCommentsForPost,
+  getPostStatsFromDB,
 };

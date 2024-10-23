@@ -189,6 +189,18 @@ const getComments = catchAsync(async (req, res) => {
   });
 });
 
+// GET POST STATS
+const getPostStats = catchAsync(async (req, res) => {
+  const result = await PostServices.getPostStatsFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Posts stats fetched successfully!',
+    data: result,
+  });
+});
+
 export const PostControllers = {
   createPost,
   getAliasPosts,
@@ -202,4 +214,5 @@ export const PostControllers = {
   getComments,
   upvote,
   downvote,
+  getPostStats,
 };

@@ -13,11 +13,7 @@ router.get(
 );
 
 // GET ALL USERS
-router.get(
-  '/',
-  auth(USER_ROLE.admin, USER_ROLE.user),
-  UserControllers.getAllUsers,
-);
+router.get('/', UserControllers.getAllUsers);
 
 // GET ALL ADMINS
 router.get('/admins', auth(USER_ROLE.admin), UserControllers.getAllAdmins);
@@ -67,6 +63,13 @@ router.get(
   '/favourite-posts',
   auth(USER_ROLE.admin, USER_ROLE.user),
   UserControllers.getFavouritePosts,
+);
+
+// Get user stats
+router.get(
+  '/user-stats',
+  auth(USER_ROLE.admin),
+  UserControllers.getUserStats,
 );
 
 export const UserRoutes = router;
