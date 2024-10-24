@@ -25,26 +25,6 @@ const createPostIntoDB = async (payload: IPost) => {
 };
 
 // GET ALL
-// const getAllPostsFromDB = async (query: Record<string, unknown>) => {
-//   const PostQuery = new QueryBuilder(
-//     Post.find().populate({ path: 'user' }),
-//     query,
-//   )
-//     .search(['title', 'description', 'category', 'content'])
-//     .filter()
-//     .sort()
-//     .paginate()
-//     .fields();
-
-//   const result = await PostQuery.modelQuery;
-//   const meta = await PostQuery.countTotal();
-
-//   return {
-//     meta,
-//     result,
-//   };
-// };
-
 const getAllPostsFromDB = async (query: Record<string, unknown>) => {
   const PostQuery = new QueryBuilder(
     Post.find().populate({ path: 'user' }),

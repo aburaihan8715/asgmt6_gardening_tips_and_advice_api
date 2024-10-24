@@ -7,14 +7,17 @@ import notFoundRouteHandler from './middlewares/notFoundRouteHandler';
 import globalErrorHandler from './middlewares/globalErrorHandler';
 
 export const app: Application = express();
+const allowedOrigin =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://asgmt6-gardening-tips-and-advice-api.vercel.app';
 
 // GLOBAL MIDDLEWARES
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    // origin: 'https://asgmt6-gardening-tips-and-advice-api.vercel.app',
-    origin: 'http://localhost:3000',
+    origin: allowedOrigin,
     credentials: true,
   }),
 );

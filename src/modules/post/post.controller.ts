@@ -35,23 +35,7 @@ const getAliasPosts = (
   next();
 };
 
-// GET ALL
-// const getAllPosts = catchAsync(async (req, res) => {
-//   const query = { ...req.query, isDeleted: { $ne: true } };
-//   const result = await PostServices.getAllPostsFromDB(query);
-
-//   if (!result || result?.result.length < 1)
-//     return sendNotFoundDataResponse(res);
-
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Posts retrieved successfully!',
-//     meta: result.meta,
-//     data: result.result,
-//   });
-// });
-
+// GET ALL POSTS
 const getAllPosts = catchAsync(async (req, res) => {
   const query = { ...req.query, isDeleted: { $ne: true } };
 
@@ -66,7 +50,7 @@ const getAllPosts = catchAsync(async (req, res) => {
     message: 'Posts retrieved successfully!',
     meta: {
       ...result.meta,
-      // NOTE: this is need for tanstack query
+      // NOTE: this is need for tan stack query
       hasNextPage: result.meta.page < result.meta.totalPage,
     },
     data: result.result,
