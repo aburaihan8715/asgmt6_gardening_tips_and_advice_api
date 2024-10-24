@@ -71,10 +71,10 @@ const getPost = catchAsync(async (req, res) => {
 
 // UPDATE ONE
 const updatePost = catchAsync(async (req, res) => {
-  const updatedPost = await PostServices.updatePostIntoDB(
-    req.params.id,
-    req.body,
-  );
+  const updatedPost = await PostServices.updatePostIntoDB(req.params.id, {
+    ...req.body,
+    image: req.file?.path,
+  });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

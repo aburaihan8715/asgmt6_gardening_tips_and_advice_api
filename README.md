@@ -8,11 +8,6 @@ https://asgmt6-gardening-tips-and-advice-api.vercel.app
 
 https://github.com/aburaihan8715/asgmt6_gardening_tips_and_advice_api
 
-## Super Admin
-
-- email: superadmin@gmail.com
-- password: test1234
-
 ## Admin
 
 - email: admin@gmail.com
@@ -43,19 +38,23 @@ https://github.com/aburaihan8715/asgmt6_gardening_tips_and_advice_api
 
 ## Auth:
 
-- /api/v1/auth/login(POST) -public
+- /api/v1/auth/login(POST)
+- /api/v1/auth/register(POST)
+- /api/v1/auth/change-password(PATCH)
+- /api/v1/auth/refresh-token(POST)
+- /api/v1/auth/forget-password(POST)
+- /api/v1/auth/reset-password(PATCH)
+- /api/v1/auth/settings-profile(PATCH)
 
 ## User:
 
-- /api/v1/users/register(POST) -public
+## Category:
 
-## Room:
+## Comment:
 
-- /api/v1/posts(POST) -user
-- /api/v1/posts(GET) -public
-- /api/v1/posts/:id(GET) -user
-- /api/v1/posts/:id(PUT) -user
-- /api/v1/posts/:id(DELETE) -admin/user
+## Payment:
+
+## Post:
 
 ## Scripts
 

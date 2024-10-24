@@ -60,6 +60,23 @@ const loginFromDB = async (payload: ILogin) => {
     isVerified: user.isVerified,
   };
 
+  /*
+   username: string;
+  email: string;
+  password?: string;
+  passwordChangedAt?: Date;
+  profilePicture?: string;
+  followers: Types.ObjectId[];
+  followersCount: number;
+  followings: Types.ObjectId[];
+  followingsCount: number;
+  isVerified: boolean;
+  isDeleted: boolean;
+  role: 'USER' | 'ADMIN';
+  favourites: Types.ObjectId[];
+  __v?: number;
+  */
+
   const accessToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
