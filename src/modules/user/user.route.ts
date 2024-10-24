@@ -72,4 +72,9 @@ router.get(
   UserControllers.getUserStats,
 );
 
+// Delete User
+router.delete('/:id', auth(USER_ROLE.admin), UserControllers.deleteUser);
+// Get revenue
+router.get('/revenue', auth(USER_ROLE.admin), UserControllers.getRevenue);
+
 export const UserRoutes = router;

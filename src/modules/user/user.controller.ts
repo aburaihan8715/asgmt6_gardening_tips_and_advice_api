@@ -190,6 +190,30 @@ const getUserStats = catchAsync(async (req, res) => {
   });
 });
 
+// GET REVENUE
+const getRevenue = catchAsync(async (req, res) => {
+  const revenue = await UserServices.getRevenueFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Revenue fetched successfully!',
+    data: revenue,
+  });
+});
+
+// DELETE USER
+const deleteUser = catchAsync(async (req, res) => {
+  const deletedUser = await UserServices.deleteUserFromDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User deleted successfully!',
+    data: deletedUser,
+  });
+});
+
 export const UserControllers = {
   getAllUsers,
   getAllAdmins,
@@ -202,4 +226,6 @@ export const UserControllers = {
   getFavouritePosts,
   getAliasUsers,
   getUserStats,
+  getRevenue,
+  deleteUser,
 };

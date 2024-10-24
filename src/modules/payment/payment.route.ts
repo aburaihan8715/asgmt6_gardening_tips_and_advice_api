@@ -13,11 +13,21 @@ router.post(
   validateRequest(PaymentValidations.createPaymentIntentValidation),
   PaymentControllers.createPaymentIntent,
 );
+
 router.post(
   '/create-payment',
   auth(USER_ROLE.user),
   validateRequest(PaymentValidations.createPaymentValidation),
   PaymentControllers.createPayment,
+);
+
+router.get('/', auth(USER_ROLE.admin), PaymentControllers.getAllPayments);
+
+// Get payment stats
+router.get(
+  '/payment-stats',
+  auth(USER_ROLE.admin),
+  PaymentControllers.getPaymentStats,
 );
 
 export const PaymentRoutes = router;

@@ -5,6 +5,7 @@ type TMeta = {
   page: number;
   total: number;
   totalPage: number;
+  hasNextPage?: boolean;
 };
 
 type TResponse<T> = {

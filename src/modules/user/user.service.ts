@@ -3,6 +3,7 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { User } from './user.model';
 import { Post } from '../post/post.model';
+import config from '../../config';
 
 // GET ALL USERS
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
@@ -244,7 +245,7 @@ const getUserStatsFromDB = async () => {
     {
       $group: {
         _id: { $month: '$createdAt' },
-        numUsers: { $sum: 1 },
+        numberOfUsers: { $sum: 1 },
       },
     },
     {
@@ -260,6 +261,46 @@ const getUserStatsFromDB = async () => {
   return data;
 };
 
+// GET REVENUE DATA
+const getRevenueFromDB = async () => {
+  const feePerSubscription = Number(config.subscription_price);
+
+  const data = await User.aggregate([
+    {
+      $match: {
+        isVerified: true,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        numberOfUsers: { $sum: 1 },
+        totalRevenue: { $sum: feePerSubscription },
+      },
+    },
+    {
+      $project: { _id: 0, numberOfUsers: 1, totalRevenue: 1 },
+    },
+  ]);
+
+  return data;
+};
+
+// DELETE USER
+const deleteUserFromDB = async (id: string) => {
+  const result = await User.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  );
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+  }
+
+  return result;
+};
+
 export const UserServices = {
   getAllUsersFromDB,
   getAllAdminsFromDB,
@@ -271,4 +312,6 @@ export const UserServices = {
   checkPremiumStatusIntoDB,
   getFavouritePostsFromDB,
   getUserStatsFromDB,
+  getRevenueFromDB,
+  deleteUserFromDB,
 };

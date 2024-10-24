@@ -25,6 +25,26 @@ const createPostIntoDB = async (payload: IPost) => {
 };
 
 // GET ALL
+// const getAllPostsFromDB = async (query: Record<string, unknown>) => {
+//   const PostQuery = new QueryBuilder(
+//     Post.find().populate({ path: 'user' }),
+//     query,
+//   )
+//     .search(['title', 'description', 'category', 'content'])
+//     .filter()
+//     .sort()
+//     .paginate()
+//     .fields();
+
+//   const result = await PostQuery.modelQuery;
+//   const meta = await PostQuery.countTotal();
+
+//   return {
+//     meta,
+//     result,
+//   };
+// };
+
 const getAllPostsFromDB = async (query: Record<string, unknown>) => {
   const PostQuery = new QueryBuilder(
     Post.find().populate({ path: 'user' }),
@@ -36,9 +56,8 @@ const getAllPostsFromDB = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
 
-  const result = await PostQuery.modelQuery;
+  const result = await PostQuery.modelQuery.exec();
   const meta = await PostQuery.countTotal();
-
   return {
     meta,
     result,
@@ -323,7 +342,7 @@ const getPostStatsFromDB = async () => {
     {
       $group: {
         _id: { $month: '$createdAt' },
-        posts: { $sum: 1 },
+        numberOfPosts: { $sum: 1 },
       },
     },
     {

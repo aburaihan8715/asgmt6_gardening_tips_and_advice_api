@@ -36,8 +36,25 @@ const getAliasPosts = (
 };
 
 // GET ALL
+// const getAllPosts = catchAsync(async (req, res) => {
+//   const query = { ...req.query, isDeleted: { $ne: true } };
+//   const result = await PostServices.getAllPostsFromDB(query);
+
+//   if (!result || result?.result.length < 1)
+//     return sendNotFoundDataResponse(res);
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Posts retrieved successfully!',
+//     meta: result.meta,
+//     data: result.result,
+//   });
+// });
+
 const getAllPosts = catchAsync(async (req, res) => {
   const query = { ...req.query, isDeleted: { $ne: true } };
+
   const result = await PostServices.getAllPostsFromDB(query);
 
   if (!result || result?.result.length < 1)
@@ -47,7 +64,11 @@ const getAllPosts = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Posts retrieved successfully!',
-    meta: result.meta,
+    meta: {
+      ...result.meta,
+      // NOTE: this is need for tanstack query
+      hasNextPage: result.meta.page < result.meta.totalPage,
+    },
     data: result.result,
   });
 });
