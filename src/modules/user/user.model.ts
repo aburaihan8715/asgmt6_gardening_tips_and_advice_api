@@ -100,13 +100,19 @@ UserSchema.statics.getUserByEmail = async function (
 UserSchema.statics.getUserById = async function (
   id: string,
 ): Promise<IUser | null> {
-  return await this.findById(id);
+  return await this.findById(id).select('+password');
 };
 
 UserSchema.statics.isPasswordCorrect = async function (
   plainTextPassword: string,
   hashedPassword: string,
 ): Promise<boolean> {
+  if (!plainTextPassword || !hashedPassword) {
+    throw new Error(
+      'Both plain text password and hashed password are required for comparison.',
+    );
+  }
+
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 

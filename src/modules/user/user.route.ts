@@ -72,6 +72,9 @@ router.get(
   UserControllers.getUserStats,
 );
 
+// GET SINGLE USER
+router.get('/:id', UserControllers.getSingleUser);
+
 // Delete User
 router.delete('/:id', auth(USER_ROLE.admin), UserControllers.deleteUser);
 // Get revenue

@@ -55,6 +55,20 @@ const getMeFromDB = async (id: string) => {
   return result;
 };
 
+// GET SINGLE USER
+const getSingleUserFromDB = async (userId: string) => {
+  const result = await User.findById(userId);
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+  }
+
+  if (result && result.isDeleted) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'User has been deleted!');
+  }
+  return result;
+};
+
 // FOLLOW
 const followUserIntoDB = async (
   currentUserId: string,
@@ -314,4 +328,5 @@ export const UserServices = {
   getUserStatsFromDB,
   getRevenueFromDB,
   deleteUserFromDB,
+  getSingleUserFromDB,
 };

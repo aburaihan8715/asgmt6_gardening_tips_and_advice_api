@@ -28,6 +28,7 @@ const registerIntoDB = async (payload: IUser) => {
 // LOGIN
 const loginFromDB = async (payload: ILogin) => {
   // 01. checking if the user is exist
+
   let user = await User.getUserByEmail(payload.email);
 
   if (!user) {
@@ -45,6 +46,7 @@ const loginFromDB = async (payload: ILogin) => {
     payload?.password,
     user?.password as string,
   );
+
   if (!isPasswordCorrect) throw new AppError(400, 'Wrong credentials!');
 
   // 04. create accessToken and refreshToken
@@ -54,28 +56,14 @@ const loginFromDB = async (payload: ILogin) => {
     email: user.email,
     profilePicture: user.profilePicture,
     followers: user.followers,
+    followersCount: user.followersCount,
     followings: user.followings,
+    followingsCount: user.followersCount,
     role: user.role,
     favourites: user.favourites,
     isVerified: user.isVerified,
+    isDeleted: user.isDeleted,
   };
-
-  /*
-   username: string;
-  email: string;
-  password?: string;
-  passwordChangedAt?: Date;
-  profilePicture?: string;
-  followers: Types.ObjectId[];
-  followersCount: number;
-  followings: Types.ObjectId[];
-  followingsCount: number;
-  isVerified: boolean;
-  isDeleted: boolean;
-  role: 'USER' | 'ADMIN';
-  favourites: Types.ObjectId[];
-  __v?: number;
-  */
 
   const accessToken = createToken(
     jwtPayload,
@@ -196,10 +184,13 @@ const accessTokenByRefreshTokenFromServer = async (
     email: user.email,
     profilePicture: user.profilePicture,
     followers: user.followers,
+    followersCount: user.followersCount,
     followings: user.followings,
+    followingsCount: user.followersCount,
     role: user.role,
     favourites: user.favourites,
     isVerified: user.isVerified,
+    isDeleted: user.isDeleted,
   };
 
   const accessToken = createToken(
@@ -236,10 +227,13 @@ const forgetPasswordByEmail = async (email: string) => {
     email: user.email,
     profilePicture: user.profilePicture,
     followers: user.followers,
+    followersCount: user.followersCount,
     followings: user.followings,
+    followingsCount: user.followersCount,
     role: user.role,
     favourites: user.favourites,
     isVerified: user.isVerified,
+    isDeleted: user.isDeleted,
   };
 
   const passwordResetToken = createToken(
@@ -322,10 +316,13 @@ const settingsProfileIntoDB = async (
     email: user.email,
     profilePicture: user.profilePicture,
     followers: user.followers,
+    followersCount: user.followersCount,
     followings: user.followings,
+    followingsCount: user.followersCount,
     role: user.role,
     favourites: user.favourites,
     isVerified: user.isVerified,
+    isDeleted: user.isDeleted,
   };
 
   const accessToken = createToken(

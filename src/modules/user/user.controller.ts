@@ -66,6 +66,19 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 
+// GET ONE USER
+const getSingleUser = catchAsync(async (req, res) => {
+  const userId = req.params.id;
+  const user = await UserServices.getSingleUserFromDB(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully!',
+    data: user,
+  });
+});
+
 // FOLLOW USER
 const followUser = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
@@ -228,4 +241,5 @@ export const UserControllers = {
   getUserStats,
   getRevenue,
   deleteUser,
+  getSingleUser,
 };
