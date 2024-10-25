@@ -48,6 +48,21 @@ https://github.com/aburaihan8715/asgmt6_gardening_tips_and_advice_api
 
 ## User:
 
+- /api/v1/users/top-5-users(GET)
+- /api/v1/users(GET)
+- /api/v1/users/admins(GET)
+- /api/v1/users/me(GET)
+- /api/v1/users/:id/follow(PATCH)
+- /api/v1/users/:id/unfollow(PATCH)
+- /api/v1/users/:postId/add-favourites(PATCH)
+- /api/v1/users/:postId/:postId/remove-favourites(PATCH)
+- /api/v1/users/:postId/check-premium-status(GET)
+- /api/v1/users/:postId/favourite-posts(GET)
+- /api/v1/users/:postId/user-stats(GET)
+- /api/v1/users/:postId/:id(GET)
+- /api/v1/users/:postId/:id(DELETE)
+- /api/v1/users/:postId/revenue(GET)
+
 ## Category:
 
 ## Comment:

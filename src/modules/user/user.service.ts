@@ -4,6 +4,7 @@ import AppError from '../../errors/AppError';
 import { User } from './user.model';
 import { Post } from '../post/post.model';
 import config from '../../config';
+import { PostServices } from '../post/post.service';
 
 // GET ALL USERS
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
@@ -309,8 +310,11 @@ const deleteUserFromDB = async (id: string) => {
   );
 
   if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
   }
+
+  // Mark all posts by this user as deleted
+  await Post.updateMany({ user: id }, { isDeleted: true });
 
   return result;
 };

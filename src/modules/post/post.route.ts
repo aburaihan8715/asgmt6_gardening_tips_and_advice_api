@@ -67,9 +67,6 @@ router.get(
   PostControllers.getPostStats,
 );
 
-// GET ONE
-router.get('/:id', PostControllers.getPost);
-
 // DELETE ONE
 router.delete(
   '/:id',
@@ -80,7 +77,7 @@ router.delete(
 // MAKE PREMIUM
 router.patch(
   '/:id/make-premium',
-  auth(USER_ROLE.admin),
+  auth(USER_ROLE.user),
   PostControllers.makePremiumPost,
 );
 
@@ -118,5 +115,8 @@ router.get(
   auth(USER_ROLE.admin),
   PostControllers.getPostStats,
 );
+
+// GET ONE
+router.get('/:id', PostControllers.getPost);
 
 export const PostRoutes = router;

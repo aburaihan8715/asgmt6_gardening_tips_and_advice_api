@@ -13,7 +13,11 @@ router.patch(
 );
 
 // GET ONE
-router.get('/:id', auth(USER_ROLE.user), CommentControllers.getComment);
+router.get(
+  '/:id',
+  auth(USER_ROLE.user, USER_ROLE.admin),
+  CommentControllers.getComment,
+);
 
 // DELETE ONE
 router.delete(
