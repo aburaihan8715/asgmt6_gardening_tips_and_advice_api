@@ -1,12 +1,24 @@
 # Project : asgmt6_gardening_tips_and_advice_api
 
-## Live link server
+## Live link server:
 
 https://asgmt6-gardening-tips-and-advice-api.vercel.app
 
-## Github link server
+## Github link server:
 
 https://github.com/aburaihan8715/asgmt6_gardening_tips_and_advice_api
+
+## Live link client:
+
+https://asgmt6-gardening-tips-and-advice-client.vercel.app
+
+## Github link client:
+
+https://github.com/aburaihan8715/asgmt6_gardening_tips_and_advice_client
+
+## Overview video link:
+
+https://drive.google.com/file/d/15O-LW3DjDBaJ2u9oGfeR-CHuxuB-nMmR/view?usp=sharing
 
 ## Admin
 

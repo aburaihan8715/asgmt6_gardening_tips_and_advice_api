@@ -2,6 +2,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default {
+  // reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
+  reset_pass_ui_link:
+    process.env.NODE_ENV === 'production'
+      ? process.env.RESET_PASS_UI_LINK
+      : process.env.RESET_PASS_UI_LINK_LOCAL,
+
   NODE_ENV: process.env.NODE_ENV,
   port: process.env.PORT,
   database_url_atlas: process.env.DB_URL,
@@ -14,7 +20,6 @@ export default {
 
   jwt_password_reset_secret: process.env.JWT_PASSWORD_RESET_SECRET,
   jwt_password_reset_expires_in: process.env.JWT_PASSWORD_RESET_EXPIRES_IN,
-  reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
 
   cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
@@ -22,4 +27,7 @@ export default {
 
   stripe_secret_key: process.env.STRIPE_SECRET_KEY,
   subscription_price: process.env.SUBSCRIPTION_PRICE,
+
+  email_user: process.env.EMAIL_USER,
+  email_pass: process.env.EMAIL_PASS,
 };
