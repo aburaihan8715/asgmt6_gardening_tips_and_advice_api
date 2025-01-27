@@ -50,19 +50,25 @@ const loginFromDB = async (payload: ILogin) => {
   if (!isPasswordCorrect) throw new AppError(400, 'Wrong credentials!');
 
   // 04. create accessToken and refreshToken
+  // const jwtPayload = {
+  //   _id: user._id,
+  //   username: user.username,
+  //   email: user.email,
+  //   profilePicture: user.profilePicture,
+  //   followers: user.followers,
+  //   followersCount: user.followersCount,
+  //   followings: user.followings,
+  //   followingsCount: user.followersCount,
+  //   role: user.role,
+  //   favourites: user.favourites,
+  //   isVerified: user.isVerified,
+  //   isDeleted: user.isDeleted,
+  // };
+
   const jwtPayload = {
     _id: user._id,
-    username: user.username,
     email: user.email,
-    profilePicture: user.profilePicture,
-    followers: user.followers,
-    followersCount: user.followersCount,
-    followings: user.followings,
-    followingsCount: user.followersCount,
     role: user.role,
-    favourites: user.favourites,
-    isVerified: user.isVerified,
-    isDeleted: user.isDeleted,
   };
 
   const accessToken = createToken(
@@ -178,19 +184,25 @@ const accessTokenByRefreshTokenFromServer = async (
   }
 
   // 05 create access token
+  // const jwtPayload = {
+  //   _id: user._id,
+  //   username: user.username,
+  //   email: user.email,
+  //   profilePicture: user.profilePicture,
+  //   followers: user.followers,
+  //   followersCount: user.followersCount,
+  //   followings: user.followings,
+  //   followingsCount: user.followersCount,
+  //   role: user.role,
+  //   favourites: user.favourites,
+  //   isVerified: user.isVerified,
+  //   isDeleted: user.isDeleted,
+  // };
+
   const jwtPayload = {
     _id: user._id,
-    username: user.username,
     email: user.email,
-    profilePicture: user.profilePicture,
-    followers: user.followers,
-    followersCount: user.followersCount,
-    followings: user.followings,
-    followingsCount: user.followersCount,
     role: user.role,
-    favourites: user.favourites,
-    isVerified: user.isVerified,
-    isDeleted: user.isDeleted,
   };
 
   const accessToken = createToken(
@@ -221,19 +233,25 @@ const forgetPasswordByEmail = async (email: string) => {
   }
 
   // 03 create password reset token
+  // const jwtPayload = {
+  //   _id: user._id,
+  //   username: user.username,
+  //   email: user.email,
+  //   profilePicture: user.profilePicture,
+  //   followers: user.followers,
+  //   followersCount: user.followersCount,
+  //   followings: user.followings,
+  //   followingsCount: user.followersCount,
+  //   role: user.role,
+  //   favourites: user.favourites,
+  //   isVerified: user.isVerified,
+  //   isDeleted: user.isDeleted,
+  // };
+
   const jwtPayload = {
     _id: user._id,
-    username: user.username,
     email: user.email,
-    profilePicture: user.profilePicture,
-    followers: user.followers,
-    followersCount: user.followersCount,
-    followings: user.followings,
-    followingsCount: user.followersCount,
     role: user.role,
-    favourites: user.favourites,
-    isVerified: user.isVerified,
-    isDeleted: user.isDeleted,
   };
 
   const passwordResetToken = createToken(
@@ -310,21 +328,26 @@ const settingsProfileIntoDB = async (
   })) as IUser;
 
   // 03 create accessToken and refreshToken
+  // const jwtPayload = {
+  //   _id: user._id,
+  //   username: user.username,
+  //   email: user.email,
+  //   profilePicture: user.profilePicture,
+  //   followers: user.followers,
+  //   followersCount: user.followersCount,
+  //   followings: user.followings,
+  //   followingsCount: user.followersCount,
+  //   role: user.role,
+  //   favourites: user.favourites,
+  //   isVerified: user.isVerified,
+  //   isDeleted: user.isDeleted,
+  // };
+
   const jwtPayload = {
     _id: user._id,
-    username: user.username,
     email: user.email,
-    profilePicture: user.profilePicture,
-    followers: user.followers,
-    followersCount: user.followersCount,
-    followings: user.followings,
-    followingsCount: user.followersCount,
     role: user.role,
-    favourites: user.favourites,
-    isVerified: user.isVerified,
-    isDeleted: user.isDeleted,
   };
-
   const accessToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,

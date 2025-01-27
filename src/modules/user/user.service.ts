@@ -4,7 +4,6 @@ import AppError from '../../errors/AppError';
 import { User } from './user.model';
 import { Post } from '../post/post.model';
 import config from '../../config';
-import { PostServices } from '../post/post.service';
 
 // GET ALL USERS
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
@@ -43,6 +42,7 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
 };
 
 // GET ONE USER
+// NOTE: in get me should not use id
 const getMeFromDB = async (id: string) => {
   const result = await User.findById(id);
 
