@@ -5,7 +5,6 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import { IPost } from './post.interface';
 import { Post } from './post.model';
 import { User } from '../user/user.model';
-import { Comment } from '../comment/comment.model';
 import mongoose from 'mongoose';
 
 // CREATE
@@ -263,47 +262,6 @@ const downvoteIntoDB = async (postId: string, userId: string) => {
   }
 };
 
-// ADD COMMENT OF A POST
-const addCommentToPost = async (
-  postId: string,
-  userId: string,
-  content: string,
-) => {
-  const newComment = await Comment.create({
-    post: postId,
-    user: userId,
-    content,
-  });
-
-  await Post.findByIdAndUpdate(postId, {
-    $push: { comments: newComment._id },
-    $inc: { numberOfComments: 1 },
-  });
-
-  return newComment;
-};
-
-// GET COMMENT OF A POST
-const getCommentsForPost = async (query: Record<string, unknown>) => {
-  const CommentQuery = new QueryBuilder(
-    Comment.find().populate('post').populate('user'),
-    query,
-  )
-    .search([])
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
-
-  const result = await CommentQuery.modelQuery;
-  const meta = await CommentQuery.countTotal();
-
-  return {
-    meta,
-    result,
-  };
-};
-
 // GET USER STATS
 const getPostStatsFromDB = async () => {
   const date = new Date();
@@ -348,7 +306,5 @@ export const PostServices = {
   getMyPostsFromDB,
   downvoteIntoDB,
   upvoteIntoDB,
-  addCommentToPost,
-  getCommentsForPost,
   getPostStatsFromDB,
 };

@@ -3,32 +3,51 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { CommentServices } from './comment.service';
 
-// GET ONE
-const getComment = catchAsync(async (req, res) => {
-  const Comment = await CommentServices.getCommentFromDB(req.params.id);
+const createComment = catchAsync(async (req, res) => {
+  if (!req.body.post) req.body.post = req.params.postId;
+  if (!req.body.user) req.body.user = req.user._id;
+
+  const comment = await CommentServices.createCommentIntoDB(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Comment created successfully!',
+    data: comment,
+  });
+});
+
+const getAllComments = catchAsync(async (req, res) => {
+  let filter = {};
+  if (req.params.postId) filter = { post: req.params.postId };
+  const comments = await CommentServices.getAllCommentsFromDB(filter);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Comment retrieved successfully!',
+    data: comments,
+  });
+});
+
+const getSingleComment = catchAsync(async (req, res) => {
+  const comment = await CommentServices.getSingleCommentFromDB(
+    req.params.id,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Comment retrieved successfully!',
-    data: Comment,
+    data: comment,
   });
 });
 
-// UPDATE ONE
 const updateComment = catchAsync(async (req, res) => {
-  const userId = req.user._id;
-  const commentId = req.params.id;
-  const payload = { ...req.body };
-
-  console.log('useId: ', userId);
-  console.log('commentId: ', commentId);
-  console.log('commentId: ', payload);
-
   const updatedComment = await CommentServices.updateCommentIntoDB(
-    userId,
-    commentId,
-    payload,
+    req.user._id,
+    req.params.id,
+    req.body,
   );
 
   sendResponse(res, {
@@ -39,14 +58,10 @@ const updateComment = catchAsync(async (req, res) => {
   });
 });
 
-// DELETE ONE
 const deleteComment = catchAsync(async (req, res) => {
-  const userId = req.user._id;
-  const commentId = req.params.id;
-
   const deletedComment = await CommentServices.deleteCommentFromDB(
-    userId,
-    commentId,
+    req.user._id,
+    req.params.id,
   );
 
   sendResponse(res, {
@@ -58,7 +73,9 @@ const deleteComment = catchAsync(async (req, res) => {
 });
 
 export const CommentControllers = {
-  getComment,
+  getSingleComment,
   updateComment,
   deleteComment,
+  createComment,
+  getAllComments,
 };

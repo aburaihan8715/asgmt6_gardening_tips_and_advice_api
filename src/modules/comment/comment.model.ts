@@ -13,7 +13,7 @@ const CommentSchema: Schema<IComment> = new Schema(
       ref: 'User',
       required: true,
     },
-    content: {
+    comment: {
       type: String,
       required: true,
     },
@@ -25,4 +25,14 @@ const CommentSchema: Schema<IComment> = new Schema(
   { timestamps: true },
 );
 
+// Query middleware
+// CommentSchema.pre(/^find/, function (next) {
+//   const query = this as Query<any, any>;
+//   query.populate({
+//     path: 'post',
+//     select: 'title',
+//   });
+
+//   next();
+// });
 export const Comment = model<IComment>('Comment', CommentSchema);

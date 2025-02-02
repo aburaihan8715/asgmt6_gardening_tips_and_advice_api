@@ -6,8 +6,11 @@ import { multerUpload } from '../../config/multer.config';
 import validateRequest from '../../middlewares/validateRequest';
 import { PostValidations } from './post.validation';
 import AppError from '../../errors/AppError';
+import { CommentRoutes } from '../comment/comment.route';
 
 const router = express.Router();
+// NOTE: This is for merge params
+router.use('/:postId/comments', CommentRoutes);
 
 // CREATE
 router.post(
@@ -93,20 +96,6 @@ router.patch(
   '/:id/downvote',
   auth(USER_ROLE.admin, USER_ROLE.user),
   PostControllers.downvote,
-);
-
-// Create comment
-router.post(
-  '/:id/comments',
-  auth(USER_ROLE.admin, USER_ROLE.user),
-  PostControllers.addComment,
-);
-
-// Get comments of a post
-router.get(
-  '/:id/comments',
-  auth(USER_ROLE.admin, USER_ROLE.user),
-  PostControllers.getComments,
 );
 
 // Get post stats

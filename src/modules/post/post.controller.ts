@@ -157,43 +157,6 @@ const downvote = catchAsync(async (req, res) => {
   });
 });
 
-// ADD COMMENT
-const addComment = catchAsync(async (req, res) => {
-  const postId = req.params.id;
-  const userId = req.user._id;
-  const { content } = req.body;
-
-  const comment = await PostServices.addCommentToPost(
-    postId,
-    userId,
-    content,
-  );
-
-  sendResponse(res, {
-    statusCode: httpStatus.CREATED,
-    success: true,
-    message: 'Comment added successfully!',
-    data: comment,
-  });
-});
-
-// GET COMMENTS
-const getComments = catchAsync(async (req, res) => {
-  const postId = req.params.id;
-  const query = { ...req.query, isDeleted: { $ne: true }, post: postId };
-  const result = await PostServices.getCommentsForPost(query);
-
-  if (!result || result?.result.length < 1)
-    return sendNotFoundDataResponse(res);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Comments retrieved successfully!',
-    data: result,
-  });
-});
-
 // GET POST STATS
 const getPostStats = catchAsync(async (req, res) => {
   const result = await PostServices.getPostStatsFromDB();
@@ -215,8 +178,6 @@ export const PostControllers = {
   deletePost,
   makePremiumPost,
   getMyPosts,
-  addComment,
-  getComments,
   upvote,
   downvote,
   getPostStats,
