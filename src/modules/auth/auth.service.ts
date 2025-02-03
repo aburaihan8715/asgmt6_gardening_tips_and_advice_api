@@ -67,6 +67,7 @@ const loginFromDB = async (payload: ILogin) => {
 
   const jwtPayload = {
     _id: user._id,
+    username: user.username,
     email: user.email,
     role: user.role,
   };
@@ -201,6 +202,7 @@ const accessTokenByRefreshTokenFromServer = async (
 
   const jwtPayload = {
     _id: user._id,
+    username: user.username,
     email: user.email,
     role: user.role,
   };
@@ -250,6 +252,7 @@ const forgetPasswordByEmail = async (email: string) => {
 
   const jwtPayload = {
     _id: user._id,
+    username: user.username,
     email: user.email,
     role: user.role,
   };
@@ -345,6 +348,7 @@ const settingsProfileIntoDB = async (
 
   const jwtPayload = {
     _id: user._id,
+    username: user.username,
     email: user.email,
     role: user.role,
   };

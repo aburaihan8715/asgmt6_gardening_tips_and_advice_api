@@ -19,7 +19,9 @@ interface ICommentParams {
   post?: string;
 }
 const getAllCommentsFromDB = async (filter: ICommentParams) => {
-  const result = await Comment.find(filter);
+  const result = await Comment.find(filter)
+    .populate({ path: 'user' })
+    .populate({ path: 'post' });
 
   return result;
 };
