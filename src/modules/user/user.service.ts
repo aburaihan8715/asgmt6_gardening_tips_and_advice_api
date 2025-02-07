@@ -5,7 +5,6 @@ import { User } from './user.model';
 import { Post } from '../post/post.model';
 import config from '../../config';
 
-// GET ALL USERS
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const UserQuery = new QueryBuilder(User.find(), query)
     .search(['username', 'email'])
@@ -23,7 +22,6 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-// GET ALL ADMINS
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
   const AdminQuery = new QueryBuilder(User.find(), query)
     .search(['username', 'email'])
@@ -41,7 +39,6 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-// GET ONE USER
 // NOTE: in get me should not use id
 const getMeFromDB = async (id: string) => {
   const result = await User.findById(id);
@@ -56,7 +53,6 @@ const getMeFromDB = async (id: string) => {
   return result;
 };
 
-// GET SINGLE USER
 const getSingleUserFromDB = async (userId: string) => {
   const result = await User.findById(userId);
 
@@ -70,7 +66,6 @@ const getSingleUserFromDB = async (userId: string) => {
   return result;
 };
 
-// FOLLOW
 const followUserIntoDB = async (
   currentUserId: string,
   postUserId: string,
@@ -88,9 +83,6 @@ const followUserIntoDB = async (
 
   const currentUser = await User.getUserById(currentUserId);
   const postUser = await User.getUserById(postUserId);
-
-  // console.log('current user🔥', currentUser);
-  // console.log('postUser user🔥', postUser);
 
   if (!currentUser || !postUser) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
@@ -115,7 +107,6 @@ const followUserIntoDB = async (
   return null;
 };
 
-// UN FOLLOW
 const unfollowUserIntoDB = async (
   currentUserId: string,
   postUserId: string,
@@ -158,7 +149,6 @@ const unfollowUserIntoDB = async (
   return null;
 };
 
-// ADD FAVORITE
 const addFavouriteIntoDB = async (
   currentUserId: string,
   postId: string,
@@ -184,7 +174,6 @@ const addFavouriteIntoDB = async (
   return null;
 };
 
-// REMOVE FAVORITE
 const removeFavouriteIntoDB = async (
   currentUserId: string,
   postId: string,
@@ -207,8 +196,7 @@ const removeFavouriteIntoDB = async (
   return null;
 };
 
-// CHECK PREMIUM
-const checkPremiumStatusIntoDB = async (userId: string) => {
+const checkHasUpvoteForPostIntoDB = async (userId: string) => {
   const user = await User.getUserById(userId);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
@@ -221,12 +209,9 @@ const checkPremiumStatusIntoDB = async (userId: string) => {
     // isVerified: false,
   });
 
-  console.log('hasUpvotedPosts', hasUpvotedPosts);
-
   return !!hasUpvotedPosts;
 };
 
-// GET FAVOURITE POSTS
 const getFavouritePostsFromDB = async (userId: string) => {
   const user = await User.getUserById(userId);
 
@@ -242,7 +227,6 @@ const getFavouritePostsFromDB = async (userId: string) => {
   return favouritePosts;
 };
 
-// GET USER STATS
 const getUserStatsFromDB = async () => {
   const date = new Date();
   const currentYear = date.getFullYear();
@@ -276,7 +260,6 @@ const getUserStatsFromDB = async () => {
   return data;
 };
 
-// GET REVENUE DATA
 const getRevenueFromDB = async () => {
   const feePerSubscription = Number(config.subscription_price);
 
@@ -301,7 +284,6 @@ const getRevenueFromDB = async () => {
   return data;
 };
 
-// DELETE USER
 const deleteUserFromDB = async (id: string) => {
   const result = await User.findByIdAndUpdate(
     id,
@@ -327,7 +309,7 @@ export const UserServices = {
   addFavouriteIntoDB,
   removeFavouriteIntoDB,
   getMeFromDB,
-  checkPremiumStatusIntoDB,
+  checkHasUpvoteForPostIntoDB,
   getFavouritePostsFromDB,
   getUserStatsFromDB,
   getRevenueFromDB,

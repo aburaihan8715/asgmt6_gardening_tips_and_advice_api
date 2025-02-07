@@ -51,11 +51,11 @@ router.patch(
   UserControllers.removeFavourite,
 );
 
-// Check premium status
+// Check has upvote for post
 router.get(
-  '/check-premium-status',
+  '/check-has-upvote-for-post',
   auth(USER_ROLE.admin, USER_ROLE.user),
-  UserControllers.checkPremiumStatus,
+  UserControllers.checkHasUpvoteForPost,
 );
 
 // Get favourite posts

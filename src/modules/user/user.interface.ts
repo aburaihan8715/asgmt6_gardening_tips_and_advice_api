@@ -14,7 +14,7 @@ export interface IUser extends Document {
   followingsCount: number;
   isVerified: boolean;
   isDeleted: boolean;
-  role: 'USER' | 'ADMIN';
+  role: 'user' | 'admin';
   favourites: Types.ObjectId[];
   __v?: number;
 }

@@ -62,7 +62,7 @@ const accessTokenByRefreshToken = catchAsync(async (req, res) => {
 const forgetPassword = catchAsync(async (req, res) => {
   const email = req.body.email;
 
-  console.log("email",email);
+  console.log('email', email);
   const result = await AuthServices.forgetPasswordByEmail(email);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -86,26 +86,17 @@ const resetPassword = catchAsync(async (req, res) => {
 });
 
 const settingsProfile = catchAsync(async (req, res) => {
-  // console.log(JSON.parse(req.body.data));
-  // console.log(req.file);
   const id = req.user._id;
-  const userInfo = await AuthServices.settingsProfileIntoDB(id, {
+  const user = await AuthServices.settingsProfileIntoDB(id, {
     ...JSON.parse(req.body.data),
     profilePicture: req.file?.path,
-  });
-
-  const { refreshToken, accessToken, user } = userInfo;
-
-  res.cookie('refreshToken', refreshToken, {
-    secure: config.NODE_ENV === 'production',
-    httpOnly: true,
   });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Settings updated successfully',
-    data: { accessToken, refreshToken, user },
+    data: user,
   });
 });
 

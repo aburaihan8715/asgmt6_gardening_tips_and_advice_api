@@ -8,7 +8,6 @@ import config from '../../config';
 import bcrypt from 'bcrypt';
 import { sendEmail } from '../../utils/sendEmail';
 
-// REGISTER
 const registerIntoDB = async (payload: IUser) => {
   let newUser = await User.create(payload);
 
@@ -25,7 +24,6 @@ const registerIntoDB = async (payload: IUser) => {
   return newUser;
 };
 
-// LOGIN
 const loginFromDB = async (payload: ILogin) => {
   // 01. checking if the user is exist
 
@@ -49,25 +47,8 @@ const loginFromDB = async (payload: ILogin) => {
 
   if (!isPasswordCorrect) throw new AppError(400, 'Wrong credentials!');
 
-  // 04. create accessToken and refreshToken
-  // const jwtPayload = {
-  //   _id: user._id,
-  //   username: user.username,
-  //   email: user.email,
-  //   profilePicture: user.profilePicture,
-  //   followers: user.followers,
-  //   followersCount: user.followersCount,
-  //   followings: user.followings,
-  //   followingsCount: user.followersCount,
-  //   role: user.role,
-  //   favourites: user.favourites,
-  //   isVerified: user.isVerified,
-  //   isDeleted: user.isDeleted,
-  // };
-
   const jwtPayload = {
     _id: user._id,
-    username: user.username,
     email: user.email,
     role: user.role,
   };
@@ -97,7 +78,6 @@ const loginFromDB = async (payload: ILogin) => {
   };
 };
 
-// CHANGE PASSWORD
 const changePasswordIntoDB = async (
   id: string,
   payload: { currentPassword: string; newPassword: string },
@@ -142,7 +122,6 @@ const changePasswordIntoDB = async (
   return null;
 };
 
-// GET ACCESS TOKEN BY REFRESH TOKEN
 const accessTokenByRefreshTokenFromServer = async (
   refreshToken: string,
 ) => {
@@ -184,25 +163,8 @@ const accessTokenByRefreshTokenFromServer = async (
     );
   }
 
-  // 05 create access token
-  // const jwtPayload = {
-  //   _id: user._id,
-  //   username: user.username,
-  //   email: user.email,
-  //   profilePicture: user.profilePicture,
-  //   followers: user.followers,
-  //   followersCount: user.followersCount,
-  //   followings: user.followings,
-  //   followingsCount: user.followersCount,
-  //   role: user.role,
-  //   favourites: user.favourites,
-  //   isVerified: user.isVerified,
-  //   isDeleted: user.isDeleted,
-  // };
-
   const jwtPayload = {
     _id: user._id,
-    username: user.username,
     email: user.email,
     role: user.role,
   };
@@ -219,7 +181,6 @@ const accessTokenByRefreshTokenFromServer = async (
   };
 };
 
-// FORGET PASSWORD
 const forgetPasswordByEmail = async (email: string) => {
   // 01 check user exists
   const user = await User.getUserByEmail(email);
@@ -234,25 +195,8 @@ const forgetPasswordByEmail = async (email: string) => {
     throw new AppError(httpStatus.FORBIDDEN, 'User already deleted !');
   }
 
-  // 03 create password reset token
-  // const jwtPayload = {
-  //   _id: user._id,
-  //   username: user.username,
-  //   email: user.email,
-  //   profilePicture: user.profilePicture,
-  //   followers: user.followers,
-  //   followersCount: user.followersCount,
-  //   followings: user.followings,
-  //   followingsCount: user.followersCount,
-  //   role: user.role,
-  //   favourites: user.favourites,
-  //   isVerified: user.isVerified,
-  //   isDeleted: user.isDeleted,
-  // };
-
   const jwtPayload = {
     _id: user._id,
-    username: user.username,
     email: user.email,
     role: user.role,
   };
@@ -269,7 +213,6 @@ const forgetPasswordByEmail = async (email: string) => {
   return null;
 };
 
-// RESET PASSWORD
 const resetPasswordIntoDB = async (
   payload: { id: string; newPassword: string },
   passwordResetToken: string,
@@ -313,7 +256,6 @@ const resetPasswordIntoDB = async (
   return null;
 };
 
-// SETTINGS PROFILE
 const settingsProfileIntoDB = async (
   id: string,
   payload: Partial<IUser>,
@@ -330,51 +272,13 @@ const settingsProfileIntoDB = async (
     new: true,
   })) as IUser;
 
-  // 03 create accessToken and refreshToken
-  // const jwtPayload = {
-  //   _id: user._id,
-  //   username: user.username,
-  //   email: user.email,
-  //   profilePicture: user.profilePicture,
-  //   followers: user.followers,
-  //   followersCount: user.followersCount,
-  //   followings: user.followings,
-  //   followingsCount: user.followersCount,
-  //   role: user.role,
-  //   favourites: user.favourites,
-  //   isVerified: user.isVerified,
-  //   isDeleted: user.isDeleted,
-  // };
-
-  const jwtPayload = {
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    role: user.role,
-  };
-  const accessToken = createToken(
-    jwtPayload,
-    config.jwt_access_secret as string,
-    config.jwt_access_expires_in as string,
-  );
-
-  const refreshToken = createToken(
-    jwtPayload,
-    config.jwt_refresh_secret as string,
-    config.jwt_refresh_expires_in as string,
-  );
-
   // 04 delete password form the user
   user = user.toObject();
   delete user.password;
   delete user.__v;
 
   // 05 return tokens and user to the controller
-  return {
-    accessToken,
-    refreshToken,
-    user,
-  };
+  return user;
 };
 
 export const AuthServices = {

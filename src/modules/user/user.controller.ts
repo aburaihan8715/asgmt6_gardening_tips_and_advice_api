@@ -6,7 +6,6 @@ import { UserServices } from './user.service';
 import AppError from '../../errors/AppError';
 import { NextFunction, Request, Response } from 'express';
 
-// GET TOP 5 USERS
 const getAliasUsers = (
   req: Request,
   res: Response,
@@ -19,7 +18,6 @@ const getAliasUsers = (
   next();
 };
 
-// GET ALL USERS
 const getAllUsers = catchAsync(async (req, res) => {
   const query = { ...req.query, isDeleted: { $ne: true } };
   const result = await UserServices.getAllUsersFromDB(query);
@@ -36,7 +34,6 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
-// GET ALL ADMINS
 const getAllAdmins = catchAsync(async (req, res) => {
   const query = { ...req.query, isDeleted: { $ne: true }, role: 'ADMIN' };
   const result = await UserServices.getAllUsersFromDB(query);
@@ -53,7 +50,6 @@ const getAllAdmins = catchAsync(async (req, res) => {
   });
 });
 
-// GET ONE USER
 const getMe = catchAsync(async (req, res) => {
   const id = req.user._id;
   const user = await UserServices.getMeFromDB(id);
@@ -66,7 +62,6 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 
-// GET ONE USER
 const getSingleUser = catchAsync(async (req, res) => {
   const userId = req.params.id;
   const user = await UserServices.getSingleUserFromDB(userId);
@@ -79,7 +74,6 @@ const getSingleUser = catchAsync(async (req, res) => {
   });
 });
 
-// FOLLOW USER
 const followUser = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
   const postUserId = req.params.id;
@@ -97,7 +91,6 @@ const followUser = catchAsync(async (req, res) => {
   });
 });
 
-// UN FOLLOW USER
 const unfollowUser = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
   const postUserId = req.params.id;
@@ -114,7 +107,6 @@ const unfollowUser = catchAsync(async (req, res) => {
   });
 });
 
-// ADD FAVORITE
 const addFavourite = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
   const postId = req.params.postId;
@@ -132,7 +124,6 @@ const addFavourite = catchAsync(async (req, res) => {
   });
 });
 
-// REMOVE FAVORITE
 const removeFavourite = catchAsync(async (req, res) => {
   const currentUserId = req.user._id;
   const postId = req.params.postId;
@@ -150,15 +141,14 @@ const removeFavourite = catchAsync(async (req, res) => {
   });
 });
 
-// CHECK PREMIUM STATUS
-const checkPremiumStatus = catchAsync(async (req, res) => {
+const checkHasUpvoteForPost = catchAsync(async (req, res) => {
   const userId = req?.user?._id;
 
   if (!userId) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'User not authenticated');
   }
 
-  const result = await UserServices.checkPremiumStatusIntoDB(userId);
+  const result = await UserServices.checkHasUpvoteForPostIntoDB(userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -168,7 +158,6 @@ const checkPremiumStatus = catchAsync(async (req, res) => {
   });
 });
 
-// GET FAVOURITE POSTS
 const getFavouritePosts = catchAsync(async (req, res) => {
   // Step 1: Retrieve the authenticated user's ID
   const userId = req?.user?._id;
@@ -191,7 +180,6 @@ const getFavouritePosts = catchAsync(async (req, res) => {
   });
 });
 
-// GET USER STATS
 const getUserStats = catchAsync(async (req, res) => {
   const userStats = await UserServices.getUserStatsFromDB();
 
@@ -203,7 +191,6 @@ const getUserStats = catchAsync(async (req, res) => {
   });
 });
 
-// GET REVENUE
 const getRevenue = catchAsync(async (req, res) => {
   const revenue = await UserServices.getRevenueFromDB();
 
@@ -215,7 +202,6 @@ const getRevenue = catchAsync(async (req, res) => {
   });
 });
 
-// DELETE USER
 const deleteUser = catchAsync(async (req, res) => {
   const deletedUser = await UserServices.deleteUserFromDB(req.params.id);
 
@@ -235,7 +221,7 @@ export const UserControllers = {
   addFavourite,
   removeFavourite,
   getMe,
-  checkPremiumStatus,
+  checkHasUpvoteForPost,
   getFavouritePosts,
   getAliasUsers,
   getUserStats,
