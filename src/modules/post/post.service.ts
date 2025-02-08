@@ -7,7 +7,6 @@ import { Post } from './post.model';
 import { User } from '../user/user.model';
 import mongoose from 'mongoose';
 
-// CREATE
 const createPostIntoDB = async (payload: IPost) => {
   let newPost = await Post.create(payload);
 
@@ -23,7 +22,6 @@ const createPostIntoDB = async (payload: IPost) => {
   return newPost;
 };
 
-// GET ALL
 const getAllPostsFromDB = async (query: Record<string, unknown>) => {
   const PostQuery = new QueryBuilder(
     Post.find().populate({ path: 'user' }),
@@ -43,7 +41,6 @@ const getAllPostsFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-// GET ONE
 const getPostFromDB = async (id: string) => {
   const result = await Post.findById(id).populate({ path: 'user' });
 
@@ -57,7 +54,6 @@ const getPostFromDB = async (id: string) => {
   return result;
 };
 
-// UPDATE ONE
 const updatePostIntoDB = async (id: string, payload: Partial<IPost>) => {
   const result = await Post.findByIdAndUpdate(
     id,
@@ -75,7 +71,6 @@ const updatePostIntoDB = async (id: string, payload: Partial<IPost>) => {
   return result;
 };
 
-// DELETE ONE
 const deletePostFromDB = async (id: string) => {
   const result = await Post.findByIdAndUpdate(
     id,
@@ -90,7 +85,6 @@ const deletePostFromDB = async (id: string) => {
   return result;
 };
 
-// MAKE POST PREMIUM
 const makePremiumPostIntoDB = async (postId: string) => {
   const result = await Post.findByIdAndUpdate(
     postId,
@@ -105,7 +99,6 @@ const makePremiumPostIntoDB = async (postId: string) => {
   return result;
 };
 
-// GET MY POSTS
 const getMyPostsFromDB = async (query: Record<string, unknown>) => {
   const PostQuery = new QueryBuilder(Post.find(), query)
     .search(['title', 'description', 'category', 'content'])
@@ -123,7 +116,6 @@ const getMyPostsFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-// UPVOTE
 const upvoteIntoDB = async (postId: string, userId: string) => {
   if (!postId || !userId) {
     throw new AppError(
@@ -191,7 +183,6 @@ const upvoteIntoDB = async (postId: string, userId: string) => {
   }
 };
 
-// DOWNVOTE POST
 const downvoteIntoDB = async (postId: string, userId: string) => {
   if (!postId || !userId) {
     throw new AppError(
@@ -262,7 +253,6 @@ const downvoteIntoDB = async (postId: string, userId: string) => {
   }
 };
 
-// GET USER STATS
 const getPostStatsFromDB = async () => {
   const date = new Date();
   const currentYear = date.getFullYear();

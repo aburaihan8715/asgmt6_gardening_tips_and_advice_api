@@ -6,7 +6,6 @@ import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { PostServices } from './post.service';
 import { NextFunction, Request, Response } from 'express';
 
-// CREATE
 const createPost = catchAsync(async (req, res) => {
   const userId = req.user._id;
   const newPost = await PostServices.createPostIntoDB({
@@ -23,7 +22,6 @@ const createPost = catchAsync(async (req, res) => {
   });
 });
 
-// GET TOP 5 POSTS
 const getAliasPosts = (
   req: Request,
   res: Response,
@@ -35,7 +33,6 @@ const getAliasPosts = (
   next();
 };
 
-// GET ALL POSTS
 const getAllPosts = catchAsync(async (req, res) => {
   const query = { ...req.query, isDeleted: { $ne: true } };
 
@@ -57,7 +54,6 @@ const getAllPosts = catchAsync(async (req, res) => {
   });
 });
 
-// GET ONE
 const getPost = catchAsync(async (req, res) => {
   const Post = await PostServices.getPostFromDB(req.params.id);
 
@@ -69,7 +65,6 @@ const getPost = catchAsync(async (req, res) => {
   });
 });
 
-// UPDATE ONE
 const updatePost = catchAsync(async (req, res) => {
   const updatedPost = await PostServices.updatePostIntoDB(req.params.id, {
     ...req.body,
@@ -84,7 +79,6 @@ const updatePost = catchAsync(async (req, res) => {
   });
 });
 
-// DELETE ONE
 const deletePost = catchAsync(async (req, res) => {
   const deletedPost = await PostServices.deletePostFromDB(req.params.id);
 
@@ -96,7 +90,6 @@ const deletePost = catchAsync(async (req, res) => {
   });
 });
 
-// MAKE PREMIUM
 const makePremiumPost = catchAsync(async (req, res) => {
   const postId = req.params.id;
   const premiumPost = await PostServices.makePremiumPostIntoDB(postId);
@@ -109,7 +102,6 @@ const makePremiumPost = catchAsync(async (req, res) => {
   });
 });
 
-// GET ALL
 const getMyPosts = catchAsync(async (req, res) => {
   const userId = req.user._id;
   const query = { ...req.query, isDeleted: { $ne: true }, user: userId };
@@ -127,7 +119,6 @@ const getMyPosts = catchAsync(async (req, res) => {
   });
 });
 
-// UPVOTE
 const upvote = catchAsync(async (req, res) => {
   const userId = req.user._id;
   const postId = req.params.id;
@@ -142,7 +133,6 @@ const upvote = catchAsync(async (req, res) => {
   });
 });
 
-// DOWNVOTE
 const downvote = catchAsync(async (req, res) => {
   const userId = req.user._id;
   const postId = req.params.id;
@@ -157,7 +147,6 @@ const downvote = catchAsync(async (req, res) => {
   });
 });
 
-// GET POST STATS
 const getPostStats = catchAsync(async (req, res) => {
   const result = await PostServices.getPostStatsFromDB();
 

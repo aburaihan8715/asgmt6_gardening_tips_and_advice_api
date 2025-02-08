@@ -1,3 +1,6 @@
 
 // problems
 1. reset password is not working on production
+
+// pending
+1. make ERD

@@ -62,13 +62,12 @@ https://drive.google.com/file/d/15O-LW3DjDBaJ2u9oGfeR-CHuxuB-nMmR/view?usp=shari
 
 - /api/v1/users/top-5-users(GET)
 - /api/v1/users(GET)
-- /api/v1/users/admins(GET)
 - /api/v1/users/me(GET)
 - /api/v1/users/:id/follow(PATCH)
 - /api/v1/users/:id/unfollow(PATCH)
 - /api/v1/users/:postId/add-favourites(PATCH)
 - /api/v1/users/:postId/:postId/remove-favourites(PATCH)
-- /api/v1/users/:postId/check-premium-status(GET)
+- /api/v1/users/check-has-upvote-for-post(GET)
 - /api/v1/users/:postId/favourite-posts(GET)
 - /api/v1/users/:postId/user-stats(GET)
 - /api/v1/users/:postId/:id(GET)
@@ -77,11 +76,45 @@ https://drive.google.com/file/d/15O-LW3DjDBaJ2u9oGfeR-CHuxuB-nMmR/view?usp=shari
 
 ## Category:
 
+- /api/v1/categories(POST)
+- /api/v1/categories(GET)
+- /api/v1/categories/:id(GET)
+- /api/v1/categories/:id(PATCH)
+- /api/v1/categories/:id(DELETE)
+
 ## Comment:
+
+- /api/v1/comments(POST)
+- /api/v1/comments(GET)
+- /api/v1/comments/:id(GET)
+- /api/v1/comments/:id(PATCH)
+- /api/v1/comments/:id(DELETE)
+
+## Post:
+
+- /api/v1/posts(POST)
+- /api/v1/posts(GET)
+- /api/v1/posts/top-5-posts(GET)
+- /api/v1/posts/my-posts(GET)
+- /api/v1/posts/:id(GET)
+- /api/v1/posts/post-stats(GET)
+- /api/v1/posts/:id(PATCH)
+- /api/v1/posts/:id/make-premium(PATCH)
+- /api/v1/posts/:id/upvote(PATCH)
+- /api/v1/posts/:id/upvote-remove(PATCH)
+- /api/v1/posts/:id/downvote(PATCH)
+- /api/v1/posts/:id/downvote-remove(PATCH)
+- /api/v1/posts/:id(DELETE)
+
+- /api/v1/posts/:id/comments(POST)
+- /api/v1/posts/:id/comments(GET)
 
 ## Payment:
 
-## Post:
+- /api/v1/payments/create-payment(POST)
+- /api/v1/payments(GET)
+- /api/v1/payments/payment-stats(GET)
+- /api/v1/payments/create-payment-intent(GET)
 
 ## Scripts
 

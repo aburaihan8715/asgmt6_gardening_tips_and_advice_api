@@ -1,2097 +1,1696 @@
 {
-	"info": {
-		"_postman_id": "97a7f278-19a3-4651-a586-c51f683ecb42",
-		"name": "ASGMT6_GARDENING_TIPS_AND_ADVICE",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "15175363"
-	},
-	"item": [
-		{
-			"name": "User",
-			"item": [
-				{
-					"name": "Get All Users",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete User",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/6719123609dbf74d1d57284a",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"6719123609dbf74d1d57284a"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Top Five Users",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/top-5-users",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"top-5-users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Admins",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/admins",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"admins"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Me",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/me",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"me"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Single User",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/67175f7a34e20822ae988322",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"67175f7a34e20822ae988322"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Follow User",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/67034ec94f062f20269fa21f/follow",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"67034ec94f062f20269fa21f",
-								"follow"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Unfollow User",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/67093d43a66ecfe702834c7d/unfollow",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"67093d43a66ecfe702834c7d",
-								"unfollow"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add Favourite Post",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/6706c09d7dafef985bf1026e/add-favourites",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"6706c09d7dafef985bf1026e",
-								"add-favourites"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Remove Favourites",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/6706bc3038eb19bdc400685b/remove-favourites",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"6706bc3038eb19bdc400685b",
-								"remove-favourites"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Check Premium Status",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/check-premium-status",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"check-premium-status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Favourite Post",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/favourite-posts",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"favourite-posts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User Stats",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/user-stats",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"user-stats"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Revenue",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users/revenue",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"revenue"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"raihan8715\",\r\n    \"email\": \"aburaihan8715@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/register",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Change Password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"currentPassword\": \"test12345\",\r\n    \"newPassword\": \"test1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/change-password",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"change-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Settings Profile",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "data",
-									"value": "{\"username\":\"Abu Raihan Updated\"}",
-									"type": "text"
-								},
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/E:/Sheful/All photos/All of photo/0DD0BF5DF584953E25387255813306B9.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/settings-profile",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"settings-profile"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Forget Password",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"aburaihan8715@gmail.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/forget-password",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"forget-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Reset Password",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAzNGVjOTRmMDYyZjIwMjY5ZmEyMWYiLCJ1c2VybmFtZSI6InJhaWhhbjg3MTUiLCJlbWFpbCI6ImFidXJhaWhhbjg3MTVAZ21haWwuY29tIiwicHJvZmlsZVBpY3R1cmUiOiIiLCJmb2xsb3dlcnMiOltdLCJmb2xsb3dpbmciOltdLCJyb2xlIjoiVVNFUiIsImZhdm91cml0ZXMiOltdLCJpc1ZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzI4MjcxMTk0LCJleHAiOjE3MjgyNzE3OTR9.MOIACDlti8zF1KEhXfQhGtFzO4jz5MjuBxItA1bM3FU",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"67034ec94f062f20269fa21f\",\r\n    \"newPassword\": \"test12345\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/reset-password",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"reset-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Refresh Token",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/refresh-token",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"refresh-token"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "User Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"test12345\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/login",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						},
-						"description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
-					},
-					"response": []
-				},
-				{
-					"name": "Real User Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"aburaihan8721@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/login",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						},
-						"description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
-					},
-					"response": []
-				},
-				{
-					"name": "Admin Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/login",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						},
-						"description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
-					},
-					"response": []
-				},
-				{
-					"name": "Super Admin Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"superadmin@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/auth/login",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						},
-						"description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Category",
-			"item": [
-				{
-					"name": "Create Category",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Others\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/categories",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Categories",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/categories",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Category",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/categories/66fd6c60501de0f6feaef20e",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories",
-								"66fd6c60501de0f6feaef20e"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Category",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/categories/66fd6c60501de0f6feaef20e",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories",
-								"66fd6c60501de0f6feaef20e"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Category",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Test\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/categories/66fd6c60501de0f6feaef20e",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"categories",
-								"66fd6c60501de0f6feaef20e"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Post",
-			"item": [
-				{
-					"name": "Create Post",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "data",
-									"value": "{\n    \"user\": \"6715da5fd9beefdf8f089a7f\",\n    \"title\": \"How to Grow Vegetables in Small Spaces\",\n    \"description\": \"This post explains the steps and tips to grow vegetables even in small spaces such as balconies.\",\n    \"content\": \"<h2>Commonly Asked Questions</h2><p><br></p><ul><li>How do I get JavaScript?</li><li>Where can I download JavaScript?</li><li>Is JavaScript Free?</li><li><br></li></ul><p><strong style=\\\"color: rgb(0, 0, 0);\\\">You don't have to get or download JavaScript.</strong></p><p><strong style=\\\"color: rgb(0, 0, 0);\\\">JavaScript is already running in your browser on your computer, on your tablet, and on your smart-phone.</strong></p><p><strong style=\\\"color: rgb(0, 0, 0);\\\">JavaScript is free to use for everyone.</strong></p><p><br></p><h2><span style=\\\"background-color: rgb(230, 0, 0); color: rgb(255, 255, 255);\\\">My Learning</span></h2><p><br></p><p>Track your progress with the free \\\"My Learning\\\" program here at W3Schools.</p><p>Log in to your account, and start earning points!</p><p>This is an optional feature. You can study at W3Schools without using My Learning.</p>\",\n    \"category\": \"Vegetables\"\n}",
-									"type": "text"
-								},
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/E:/Sheful/All photos/All of photo/1FACFE5135A6E01EF3DF44518E0B75E4.png",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Posts",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts?page=2&limit=5",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts"
-							],
-							"query": [
-								{
-									"key": "searchTerm",
-									"value": "kfj",
-									"disabled": true
-								},
-								{
-									"key": "page",
-									"value": "2"
-								},
-								{
-									"key": "limit",
-									"value": "5"
-								},
-								{
-									"key": "sort",
-									"value": "-upvotesCount",
-									"disabled": true
-								},
-								{
-									"key": "sort",
-									"value": "upvotesCount",
-									"disabled": true
-								},
-								{
-									"key": "sort",
-									"value": "-downvotesCount",
-									"disabled": true
-								},
-								{
-									"key": "sort",
-									"value": "downvotesCount",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get My Posts",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/my-posts",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"my-posts"
-							],
-							"query": [
-								{
-									"key": "searchTerm",
-									"value": "Landscaping",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get My Posts Copy",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/my-posts",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"my-posts"
-							],
-							"query": [
-								{
-									"key": "searchTerm",
-									"value": "Landscaping",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get My Posts Copy",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/my-posts",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"my-posts"
-							],
-							"query": [
-								{
-									"key": "searchTerm",
-									"value": "Landscaping",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get My Posts Copy",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/my-posts",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"my-posts"
-							],
-							"query": [
-								{
-									"key": "searchTerm",
-									"value": "Landscaping",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get New 5 Post",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/top-5-posts",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"top-5-posts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Post",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/67134c3d7ada01f85ae490fd",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"67134c3d7ada01f85ae490fd"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Post",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"category\": \"Vegetables updated\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/66fdfc79ee513b2748d6bd07",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"66fdfc79ee513b2748d6bd07"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Post",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/66fdfc79ee513b2748d6bd07",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"66fdfc79ee513b2748d6bd07"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Make Premium",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/66fdfc79ee513b2748d6bd07/make-premium",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"66fdfc79ee513b2748d6bd07",
-								"make-premium"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Upvote Post",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/671347897ada01f85ae49098/upvote",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"671347897ada01f85ae49098",
-								"upvote"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Downvote Post",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/671347897ada01f85ae49098/downvote",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"671347897ada01f85ae49098",
-								"downvote"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Remove Upvote",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/6706bc3038eb19bdc400685b/upvote-remove",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"6706bc3038eb19bdc400685b",
-								"upvote-remove"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Downvote Remove",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/6706bc3038eb19bdc400685b/downvote-remove",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"6706bc3038eb19bdc400685b",
-								"downvote-remove"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Post Stats",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/post-stats",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"post-stats"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Comment",
-			"item": [
-				{
-					"name": "Delete Comment",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/comments/67107e88e55ba21fb72be180",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"comments",
-								"67107e88e55ba21fb72be180"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Single Comment",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/comments/671224b2ba59ddb8edf82fd7",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"comments",
-								"671224b2ba59ddb8edf82fd7"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Comment",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"content\":\"Super!!!! updated...\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/comments/67137b7c7ada01f85ae49432",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"comments",
-								"67137b7c7ada01f85ae49432"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Post/[PostId]/Comment",
-			"item": [
-				{
-					"name": "Create Comment for Post",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"(5)The Gardening Tips & Advice Platform is a comprehensive full-stack web application designed for gardening enthusiasts and professionals to share, discover, and engage with gardening knowledge. It will provide users with insightful tips, plant care advice, seasonal guides, and techniques to enhance their gardening experiences. Additionally, users can share their gardening knowledge, interact with others\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/6706510e011f3af59eb234d8/comments",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"6706510e011f3af59eb234d8",
-								"comments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Comment of Post",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/posts/6706b8ad38eb19bdc400684b/comments",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"posts",
-								"6706b8ad38eb19bdc400684b",
-								"comments"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Payment",
-			"item": [
-				{
-					"name": "Create PaymentIntent",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"price\": 10\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/payments/create-payment-intent",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"payments",
-								"create-payment-intent"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Payment",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user@gmail.com\",\r\n    \"transactionId\": \"123456789\",\r\n    \"price\": 10,\r\n    \"date\": \"2024-09-01\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/payments/create-payment",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"payments",
-								"create-payment"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Payments",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/payments",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"payments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Payment Stats",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/payments/payment-stats",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"payments",
-								"payment-stats"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Test",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:5000",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000"
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "19a90886-015a-4fde-8895-312fae9d5c7c",
+    "name": "ASGMT6_GARDENING_TIPS_AND_ADVICE",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "15175363"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/6719123609dbf74d1d57284a",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "6719123609dbf74d1d57284a"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Top Five Users",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/top-5-users",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "top-5-users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Admins",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/admins",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "admins"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/me",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single User",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/671324187ada01f85ae4900a",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "671324187ada01f85ae4900a"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Follow User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/67034ec94f062f20269fa21f/follow",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "67034ec94f062f20269fa21f",
+                "follow"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unfollow User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/67093d43a66ecfe702834c7d/unfollow",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "67093d43a66ecfe702834c7d",
+                "unfollow"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Favourite Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/6706c09d7dafef985bf1026e/add-favourites",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "6706c09d7dafef985bf1026e",
+                "add-favourites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Favourites",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/6706bc3038eb19bdc400685b/remove-favourites",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "6706bc3038eb19bdc400685b",
+                "remove-favourites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check Has Upvote for Post",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/check-has-upvote-for-post",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "check-has-upvote-for-post"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Favourite Post",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/favourite-posts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "favourite-posts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Stats",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/user-stats",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "user-stats"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Revenue",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/users/revenue",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "users", "revenue"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"raihan8715\",\r\n    \"email\": \"aburaihan8715@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"currentPassword\": \"test12345\",\r\n    \"newPassword\": \"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/change-password",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "change-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Settings Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "data",
+                  "value": "{\"username\":\"Abu Raihan Updated\"}",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "/E:/Sheful/All photos/All of photo/0DD0BF5DF584953E25387255813306B9.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/settings-profile",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "settings-profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"aburaihan8715@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/forget-password",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "forget-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAzNGVjOTRmMDYyZjIwMjY5ZmEyMWYiLCJ1c2VybmFtZSI6InJhaWhhbjg3MTUiLCJlbWFpbCI6ImFidXJhaWhhbjg3MTVAZ21haWwuY29tIiwicHJvZmlsZVBpY3R1cmUiOiIiLCJmb2xsb3dlcnMiOltdLCJmb2xsb3dpbmciOltdLCJyb2xlIjoiVVNFUiIsImZhdm91cml0ZXMiOltdLCJpc1ZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzI4MjcxMTk0LCJleHAiOjE3MjgyNzE3OTR9.MOIACDlti8zF1KEhXfQhGtFzO4jz5MjuBxItA1bM3FU",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"67034ec94f062f20269fa21f\",\r\n    \"newPassword\": \"test12345\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/reset-password",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "reset-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/refresh-token",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "refresh-token"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test1@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "Real User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"aburaihan8721@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "Super Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"accessToken\", pm.response.json().data.accessToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"superadmin@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "### Login API\n\nThis API endpoint allows users to log in and obtain an access token for authentication.\n\n#### Request Body\n\n- email (text, required): The email of the user.\n    \n- password (text, required): The password of the user.\n    \n\n#### Response\n\nThe response is a JSON object with the following properties:\n\n- success (boolean): Indicates if the login was successful.\n    \n- message (string): A message related to the login status.\n    \n- data (object): An object containing the access token and user information.\n    \n    - accessToken (string): The access token for authentication.\n        \n    - user (object): An object containing user details.\n        \n        - _id (string): The unique identifier of the user.\n            \n        - username (string): The username of the user.\n            \n        - email (string): The email of the user.\n            \n        - profilePicture (string): The URL of the user's profile picture.\n            \n        - followers (array): An array of user IDs who are following this user.\n            \n        - following (array): An array of user IDs whom the user is following.\n            \n        - verified (boolean): Indicates if the user's account is verified.\n            \n        - role (string): The role of the user.\n            \n        - favourites (array): An array of favorite items.\n            \n        - createdAt (string): The timestamp when the user account was created.\n            \n        - updatedAt (string): The timestamp when the user account was last updated.\n            \n\n#### Example\n\n``` json\n{\n    \"success\": true,\n    \"message\": \"\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"user\": {\n            \"_id\": \"user123\",\n            \"username\": \"example_user\",\n            \"email\": \"user@example.com\",\n            \"profilePicture\": \"https://example.com/profile.jpg\",\n            \"followers\": [],\n            \"following\": [],\n            \"verified\": true,\n            \"role\": \"user\",\n            \"favourites\": [],\n            \"createdAt\": \"2022-01-01T12:00:00Z\",\n            \"updatedAt\": \"2022-01-02T08:00:00Z\"\n        }\n    }\n}\n\n ```"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Others\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/categories",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Categories",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/categories",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/categories/66fd6c60501de0f6feaef20e",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "categories",
+                "66fd6c60501de0f6feaef20e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/categories/66fd6c60501de0f6feaef20e",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "categories",
+                "66fd6c60501de0f6feaef20e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/categories/66fd6c60501de0f6feaef20e",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "categories",
+                "66fd6c60501de0f6feaef20e"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Comment",
+      "item": [
+        {
+          "name": "Create Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"post\": \"671b7338cc6fc5888834b330\",\r\n    \"comment\": \"Test comment two\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/comments",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "comments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/comments/679f848e5185a333b72b2d31",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "comments", "679f848e5185a333b72b2d31"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/comments/679f848e5185a333b72b2d31",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "comments", "679f848e5185a333b72b2d31"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"comment\":\"Test Comment Two updated\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/comments/679f75c407cd771d1b4a5c89",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "comments", "679f75c407cd771d1b4a5c89"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Comments",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/comments",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "comments"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Post",
+      "item": [
+        {
+          "name": "Create Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "data",
+                  "value": "{\n    \"user\": \"6715da5fd9beefdf8f089a7f\",\n    \"title\": \"How to Grow Vegetables in Small Spaces\",\n    \"description\": \"This post explains the steps and tips to grow vegetables even in small spaces such as balconies.\",\n    \"content\": \"<h2>Commonly Asked Questions</h2><p><br></p><ul><li>How do I get JavaScript?</li><li>Where can I download JavaScript?</li><li>Is JavaScript Free?</li><li><br></li></ul><p><strong style=\\\"color: rgb(0, 0, 0);\\\">You don't have to get or download JavaScript.</strong></p><p><strong style=\\\"color: rgb(0, 0, 0);\\\">JavaScript is already running in your browser on your computer, on your tablet, and on your smart-phone.</strong></p><p><strong style=\\\"color: rgb(0, 0, 0);\\\">JavaScript is free to use for everyone.</strong></p><p><br></p><h2><span style=\\\"background-color: rgb(230, 0, 0); color: rgb(255, 255, 255);\\\">My Learning</span></h2><p><br></p><p>Track your progress with the free \\\"My Learning\\\" program here at W3Schools.</p><p>Log in to your account, and start earning points!</p><p>This is an optional feature. You can study at W3Schools without using My Learning.</p>\",\n    \"category\": \"Vegetables\"\n}",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "/E:/Sheful/All photos/All of photo/1FACFE5135A6E01EF3DF44518E0B75E4.png",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Posts",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts"],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "kfj",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "2",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "5",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "-upvotesCount",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "upvotesCount",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "-downvotesCount",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "downvotesCount",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Posts",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/my-posts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts", "my-posts"],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "Landscaping",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get New 5 Post",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/top-5-posts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts", "top-5-posts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/67134c3d7ada01f85ae490fd",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts", "67134c3d7ada01f85ae490fd"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"category\": \"Vegetables updated\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/66fdfc79ee513b2748d6bd07",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts", "66fdfc79ee513b2748d6bd07"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/66fdfc79ee513b2748d6bd07",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts", "66fdfc79ee513b2748d6bd07"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Make Premium",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/66fdfc79ee513b2748d6bd07/make-premium",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "66fdfc79ee513b2748d6bd07",
+                "make-premium"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upvote Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/671347897ada01f85ae49098/upvote",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "671347897ada01f85ae49098",
+                "upvote"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Downvote Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/671347897ada01f85ae49098/downvote",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "671347897ada01f85ae49098",
+                "downvote"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Upvote",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/6706bc3038eb19bdc400685b/upvote-remove",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "6706bc3038eb19bdc400685b",
+                "upvote-remove"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Downvote Remove",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/6706bc3038eb19bdc400685b/downvote-remove",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "6706bc3038eb19bdc400685b",
+                "downvote-remove"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post Stats",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/post-stats",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "posts", "post-stats"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Post/[PostId]/Comment",
+      "item": [
+        {
+          "name": "Create Comment on Post",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"comment\": \"Comment for id last degit b330\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/671b7338cc6fc5888834b330/comments",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "671b7338cc6fc5888834b330",
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Comments on Post",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/posts/671a239870077d8a7da3853f/comments",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                "671a239870077d8a7da3853f",
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "Create PaymentIntent",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"price\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/payments/create-payment-intent",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "payments", "create-payment-intent"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Payment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"user@gmail.com\",\r\n    \"transactionId\": \"123456789\",\r\n    \"price\": 10,\r\n    \"date\": \"2024-09-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/payments/create-payment",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "payments", "create-payment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Payments",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/payments",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "payments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payment Stats",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/payments/payment-stats",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "payments", "payment-stats"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000"
+        }
+      },
+      "response": []
+    }
+  ]
 }
