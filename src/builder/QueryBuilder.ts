@@ -1,95 +1,94 @@
-import { FilterQuery, Query } from 'mongoose';
+import { Query } from 'mongoose';
 
 class QueryBuilder<T> {
   public modelQuery: Query<T[], T>;
-  public query: Record<string, unknown>;
+  public queryObj: Record<string, unknown>;
 
-  constructor(modelQuery: Query<T[], T>, query: Record<string, unknown>) {
+  constructor(
+    modelQuery: Query<T[], T>,
+    queryObj: Record<string, unknown>,
+  ) {
     this.modelQuery = modelQuery;
-    this.query = query;
+    this.queryObj = queryObj;
   }
 
-  search(searchableFields: string[]) {
-    const searchTerm = this?.query?.searchTerm;
-    if (searchTerm) {
+  search(searchAbleFields: string[] = []) {
+    if (this.queryObj.searchTerm && searchAbleFields.length > 0) {
+      const searchTermValue = this.queryObj.searchTerm;
       this.modelQuery = this.modelQuery.find({
-        $or: searchableFields.map(
-          (field) =>
-            ({
-              [field]: { $regex: searchTerm, $options: 'i' },
-            }) as FilterQuery<T>,
-        ),
+        $or: searchAbleFields.map((field) => ({
+          [field]: { $regex: searchTermValue, $options: 'i' },
+        })),
       });
     }
     return this;
   }
 
   filter() {
-    const queryObj = { ...this.query };
+    if (typeof this.queryObj !== 'object' || !this.queryObj) {
+      return this;
+    }
 
+    let filterObj = { ...this.queryObj };
     const excludeFields = [
       'searchTerm',
-      'sort',
-      'limit',
       'page',
+      'limit',
       'fields',
+      'sort',
     ];
-    excludeFields.forEach((el) => delete queryObj[el]);
+    excludeFields.forEach((item) => delete filterObj[item]);
 
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(
-      /\b(gte|gt|lte|lt)\b/g,
+    const filterObjString = JSON.stringify(filterObj).replace(
+      /\b(lt|lte|gt|gte)\b/g,
       (match) => `$${match}`,
     );
 
-    this.modelQuery = this.modelQuery.find(
-      JSON.parse(queryStr) as FilterQuery<T>,
-    );
+    filterObj = JSON.parse(filterObjString);
+    this.modelQuery = this.modelQuery.find(filterObj);
+
     return this;
   }
 
   sort() {
-    const sort =
-      (this?.query?.sort as string)?.split(',')?.join(' ') || '-createdAt';
-    this.modelQuery = this.modelQuery.sort(sort as string);
+    const sortValue =
+      typeof this.queryObj.sort === 'string'
+        ? this.queryObj.sort.split(',').join(' ')
+        : '-createdAt';
 
-    return this;
-  }
-
-  paginate() {
-    const limit = this.query?.limit ? Number(this.query.limit) : null;
-
-    if (limit) {
-      const page = Number(this.query?.page) || 1;
-      const skip = (page - 1) * limit;
-      this.modelQuery = this.modelQuery.skip(skip).limit(limit);
-    }
-
+    this.modelQuery = this.modelQuery.sort(sortValue);
     return this;
   }
 
   fields() {
-    const fields =
-      (this?.query?.fields as string)?.split(',')?.join(' ') || '-__v';
+    const fieldsValue =
+      typeof this.queryObj.fields === 'string'
+        ? this.queryObj.fields.split(',').join(' ')
+        : '-__v';
 
-    this.modelQuery = this.modelQuery.select(fields);
+    this.modelQuery = this.modelQuery.select(fieldsValue);
     return this;
   }
 
-  async countTotal() {
-    const totalQueries = this.modelQuery.getFilter();
-    const total = await this.modelQuery.model.countDocuments(totalQueries);
-    const page = Number(this?.query?.page) || 1;
-    const limit = this?.query?.limit ? Number(this.query.limit) : total;
+  paginate() {
+    const page = Math.max(1, Number(this.queryObj.page) || 1);
+    const limit = Math.max(1, Number(this.queryObj.limit) || 10);
+    const skip = (page - 1) * limit;
 
-    const totalPage = limit > 0 ? Math.ceil(total / limit) : 1;
+    this.modelQuery = this.modelQuery.skip(skip).limit(limit);
+    return this;
+  }
 
-    return {
-      page,
-      limit,
-      total,
-      totalPage,
-    };
+  async calculatePaginate() {
+    const page = Math.max(1, Number(this.queryObj.page) || 1);
+    const limit = Math.max(1, Number(this.queryObj.limit) || 10);
+
+    const finalFilter = this.modelQuery.getQuery();
+    const totalDocs =
+      await this.modelQuery.model.countDocuments(finalFilter);
+    const totalPage = Math.ceil(totalDocs / limit);
+
+    return { page, limit, totalDocs, totalPage };
   }
 }
 

@@ -2,110 +2,126 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
+import { IUser } from '../user/user.interface';
+import { setResponseCookies } from './auth.utils';
+import SendEmail from '../../email/SendEmail';
 import config from '../../config';
 
-const registerUser = catchAsync(async (req, res) => {
-  const newUser = await AuthServices.registerIntoDB(req.body);
+const register = catchAsync(async (req, res) => {
+  const { username, email, password } = req.body;
+
+  const userInfo = await AuthServices.registerIntoDB({
+    username,
+    email,
+    password,
+  } as IUser);
+
+  const { refreshToken, accessToken, user } = userInfo;
+
+  setResponseCookies(res, accessToken, refreshToken);
+
+  // NOTE: need to uncomment before production
+  // const url = `${req.protocol}://${req.get('host')}/me`;
+  // await new SendEmail(user, url).sendWelcome();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User created successfully',
-    data: newUser,
+    message: 'User registered successfully',
+    data: { accessToken, user },
   });
 });
 
-const loginUser = catchAsync(async (req, res) => {
+const login = catchAsync(async (req, res) => {
   const userInfo = await AuthServices.loginFromDB(req.body);
 
   const { refreshToken, accessToken, user } = userInfo;
 
-  res.cookie('refreshToken', refreshToken, {
-    secure: config.NODE_ENV === 'production',
-    httpOnly: true,
-  });
+  setResponseCookies(res, accessToken, refreshToken);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User logged in successfully',
-    data: { accessToken, refreshToken, user },
+    data: { accessToken, user },
   });
 });
 
-const changePassword = catchAsync(async (req, res) => {
-  const { ...passwordData } = req.body;
-  const id = req.user?._id;
+const updatePassword = catchAsync(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
 
-  const result = await AuthServices.changePasswordIntoDB(id, passwordData);
+  const userInfo = await AuthServices.updatePasswordIntoDB(req.user?._id, {
+    currentPassword,
+    newPassword,
+  });
+
+  const { refreshToken, accessToken, user } = userInfo;
+
+  setResponseCookies(res, accessToken, refreshToken);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Password updated successfully!',
-    data: result,
+    data: { accessToken, user },
   });
 });
 
-const accessTokenByRefreshToken = catchAsync(async (req, res) => {
-  const { refreshToken } = req.cookies;
-  const result =
-    await AuthServices.accessTokenByRefreshTokenFromServer(refreshToken);
+const refreshToken = catchAsync(async (req, res) => {
+  const { refreshToken: token } = req.cookies;
+
+  const userInfo = await AuthServices.getRefreshToken(token);
+
+  const { accessToken, refreshToken, user } = userInfo;
+
+  setResponseCookies(res, accessToken, refreshToken);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Access token by refresh token is retrieved successfully!',
-    data: result,
+    message: 'Refresh token retrieved successfully!',
+    data: { accessToken, user },
   });
 });
 
 const forgetPassword = catchAsync(async (req, res) => {
   const email = req.body.email;
+  await AuthServices.forgetPassword(email);
 
-  console.log('email', email);
-  const result = await AuthServices.forgetPasswordByEmail(email);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Reset link is generated successfully!',
-    data: result,
+    message: 'Please check your email!',
+    data: null,
   });
 });
 
 const resetPassword = catchAsync(async (req, res) => {
   const token = req.headers.authorization as string;
-  // console.log(token);
 
-  const result = await AuthServices.resetPasswordIntoDB(req.body, token);
+  const userInfo = await AuthServices.resetPasswordIntoDB(req.body, token);
+
+  const { refreshToken, accessToken, user } = userInfo;
+
+  setResponseCookies(res, accessToken, refreshToken);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Password reset successful!',
-    data: result,
-  });
-});
-
-const settingsProfile = catchAsync(async (req, res) => {
-  const id = req.user._id;
-  const user = await AuthServices.settingsProfileIntoDB(id, {
-    ...JSON.parse(req.body.data),
-    profilePicture: req.file?.path,
-  });
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Settings updated successfully',
-    data: user,
+    data: { accessToken, user },
   });
 });
 
 export const AuthControllers = {
-  registerUser,
-  loginUser,
-  changePassword,
-  accessTokenByRefreshToken,
+  register,
+  login,
+  updatePassword,
+  refreshToken,
   forgetPassword,
   resetPassword,
-  settingsProfile,
 };
+
+/*
+http://localhost:3000/reset-password?id=67cebdba9b6aab2fc81513dd&passwordResetToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2NlYmRiYTliNmFhYjJmYzgxNTEzZGQiLCJlbWFpbCI6ImFidXJhaWhhbjg3MjFAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDE2MDI0MTgsImV4cCI6MTc0MTYwMzAxOH0.WB7uOlyjiBNWk_3LTZjzHc7u5w-q9ySQIzmkc-cYq7w
+*/

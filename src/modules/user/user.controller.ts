@@ -4,19 +4,17 @@ import sendResponse from '../../utils/sendResponse';
 import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { UserServices } from './user.service';
 import AppError from '../../errors/AppError';
-import { NextFunction, Request, Response } from 'express';
 
-const getAliasUsers = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  req.query.limit = '5';
-  req.query.sort = '-followersCount';
-  req.query.fields =
-    'username email followersCount profilePicture isVerified _id';
-  next();
-};
+const createUser = catchAsync(async (req, res) => {
+  const user = await UserServices.createUserIntoDB(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User created successfully!',
+    data: user,
+  });
+});
 
 const getAllUsers = catchAsync(async (req, res) => {
   const query = { ...req.query, isDeleted: { $ne: true } };
@@ -34,19 +32,56 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
-const getAllAdmins = catchAsync(async (req, res) => {
-  const query = { ...req.query, isDeleted: { $ne: true }, role: 'ADMIN' };
-  const result = await UserServices.getAllUsersFromDB(query);
-
-  if (!result || result?.result.length < 1)
-    return sendNotFoundDataResponse(res);
+const getSingleUser = catchAsync(async (req, res) => {
+  const userId = req.params.id;
+  const user = await UserServices.getSingleUserFromDB(userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Admins retrieved successfully!',
-    meta: result.meta,
-    data: result.result,
+    message: 'User retrieved successfully!',
+    data: user,
+  });
+});
+
+const deleteUser = catchAsync(async (req, res) => {
+  const deletedUser = await UserServices.deleteUserFromDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User deleted successfully!',
+    data: deletedUser,
+  });
+});
+
+const updateUser = catchAsync(async (req, res) => {
+  const id = req.user._id;
+  const user = await UserServices.updateUserIntoDB(id, {
+    ...JSON.parse(req.body.data),
+    profilePicture: req.file?.path,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Settings updated successfully',
+    data: user,
+  });
+});
+
+const updateMe = catchAsync(async (req, res) => {
+  const id = req.user._id;
+  const user = await UserServices.updateMeIntoDB(id, {
+    ...JSON.parse(req.body.data),
+    profilePicture: req.file?.path,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Settings updated successfully',
+    data: user,
   });
 });
 
@@ -62,9 +97,9 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 
-const getSingleUser = catchAsync(async (req, res) => {
-  const userId = req.params.id;
-  const user = await UserServices.getSingleUserFromDB(userId);
+const deleteMe = catchAsync(async (req, res) => {
+  const id = req.user._id;
+  const user = await UserServices.deleteMeFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -202,20 +237,9 @@ const getRevenue = catchAsync(async (req, res) => {
   });
 });
 
-const deleteUser = catchAsync(async (req, res) => {
-  const deletedUser = await UserServices.deleteUserFromDB(req.params.id);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User deleted successfully!',
-    data: deletedUser,
-  });
-});
-
 export const UserControllers = {
   getAllUsers,
-  getAllAdmins,
+  updateUser,
   followUser,
   unfollowUser,
   addFavourite,
@@ -223,9 +247,11 @@ export const UserControllers = {
   getMe,
   checkHasUpvoteForPost,
   getFavouritePosts,
-  getAliasUsers,
   getUserStats,
   getRevenue,
   deleteUser,
   getSingleUser,
+  deleteMe,
+  createUser,
+  updateMe,
 };

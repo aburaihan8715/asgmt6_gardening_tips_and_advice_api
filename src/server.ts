@@ -6,6 +6,11 @@ import { Server } from 'http';
 
 let server: Server;
 
+process.on('uncaughtException', () => {
+  console.log(`😈 uncaughtException is detected , shutting down ...`);
+  process.exit(1);
+});
+
 async function main() {
   try {
     const { ConnectionStates } = await mongoose.connect(
@@ -18,7 +23,7 @@ async function main() {
       // await seedSuperAdmin();
     }
 
-    app.listen(config.port, () => {
+    server = app.listen(config.port, () => {
       console.log(`App is listening at http://localhost:${config.port}`);
     });
   } catch (error) {
@@ -35,11 +40,6 @@ process.on('unhandledRejection', () => {
       process.exit(1);
     });
   }
-  process.exit(1);
-});
-
-process.on('uncaughtException', () => {
-  console.log(`😈 uncaughtException is detected , shutting down ...`);
   process.exit(1);
 });
 

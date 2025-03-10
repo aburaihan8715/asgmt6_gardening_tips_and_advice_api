@@ -1,7 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { IUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
-import config from '../../config';
 
 const UserSchema: Schema = new Schema(
   {
@@ -80,13 +79,14 @@ const UserSchema: Schema = new Schema(
 
 // DOCUMENT MIDDLEWARE
 UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+  if (this.isNew || this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password as string, 8);
+  }
 
-  // Hash password with bcrypt
-  this.password = await bcrypt.hash(
-    this.password as string,
-    Number(config.bcrypt_salt_rounds) || 10, // Fallback if salt_rounds is not provided
-  );
+  if (this.isModified('password') && !this.isNew) {
+    this.passwordChangedAt = Date.now() - 1000;
+  }
+
   next();
 });
 
@@ -124,5 +124,23 @@ UserSchema.statics.isPasswordChangedAfterJwtIssued = function (
     new Date(passwordChangedTimestamp).getTime() / 1000;
   return passwordChangedTime > jwtIssuedTimestamp;
 };
+
+//========= TRANSFORM ALL RETURN DOCUMENTS ========
+// remove password (if exists) and __v from any return documents
+UserSchema.set('toObject', {
+  transform: (_doc, ret) => {
+    delete ret.__v;
+    delete ret.password;
+    return ret;
+  },
+});
+
+UserSchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    delete ret.__v;
+    delete ret.password;
+    return ret;
+  },
+});
 
 export const User = model<IUser, UserModel>('User', UserSchema);

@@ -4,6 +4,17 @@ import AppError from '../../errors/AppError';
 import { User } from './user.model';
 import { Post } from '../post/post.model';
 import config from '../../config';
+import { IUser } from './user.interface';
+
+const createUserIntoDB = async (payload: IUser) => {
+  const result = await User.create(payload);
+
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user!');
+  }
+
+  return result;
+};
 
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const UserQuery = new QueryBuilder(User.find(), query)
@@ -22,24 +33,80 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
-  const AdminQuery = new QueryBuilder(User.find(), query)
-    .search(['username', 'email'])
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+const getSingleUserFromDB = async (userId: string) => {
+  const result = await User.findById(userId);
 
-  const result = await AdminQuery.modelQuery;
-  const meta = await AdminQuery.countTotal();
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+  }
 
-  return {
-    meta,
-    result,
-  };
+  if (result && result.isDeleted) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'User has been deleted!');
+  }
+  return result;
 };
 
-// NOTE: in get me should not use id
+const deleteUserFromDB = async (id: string) => {
+  const result = await User.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  );
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+
+  // Mark all posts by this user as deleted
+  await Post.updateMany({ user: id }, { isDeleted: true });
+
+  return result;
+};
+
+const updateUserIntoDB = async (id: string, payload: Partial<IUser>) => {
+  // 01 check user exists
+  let user = await User.getUserById(id);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+  }
+
+  //  02 update the password field
+  user = (await User.findByIdAndUpdate(id, payload, {
+    new: true,
+  })) as IUser;
+
+  // 04 delete password form the user
+  user = user.toObject();
+  delete user.password;
+  delete user.__v;
+
+  // 05 return tokens and user to the controller
+  return user;
+};
+
+const updateMeIntoDB = async (id: string, payload: Partial<IUser>) => {
+  // 01 check user exists
+  let user = await User.getUserById(id);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+  }
+
+  //  02 update the password field
+  user = (await User.findByIdAndUpdate(id, payload, {
+    new: true,
+  })) as IUser;
+
+  // 04 delete password form the user
+  user = user.toObject();
+  delete user.password;
+  delete user.__v;
+
+  // 05 return tokens and user to the controller
+  return user;
+};
+
 const getMeFromDB = async (id: string) => {
   const result = await User.findById(id);
 
@@ -53,8 +120,8 @@ const getMeFromDB = async (id: string) => {
   return result;
 };
 
-const getSingleUserFromDB = async (userId: string) => {
-  const result = await User.findById(userId);
+const deleteMeFromDB = async (id: string) => {
+  const result = await User.findById(id);
 
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
@@ -284,26 +351,9 @@ const getRevenueFromDB = async () => {
   return data;
 };
 
-const deleteUserFromDB = async (id: string) => {
-  const result = await User.findByIdAndUpdate(
-    id,
-    { isDeleted: true },
-    { new: true },
-  );
-
-  if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
-  }
-
-  // Mark all posts by this user as deleted
-  await Post.updateMany({ user: id }, { isDeleted: true });
-
-  return result;
-};
-
 export const UserServices = {
+  createUserIntoDB,
   getAllUsersFromDB,
-  getAllAdminsFromDB,
   followUserIntoDB,
   unfollowUserIntoDB,
   addFavouriteIntoDB,
@@ -315,4 +365,7 @@ export const UserServices = {
   getRevenueFromDB,
   deleteUserFromDB,
   getSingleUserFromDB,
+  updateMeIntoDB,
+  updateUserIntoDB,
+  deleteMeFromDB,
 };

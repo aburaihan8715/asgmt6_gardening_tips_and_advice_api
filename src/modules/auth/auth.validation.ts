@@ -51,7 +51,7 @@ const loginValidationSchema = z.object({
   }),
 });
 
-const changePasswordValidationSchema = z.object({
+const updatePasswordValidation = z.object({
   body: z.object({
     currentPassword: z.string({
       required_error: 'Current password is required',
@@ -87,34 +87,11 @@ const resetPasswordValidationSchema = z.object({
   }),
 });
 
-const settingsProfileValidationSchema = z.object({
-  body: z.object({
-    username: z
-      .string({
-        required_error: 'Username is required',
-      })
-      .min(1, { message: 'Username cannot be empty' })
-      .trim()
-      .optional(),
-
-    email: z
-      .string({
-        required_error: 'Email is required',
-      })
-      .email({ message: 'Invalid email address' })
-      .trim()
-      .optional(),
-
-    profilePicture: z.string().optional(),
-  }),
-});
-
 export const AuthValidations = {
   registerValidationSchema,
   loginValidationSchema,
-  changePasswordValidationSchema,
+  updatePasswordValidation,
   refreshTokenValidationSchema,
   forgetPasswordValidationSchema,
   resetPasswordValidationSchema,
-  settingsProfileValidationSchema,
 };
