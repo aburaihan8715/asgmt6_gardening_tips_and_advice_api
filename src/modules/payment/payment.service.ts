@@ -48,7 +48,7 @@ const getAllPaymentsFromDB = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await paymentQuery.modelQuery;
-  const meta = await paymentQuery.countTotal();
+  const meta = await paymentQuery.calculatePaginate();
 
   return {
     meta,

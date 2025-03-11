@@ -4,13 +4,11 @@ import sendResponse from '../../utils/sendResponse';
 
 import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { PostServices } from './post.service';
-import { NextFunction, Request, Response } from 'express';
 
 const createPost = catchAsync(async (req, res) => {
-  const userId = req.user._id;
   const newPost = await PostServices.createPostIntoDB({
     ...req.body,
-    user: userId,
+    user: req.user._id,
     image: req.file?.path,
   });
 
@@ -21,17 +19,6 @@ const createPost = catchAsync(async (req, res) => {
     data: newPost,
   });
 });
-
-const getAliasPosts = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  req.query.limit = '5';
-  req.query.sort = '-upvotesCount';
-  req.query.fields = '-content';
-  next();
-};
 
 const getAllPosts = catchAsync(async (req, res) => {
   const query = { ...req.query, isDeleted: { $ne: true } };
@@ -66,10 +53,12 @@ const getPost = catchAsync(async (req, res) => {
 });
 
 const updatePost = catchAsync(async (req, res) => {
-  const updatedPost = await PostServices.updatePostIntoDB(req.params.id, {
-    ...req.body,
-    image: req.file?.path,
-  });
+  if (req.file) req.body.image = req.file?.path;
+
+  const updatedPost = await PostServices.updatePostIntoDB(
+    req.params.id,
+    req.body,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -91,8 +80,9 @@ const deletePost = catchAsync(async (req, res) => {
 });
 
 const makePremiumPost = catchAsync(async (req, res) => {
-  const postId = req.params.id;
-  const premiumPost = await PostServices.makePremiumPostIntoDB(postId);
+  const premiumPost = await PostServices.makePremiumPostIntoDB(
+    req.params.id,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -160,7 +150,6 @@ const getPostStats = catchAsync(async (req, res) => {
 
 export const PostControllers = {
   createPost,
-  getAliasPosts,
   getAllPosts,
   getPost,
   updatePost,

@@ -10,31 +10,33 @@ import httpStatus from 'http-status';
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      // 01 check token
-      let token = '';
+      // check token
+      let accessToken = null;
       if (
         req.headers.authorization &&
         req.headers.authorization.startsWith('Bearer')
       ) {
-        token = req.headers.authorization.split(' ')[1];
+        accessToken = req.headers.authorization.split(' ')[1];
+      } else if (req.cookies.accessToken) {
+        accessToken = req.cookies.accessToken;
       }
 
-      if (!token) {
+      if (!accessToken) {
         throw new AppError(
           httpStatus.UNAUTHORIZED,
           'You have no token, please login again!',
         );
       }
 
-      // 02 verify the token
+      // verify the token
       const decoded = jwt.verify(
-        token,
+        accessToken,
         config.jwt_access_secret as string,
       ) as JwtPayload;
 
       const { role, email, iat } = decoded;
 
-      // 03 check user still exists
+      // check user still exists
       const user = await User.getUserByEmail(email);
 
       if (!user) {
@@ -44,14 +46,14 @@ const auth = (...requiredRoles: TUserRole[]) => {
         );
       }
 
-      // 04 check user already deleted
+      // check user already deleted
       const isDeleted = user?.isDeleted;
 
       if (isDeleted) {
         throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
       }
 
-      // 05 check password changed after jwt issued
+      // check password changed after jwt issued
       if (
         user.passwordChangedAt &&
         User.isPasswordChangedAfterJwtIssued(
@@ -65,7 +67,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
         );
       }
 
-      // 06 check authorization if needed
+      // check authorization if needed
       if (requiredRoles.length > 0 && !requiredRoles.includes(role)) {
         throw new AppError(
           httpStatus.UNAUTHORIZED,
@@ -73,10 +75,10 @@ const auth = (...requiredRoles: TUserRole[]) => {
         );
       }
 
-      // 07 set user in the request
+      // set user in the request
       req.user = decoded as JwtPayload;
 
-      // 08 grand access the user!!
+      // grand access the user!!
       next();
     },
   );

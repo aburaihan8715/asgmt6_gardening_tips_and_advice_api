@@ -4,16 +4,13 @@ import sendResponse from '../../utils/sendResponse';
 import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { UserServices } from './user.service';
 import AppError from '../../errors/AppError';
+import { request } from 'http';
 
-const createUser = catchAsync(async (req, res) => {
-  const user = await UserServices.createUserIntoDB(req.body);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User created successfully!',
-    data: user,
-  });
+const createUser = catchAsync(async () => {
+  throw new AppError(
+    httpStatus.INTERNAL_SERVER_ERROR,
+    'This route is not defined! Please use /register instead',
+  );
 });
 
 const getAllUsers = catchAsync(async (req, res) => {
@@ -56,31 +53,17 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-  const id = req.user._id;
-  const user = await UserServices.updateUserIntoDB(id, {
-    ...JSON.parse(req.body.data),
-    profilePicture: req.file?.path,
-  });
+  if (req.file) req.body.profilePicture = req.file?.path;
+
+  const user = await UserServices.updateUserIntoDB(
+    req.params.id,
+    req.body,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Settings updated successfully',
-    data: user,
-  });
-});
-
-const updateMe = catchAsync(async (req, res) => {
-  const id = req.user._id;
-  const user = await UserServices.updateMeIntoDB(id, {
-    ...JSON.parse(req.body.data),
-    profilePicture: req.file?.path,
-  });
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Settings updated successfully',
+    message: 'User updated successfully',
     data: user,
   });
 });
@@ -97,15 +80,27 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 
-const deleteMe = catchAsync(async (req, res) => {
-  const id = req.user._id;
-  const user = await UserServices.deleteMeFromDB(id);
+const updateMe = catchAsync(async (req, res) => {
+  if (req.file) req.body.profilePicture = req.file?.path;
+
+  const user = await UserServices.updateMeIntoDB(req.user._id, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User retrieved successfully!',
+    message: 'Your info updated successfully',
     data: user,
+  });
+});
+
+const deleteMe = catchAsync(async (req, res) => {
+  const deletedUser = await UserServices.deleteMeFromDB(req.user._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Your account deleted successfully!',
+    data: deletedUser,
   });
 });
 
@@ -244,7 +239,6 @@ export const UserControllers = {
   unfollowUser,
   addFavourite,
   removeFavourite,
-  getMe,
   checkHasUpvoteForPost,
   getFavouritePosts,
   getUserStats,
@@ -254,4 +248,5 @@ export const UserControllers = {
   deleteMe,
   createUser,
   updateMe,
+  getMe,
 };

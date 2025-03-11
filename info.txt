@@ -4,3 +4,4 @@
 
 // pending
 1. make ERD
+2. using zod for all

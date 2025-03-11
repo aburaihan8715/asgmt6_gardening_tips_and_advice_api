@@ -30,7 +30,7 @@ const getAllCategoriesFromDB = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await categoryQuery.modelQuery;
-  const meta = await categoryQuery.countTotal();
+  const meta = await categoryQuery.calculatePaginate();
 
   return {
     meta,

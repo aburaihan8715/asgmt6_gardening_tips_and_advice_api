@@ -8,7 +8,7 @@ import { User } from '../user/user.model';
 import mongoose from 'mongoose';
 
 const createPostIntoDB = async (payload: IPost) => {
-  let newPost = await Post.create(payload);
+  const newPost = await Post.create(payload);
 
   if (!newPost) {
     throw new AppError(
@@ -16,8 +16,6 @@ const createPostIntoDB = async (payload: IPost) => {
       'Failed to cerate Post. Try again!',
     );
   }
-  newPost = newPost.toObject();
-  delete newPost.__v;
 
   return newPost;
 };
@@ -34,7 +32,7 @@ const getAllPostsFromDB = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await PostQuery.modelQuery.exec();
-  const meta = await PostQuery.countTotal();
+  const meta = await PostQuery.calculatePaginate();
   return {
     meta,
     result,
@@ -58,7 +56,7 @@ const updatePostIntoDB = async (id: string, payload: Partial<IPost>) => {
   const result = await Post.findByIdAndUpdate(
     id,
     { ...payload },
-    { new: true },
+    { new: true, runValidators: true },
   );
 
   if (!result) {
@@ -108,7 +106,7 @@ const getMyPostsFromDB = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await PostQuery.modelQuery;
-  const meta = await PostQuery.countTotal();
+  const meta = await PostQuery.calculatePaginate();
 
   return {
     meta,
