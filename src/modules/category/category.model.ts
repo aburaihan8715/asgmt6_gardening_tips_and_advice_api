@@ -19,4 +19,20 @@ const CategorySchema: Schema = new Schema(
   },
 );
 
+//========= TRANSFORM ALL RETURN DOCUMENTS ========
+// remove password (if exists) and __v from any return documents
+CategorySchema.set('toObject', {
+  transform: (_doc, ret) => {
+    delete ret.__v;
+    return ret;
+  },
+});
+
+CategorySchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    delete ret.__v;
+    return ret;
+  },
+});
+
 export const Category = model<ICategory>('Category', CategorySchema);

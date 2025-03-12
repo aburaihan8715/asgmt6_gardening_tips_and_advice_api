@@ -1,18 +1,21 @@
 import httpStatus from 'http-status';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload, SignOptions } from 'jsonwebtoken';
 import AppError from '../../errors/AppError';
 import config from '../../config';
 import { IUser } from '../user/user.interface';
 import { Response } from 'express';
 
 export const createToken = (
-  jwtPayload: object,
+  payload: JwtPayload,
   secret: string,
-  expiresIn: string,
-) => {
-  return jwt.sign(jwtPayload, secret, {
-    expiresIn,
-  });
+  expireTime: SignOptions['expiresIn'] = '1h',
+): string => {
+  try {
+    return jwt.sign(payload, secret, { expiresIn: expireTime });
+  } catch (error) {
+    console.error('Error while creating token:', error);
+    throw error;
+  }
 };
 
 export const decodeToken = async (token: string, secret: string) => {
@@ -37,19 +40,19 @@ export const getTokens = (user: IUser) => {
   const accessToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    config.jwt_access_expires_in as string,
+    config.jwt_access_expires_in as SignOptions['expiresIn'],
   );
 
   const refreshToken = createToken(
     jwtPayload,
     config.jwt_refresh_secret as string,
-    config.jwt_refresh_expires_in as string,
+    config.jwt_refresh_expires_in as SignOptions['expiresIn'],
   );
 
   const passwordResetToken = createToken(
     jwtPayload,
     config.jwt_password_reset_secret as string,
-    config.jwt_password_reset_expires_in as string,
+    config.jwt_password_reset_expires_in as SignOptions['expiresIn'],
   );
 
   return { accessToken, refreshToken, passwordResetToken };

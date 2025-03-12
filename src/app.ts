@@ -5,10 +5,11 @@ import morgan from 'morgan';
 import router from './routes';
 import notFoundRouteHandler from './middlewares/notFoundRouteHandler';
 import globalErrorHandler from './middlewares/globalErrorHandler';
+import config from './config';
 
 export const app: Application = express();
 const allowedOrigin =
-  process.env.NODE_ENV === 'development'
+  config.NODE_ENV === 'development'
     ? 'http://localhost:3000'
     : 'https://asgmt6-gardening-tips-and-advice-api.vercel.app';
 

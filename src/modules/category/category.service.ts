@@ -6,7 +6,7 @@ import QueryBuilder from '../../builder/QueryBuilder';
 
 // CREATE
 const createCategoryIntoDB = async (payload: ICategory) => {
-  let newCategory = await Category.create(payload);
+  const newCategory = await Category.create(payload);
 
   if (!newCategory) {
     throw new AppError(
@@ -14,8 +14,6 @@ const createCategoryIntoDB = async (payload: ICategory) => {
       'Failed to cerate category. Try again!',
     );
   }
-  newCategory = newCategory.toObject();
-  delete newCategory.__v;
 
   return newCategory;
 };
