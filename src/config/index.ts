@@ -26,7 +26,7 @@ export default {
   cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
 
   stripe_secret_key: process.env.STRIPE_SECRET_KEY,
-  subscription_price: process.env.SUBSCRIPTION_PRICE,
+  SUBSCRIPTION_PRICE: process.env.SUBSCRIPTION_PRICE,
 
   email_user: process.env.EMAIL_USER,
   email_pass: process.env.EMAIL_PASS,

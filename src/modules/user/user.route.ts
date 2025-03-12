@@ -10,6 +10,8 @@ import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
+router.get('/revenue', auth(USER_ROLE.admin), UserControllers.getRevenue);
+
 router.get(
   '/me',
   auth(USER_ROLE.admin, USER_ROLE.user),
@@ -90,7 +92,5 @@ router.patch(
   parseString(),
   UserControllers.updateUser,
 );
-
-router.get('/revenue', auth(USER_ROLE.admin), UserControllers.getRevenue);
 
 export const UserRoutes = router;

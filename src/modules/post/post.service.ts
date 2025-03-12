@@ -254,14 +254,14 @@ const downvoteIntoDB = async (postId: string, userId: string) => {
 const getPostStatsFromDB = async () => {
   const date = new Date();
   const currentYear = date.getFullYear();
-  const previousYear = currentYear - 1;
+  // const previousYear = currentYear - 1;
 
   const data = await Post.aggregate([
     {
       $match: {
         createdAt: {
-          $gte: new Date(`${previousYear}-01-01`),
-          $lte: new Date(`${previousYear}-12-31`),
+          $gte: new Date(`${currentYear}-01-01`),
+          $lte: new Date(`${currentYear}-12-31`),
         },
       },
     },

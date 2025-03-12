@@ -282,14 +282,14 @@ const getFavouritePostsFromDB = async (userId: string) => {
 const getUserStatsFromDB = async () => {
   const date = new Date();
   const currentYear = date.getFullYear();
-  const previousYear = currentYear - 1;
+  // const previousYear = currentYear - 1;
 
   const data = await User.aggregate([
     {
       $match: {
         createdAt: {
-          $gte: new Date(`${previousYear}-01-01`),
-          $lte: new Date(`${previousYear}-12-31`),
+          $gte: new Date(`${currentYear}-01-01`),
+          $lte: new Date(`${currentYear}-12-31`),
         },
       },
     },
@@ -313,7 +313,7 @@ const getUserStatsFromDB = async () => {
 };
 
 const getRevenueFromDB = async () => {
-  const feePerSubscription = Number(config.subscription_price);
+  const feePerSubscription = Number(config.SUBSCRIPTION_PRICE);
 
   const data = await User.aggregate([
     {

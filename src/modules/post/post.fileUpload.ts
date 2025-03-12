@@ -16,7 +16,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'gardenSage/posts', // Optional: Folder for uploaded files in Cloudinary
     allowed_formats: ['jpg', 'jpeg', 'png'], // Optional: Restrict allowed file types
-    transformation: [{ width: 356, height: 200, crop: 'limit' }], // Optional: Apply image transformations on upload
+    transformation: [{ width: 889, height: 500, crop: 'limit' }], // Optional: Apply image transformations on upload
     public_id: uuidv4(),
   },
 });
