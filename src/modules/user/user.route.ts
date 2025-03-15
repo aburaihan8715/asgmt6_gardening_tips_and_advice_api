@@ -15,7 +15,8 @@ router.get('/revenue', auth(USER_ROLE.admin), UserControllers.getRevenue);
 router.get(
   '/me',
   auth(USER_ROLE.admin, USER_ROLE.user),
-  UserControllers.getMe,
+  UserMiddleware.getMe,
+  UserControllers.getSingleUser,
 );
 
 router.patch(
@@ -75,9 +76,15 @@ router.get(
   UserControllers.getUserStats,
 );
 
-// NOTE: always keep specific path above
+// based on followers
 router.get(
   '/top-5-users',
+  UserMiddleware.getAliasUsers,
+  UserControllers.getAllUsers,
+);
+// based on createdAt
+router.get(
+  '/new-5-users',
   UserMiddleware.getAliasUsers,
   UserControllers.getAllUsers,
 );

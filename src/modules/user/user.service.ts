@@ -66,21 +66,21 @@ const updateUserIntoDB = async (id: string, payload: Partial<IUser>) => {
   return updatedUser;
 };
 
-const getMeFromDB = async (id: string) => {
-  const result = await User.findById(id);
+// const getMeFromDB = async (id: string) => {
+//   const result = await User.findById(id);
 
-  if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
-  }
+//   if (!result) {
+//     throw new AppError(httpStatus.NOT_FOUND, 'User not found !');
+//   }
 
-  const isDeleted = result.isDeleted;
+//   const isDeleted = result.isDeleted;
 
-  if (isDeleted) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'User has been deleted!');
-  }
+//   if (isDeleted) {
+//     throw new AppError(httpStatus.BAD_REQUEST, 'User has been deleted!');
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 const updateMeIntoDB = async (id: string, payload: Partial<IUser>) => {
   if (payload.password) {
@@ -351,5 +351,4 @@ export const UserServices = {
   updateMeIntoDB,
   updateUserIntoDB,
   deleteMeFromDB,
-  getMeFromDB,
 };

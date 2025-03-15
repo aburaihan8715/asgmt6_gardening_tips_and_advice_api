@@ -4,7 +4,6 @@ import sendResponse from '../../utils/sendResponse';
 import sendNotFoundDataResponse from '../../utils/sendNotFoundDataResponse';
 import { UserServices } from './user.service';
 import AppError from '../../errors/AppError';
-import { request } from 'http';
 
 const createUser = catchAsync(async () => {
   throw new AppError(
@@ -68,17 +67,17 @@ const updateUser = catchAsync(async (req, res) => {
   });
 });
 
-const getMe = catchAsync(async (req, res) => {
-  const id = req.user._id;
-  const user = await UserServices.getMeFromDB(id);
+// const getMe = catchAsync(async (req, res) => {
+//   const id = req.user._id;
+//   const user = await UserServices.getMeFromDB(id);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User retrieved successfully!',
-    data: user,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'User retrieved successfully!',
+//     data: user,
+//   });
+// });
 
 const updateMe = catchAsync(async (req, res) => {
   if (req.file) req.body.profilePicture = req.file?.path;
@@ -248,5 +247,4 @@ export const UserControllers = {
   deleteMe,
   createUser,
   updateMe,
-  getMe,
 };

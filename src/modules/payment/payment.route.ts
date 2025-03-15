@@ -4,6 +4,7 @@ import { PaymentValidations } from './payment.validation';
 import validateRequest from '../../middlewares/validateRequest';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';
+import { PaymentMiddleware } from './payment.middleware';
 
 const router = Router();
 
@@ -19,6 +20,13 @@ router.post(
   auth(USER_ROLE.user),
   validateRequest(PaymentValidations.createPaymentValidation),
   PaymentControllers.createPayment,
+);
+
+router.get(
+  '/new-5-payments',
+  auth(USER_ROLE.admin),
+  PaymentMiddleware.getAliasPayments,
+  PaymentControllers.getAllPayments,
 );
 
 router.get('/', auth(USER_ROLE.admin), PaymentControllers.getAllPayments);
