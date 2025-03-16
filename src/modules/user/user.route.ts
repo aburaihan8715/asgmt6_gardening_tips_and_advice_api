@@ -90,7 +90,7 @@ router.get(
 );
 router.post('/', auth(USER_ROLE.admin), UserControllers.createUser);
 router.get('/', auth(USER_ROLE.admin), UserControllers.getAllUsers);
-router.get('/:id', auth(USER_ROLE.admin), UserControllers.getSingleUser);
+router.get('/:id', auth(), UserControllers.getSingleUser);
 router.delete('/:id', auth(USER_ROLE.admin), UserControllers.deleteUser);
 router.patch(
   '/:id',
